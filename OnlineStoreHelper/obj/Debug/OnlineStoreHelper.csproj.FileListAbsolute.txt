@@ -1,0 +1,15 @@
+C:\Users\sit410\source\repos\OnlineStore\OnlineStoreHelper\bin\Debug\OnlineStoreHelper.dll
+C:\Users\sit410\source\repos\OnlineStore\OnlineStoreHelper\bin\Debug\OnlineStoreHelper.pdb
+C:\Users\sit410\source\repos\OnlineStore\OnlineStoreHelper\bin\Debug\OnlineStoreModel.dll
+C:\Users\sit410\source\repos\OnlineStore\OnlineStoreHelper\bin\Debug\EntityFramework.dll
+C:\Users\sit410\source\repos\OnlineStore\OnlineStoreHelper\bin\Debug\OnlineStoreModel.pdb
+C:\Users\sit410\source\repos\OnlineStore\OnlineStoreHelper\bin\Debug\OnlineStoreModel.dll.config
+C:\Users\sit410\source\repos\OnlineStore\OnlineStoreHelper\bin\Debug\EntityFramework.xml
+C:\Users\sit410\source\repos\OnlineStore\OnlineStoreHelper\obj\Debug\OnlineStoreHelper.csproj.AssemblyReference.cache
+C:\Users\sit410\source\repos\OnlineStore\OnlineStoreHelper\obj\Debug\OnlineStoreHelper.csproj.CoreCompileInputs.cache
+C:\Users\sit410\source\repos\OnlineStore\OnlineStoreHelper\obj\Debug\OnlineStoreHelper.csproj.CopyComplete
+C:\Users\sit410\source\repos\OnlineStore\OnlineStoreHelper\obj\Debug\OnlineStoreHelper.dll
+C:\Users\sit410\source\repos\OnlineStore\OnlineStoreHelper\obj\Debug\OnlineStoreHelper.pdb
+C:\Users\sit410\source\repos\OnlineStore\OnlineStoreHelper\bin\Debug\OnlineStoreHelper.dll.config
+C:\Users\sit410\source\repos\OnlineStore\OnlineStoreHelper\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\sit410\source\repos\OnlineStore\OnlineStoreHelper\bin\Debug\EntityFramework.SqlServer.xml
