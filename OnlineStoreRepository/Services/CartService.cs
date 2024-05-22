@@ -14,30 +14,26 @@ namespace OnlineStoreRepository.Services
         private readonly OnlineStoreEntities db = new OnlineStoreEntities();
         public void AddToCart(OrderModel cartOrder)
         {
-            CART newItem = new CART()
+            CART cart = db.CART.Where(c => c.userID == cartOrder.userID && c.productID == cartOrder.productID).FirstOrDefault();
+            if(cart == null)
             {
-                productID = cartOrder.productID,
-                quantity = cartOrder.quantity,
-                userID = cartOrder.userID
-            };
-
-            db.CART.Add(newItem);
+                CART newItem = new CART()
+                {
+                    productID = cartOrder.productID,
+                    quantity = cartOrder.quantity,
+                    userID = cartOrder.userID
+                };
+                db.CART.Add(newItem);
+            }
+            else
+            {
+                cart.quantity++;
+            }
             db.SaveChanges();
         }
-        public List<CartModel> GetCart(int userID)
+        public List<CART> GetCart(int userID)
         {
-            List<CartModel> cartList = db.CART
-                .Where(c => c.userID == userID)
-                .Join(db.Users, c => c.userID, u => u.UserID, (c, u) => new { c, u })
-                .Join(db.Products, cu => cu.c.productID, p => p.ProductID, (cu, p) => new { cu.c, cu.u, p })
-                .GroupBy(cp => new { cp.p.ProductName, cp.p.ProductPrice })
-                .Select(g => new CartModel
-                {
-                    productName = g.Key.ProductName,
-                    productPrice = (decimal)g.Key.ProductPrice,
-                    productQuantity = g.Sum(x => x.c.quantity),
-                })
-                .ToList();
+            List<CART> cartList = db.CART.Where(c => c.userID == userID).ToList();
             return cartList;
         }
         public void IncrementQuantity(int cartID)
@@ -49,8 +45,11 @@ namespace OnlineStoreRepository.Services
         public void DecrementQuantity(int cartID)
         {
             CART cart = db.CART.Where(c => c.cartID == cartID).FirstOrDefault();
-            cart.quantity--;
-            db.SaveChanges();
+            if(cart.quantity > 0)
+            {
+                cart.quantity--;
+                db.SaveChanges();
+            }
         }
     }
 }

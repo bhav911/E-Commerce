@@ -118,7 +118,7 @@ namespace OnlineStoreHelper.Helpers
                     productName = cart.Products.ProductName,
                     productPrice = (decimal)cart.Products.ProductPrice,
                     productQuantity = cart.quantity,
-                    totalPrice = (decimal)cart.quantity * (decimal)cart.Products.ProductPrice
+                    CartID = cart.cartID
                 };
 
                 cartModelList.Add(cartModel);

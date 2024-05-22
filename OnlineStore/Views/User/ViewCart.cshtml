@@ -13,7 +13,7 @@
             success: function (res) {
                 debugger
                 let tar = $(ele).closest('tr').find('.quantity')[0];
-                tar.val = parseInt(tar.val) + 1;
+                $(tar).text(parseInt($(tar).text()) + 1);
             },
             error: function (err) {
 
@@ -21,19 +21,23 @@
         })
     }
     function DecrementQuantity(ele, cartID) {
-        $.ajax({
-            url: "/User/DecrementQuantity?cartID=" + cartID,
-            type: "POST",
-            dataType: "json",
-            success: function (res) {
-                debugger
-                let tar = $(ele).closest('tr').find('.quantity')[0];
-                tar.val = parseInt(tar.val) - 1;
-            },
-            error: function (err) {
+        let element = $(ele).closest('tr').find('.quantity')[0];
+        let quantity = parseInt($(element).text());
+        if (quantity > 0) {
+            $.ajax({
+                url: "/User/DecrementQuantity?cartID=" + cartID,
+                type: "POST",
+                dataType: "json",
+                success: function (res) {
+                    debugger
+                    let tar = $(ele).closest('tr').find('.quantity')[0];
+                    $(tar).text(parseInt($(tar).text()) - 1);
+                },
+                error: function (err) {
 
-            }
-        })
+                }
+            })
+        }
     }
 </script>
 

@@ -61,7 +61,8 @@ namespace OnlineStore.Controllers
 
         public ActionResult ViewCart()
         {
-            List<CartModel> cartModelList = _cart.GetCart(UserSession.UserID);
+            List<CART> cartList = _cart.GetCart(UserSession.UserID);
+            List<CartModel> cartModelList = ModelConverter.ConvertCartListToCartListModel(cartList); 
             return View(cartModelList);
         }
 
