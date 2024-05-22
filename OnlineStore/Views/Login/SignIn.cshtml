@@ -21,9 +21,9 @@
             @Html.ValidationMessageFor(m => m.Role, null, new { @class = "text-danger" })
         </div>
         <div class="form-floating mb-3">
-            @Html.TextBoxFor(m => m.Login_name, new { @class = "form-control", @placeholder = "" })
-            @Html.LabelFor(m => m.Login_name, "Username")
-            @Html.ValidationMessageFor(m => m.Login_name, null, new { @class="text-danger" })
+            @Html.TextBoxFor(m => m.Login_email, new { @class = "form-control", @placeholder = "" })
+            @Html.LabelFor(m => m.Login_email, "Email Address")
+            @Html.ValidationMessageFor(m => m.Login_email, null, new { @class="text-danger" })
         </div>
         <div class="form-floating mb-3">
             @Html.TextBoxFor(m => m.Login_password, new { @class = "form-control", @placeholder = "" })

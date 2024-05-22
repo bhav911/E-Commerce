@@ -19,8 +19,13 @@ namespace OnlineStoreRepository.Services
         }
         public Owner AuthenticateOwner(LoginModel credentials)
         {
-            Owner status = db.Owner.Where(o => o.shopname == credentials.Login_name && o.password == credentials.Login_password).FirstOrDefault();
+            Owner status = db.Owner.Where(o => o.email == credentials.Login_email && o.password == credentials.Login_password).FirstOrDefault();
             return status;
+        }
+        public List<Owner> GetAllShops()
+        {
+            List<Owner> allShops = db.Owner.ToList();
+            return allShops;
         }
     }
 }

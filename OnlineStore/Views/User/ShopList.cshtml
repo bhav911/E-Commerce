@@ -1,0 +1,21 @@
+﻿@model List<OnlineStoreModel.CustomModels.OwnerModel>
+
+@{ 
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    @foreach (var shop in Model)
+    {
+        <div class="card mb-4">
+            <h5 class="card-header bg-primary-subtle">@shop.shopname</h5>
+            <div class="card-body">
+                <h5 class="card-title">@shop.description</h5>
+                <p class="card-text">Address: @shop.City, @shop.State</p>
+                <div class="text-end">
+                    @Html.ActionLink("Browse Products", "GetAllProducts", "User", new { @shopID = shop.ShopID } , new { @class = "btn btn-sm btn-primary" })
+                </div>
+            </div>
+        </div>
+    }
+</div>

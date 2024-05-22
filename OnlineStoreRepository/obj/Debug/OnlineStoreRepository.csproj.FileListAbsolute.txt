@@ -16,3 +16,16 @@ C:\Users\sit410\source\repos\OnlineStore\OnlineStoreRepository\obj\Debug\OnlineS
 C:\Users\sit410\source\repos\OnlineStore\OnlineStoreRepository\obj\Debug\OnlineStoreRepository.dll
 C:\Users\sit410\source\repos\OnlineStore\OnlineStoreRepository\obj\Debug\OnlineStoreRepository.pdb
 C:\Users\sit410\source\repos\OnlineStore\OnlineStoreRepository\bin\Debug\OnlineStoreHelper.dll.config
+C:\Users\sit410\source\repos\OnlineStore\OnlineStoreRepository\bin\Debug\System.Web.Mvc.dll
+C:\Users\sit410\source\repos\OnlineStore\OnlineStoreRepository\bin\Debug\System.Web.WebPages.dll
+C:\Users\sit410\source\repos\OnlineStore\OnlineStoreRepository\bin\Debug\System.Web.WebPages.Razor.dll
+C:\Users\sit410\source\repos\OnlineStore\OnlineStoreRepository\bin\Debug\System.Web.Razor.dll
+C:\Users\sit410\source\repos\OnlineStore\OnlineStoreRepository\bin\Debug\Microsoft.Web.Infrastructure.dll
+C:\Users\sit410\source\repos\OnlineStore\OnlineStoreRepository\bin\Debug\System.Web.WebPages.Deployment.dll
+C:\Users\sit410\source\repos\OnlineStore\OnlineStoreRepository\bin\Debug\System.Web.Mvc.xml
+C:\Users\sit410\source\repos\OnlineStore\OnlineStoreRepository\bin\Debug\System.Web.WebPages.xml
+C:\Users\sit410\source\repos\OnlineStore\OnlineStoreRepository\bin\Debug\System.Web.WebPages.Razor.xml
+C:\Users\sit410\source\repos\OnlineStore\OnlineStoreRepository\bin\Debug\System.Web.Razor.xml
+C:\Users\sit410\source\repos\OnlineStore\OnlineStoreRepository\bin\Debug\System.Web.WebPages.Deployment.xml
+C:\Users\sit410\source\repos\OnlineStore\OnlineStoreRepository\bin\Debug\System.Web.Helpers.dll
+C:\Users\sit410\source\repos\OnlineStore\OnlineStoreRepository\bin\Debug\System.Web.Helpers.xml

@@ -19,24 +19,39 @@ namespace OnlineStoreRepository.Services
 
         public void EditProduct(Products newProductInfo)
         {
-                
+            Products product = db.Products.Where(p => p.ProductID == newProductInfo.ProductID).FirstOrDefault();
+            product.ProductName = newProductInfo.ProductName;
+            product.ProductDescription = newProductInfo.ProductDescription;
+            product.ProductPrice = newProductInfo.ProductPrice;
+            product.Availability = newProductInfo.Availability;
+            db.SaveChanges();
         }
 
-        //public Products GetProduct(int prodID)
-        //{
-
-        //}
-
-        //public Products GetAllProducts()
-        //{
-
-        //}
-
-        public void DeleteProduct(int prodID)
+        public Products GetProduct(int prodID)
         {
-            Products productToDelete = db.Products.Where(p => p.ProductID == prodID).FirstOrDefault();
-            db.Products.Remove(productToDelete);
-            db.SaveChanges();
+            Products product = db.Products.Where(p => p.ProductID == prodID).FirstOrDefault();
+            return product;
+        }
+
+        public List<Products> GetAllProducts(int shopID)
+        {
+            List<Products> productList = db.Products.Where(s => s.ShopID == shopID).ToList();
+            return productList;
+        }
+
+        public bool DeleteProduct(int prodID)
+        {
+            try
+            {
+                Products productToDelete = db.Products.Where(p => p.ProductID == prodID).FirstOrDefault();
+                db.Products.Remove(productToDelete);
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
     }
 }

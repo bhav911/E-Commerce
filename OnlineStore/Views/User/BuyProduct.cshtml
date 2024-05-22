@@ -1,0 +1,39 @@
+﻿@model OnlineStoreModel.CustomModels.ProductModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div>
+    <h4>@Model.ProductName</h4>
+    <hr />
+    <div class="d-flex justify-content-between">
+        <div>
+            <dl>
+                <dt>
+                    Description
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ProductDescription)
+                </dd>
+
+                <dd>
+                    <p class="text-success fw-bold">Available</p>
+                </dd>
+            </dl>
+        </div>
+        <div class="fs-2 text-primary fw-bold">
+            @Html.DisplayFor(model => model.ProductPrice)₹
+        </div>
+    </div>
+</div>
+<form method="post" class="text-end">
+    <input type="text" name="productID" hidden value="@Model.ProductID"/>
+    <input type="text" name="shopID" hidden value="@Model.ShopID"/>
+    <label class="fw-bold">Quantity:</label>
+    <input type="number" class="" name="quantity" value="1" min="0"/>
+    <button type="submit" class="btn btn-success">Buy</button>
+    @Html.ActionLink("Cancel", "GetAllProducts","User", new { @shopID = Model.ShopID }, new { @class="btn btn-secondary"}) 
+</form>

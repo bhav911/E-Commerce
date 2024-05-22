@@ -1,4 +1,5 @@
-﻿using OnlineStoreHelper.Helpers;
+﻿using OnlineStore.Sessions;
+using OnlineStoreHelper.Helpers;
 using OnlineStoreModel.Context;
 using OnlineStoreModel.CustomModels;
 using OnlineStoreRepository.Services;
@@ -14,9 +15,9 @@ namespace OnlineStore.Controllers
         private readonly StateCityService _stateCity = new StateCityService();
         public ActionResult SignIn()
         {
+            Session.Clear();
             return View();
         }
-
 
         [HttpPost]
         public ActionResult SignIn(LoginModel credential)
@@ -27,13 +28,23 @@ namespace OnlineStore.Controllers
                 {
                     Owner owner = _owner.AuthenticateOwner(credential);
                     if (owner != null)
-                        return View("SignUp");
+                    {
+                        UserSession.UserID = owner.ShopID;
+                        UserSession.Username = owner.shopname;
+                        UserSession.UserRole = credential.Role;
+                        return RedirectToAction("GetAllProducts", "Owner");
+                    }
                 }
                 else if(credential.Role == "Customer")
                 {
                     Users user = _user.AuthenticateUser(credential);
                     if (user != null)
-                        return View("SignUp");
+                    {
+                        UserSession.UserID = user.UserID;
+                        UserSession.Username = user.username;
+                        UserSession.UserRole = credential.Role;
+                        return RedirectToAction("ShopList", "User");
+                    }
                 }
             }
 
@@ -54,13 +65,13 @@ namespace OnlineStore.Controllers
                 {
                     Owner owner = ModelConverter.ConvertNewOwnerToOwner(newUser);
                     _owner.RegisterOwner(owner);
-                    return View("SignIn");
+                    return RedirectToAction("SignIn");
                 }
                 else if (newUser.Role == "Customer")
                 {
                     Users user = ModelConverter.ConvertNewUserToUser(newUser);
                     _user.RegisterUser(user);
-                    return View("SignIn");
+                    return RedirectToAction("SignIn");
                 }
             }
             return View(newUser);

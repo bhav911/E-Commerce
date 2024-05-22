@@ -11,8 +11,8 @@ namespace OnlineStoreRepository.Interface
     {
         void AddProduct(Products newProduct);
         void EditProduct(Products newProductInfo);
-        //Products GetProduct(int prodID);
-        //Products GetAllProducts();
-        void DeleteProduct(int prodID);
+        Products GetProduct(int prodID);
+        List<Products> GetAllProducts(int ShopID);
+        bool DeleteProduct(int prodID);
     }
 }

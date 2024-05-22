@@ -45,12 +45,23 @@
             }
         })
     }
+
+    function toggleDescription() {
+        if ($('#role').val() == "Admin") {
+            $('#shopDescription').removeClass("d-none");
+        }
+        else {
+            $('#shopDescription').addClass("d-none");
+        }
+    }
   
     function resetForm() {
         let role = $('#role').val();
         document.getElementById('signup').reset();
         $('#role').val(role);
+        toggleDescription();
     }
+
 </script>
 
 <div>
@@ -78,6 +89,10 @@
                     @Html.ValidationMessageFor(m => m.Email, null, new { @class = "text-danger" })
                 </div>
             </div>
+        </div>
+        <div class="form-floating mb-3 d-none" id="shopDescription">
+            @Html.TextAreaFor(m => m.Description, new { @class="form-control", @placeholder=""})
+            @Html.LabelFor(m => m.Description, "Describe your merchantise")
         </div>
         <div class="row">
             <div class="col-6">

@@ -10,3 +10,16 @@ C:\Users\sit410\source\repos\OnlineStore\OnlineStoreModel\obj\Debug\OnlineStoreM
 C:\Users\sit410\source\repos\OnlineStore\OnlineStoreModel\obj\Debug\OnlineStoreModel.csproj.CopyComplete
 C:\Users\sit410\source\repos\OnlineStore\OnlineStoreModel\obj\Debug\OnlineStoreModel.dll
 C:\Users\sit410\source\repos\OnlineStore\OnlineStoreModel\obj\Debug\OnlineStoreModel.pdb
+C:\Users\sit410\source\repos\OnlineStore\OnlineStoreModel\bin\Debug\Microsoft.Web.Infrastructure.dll
+C:\Users\sit410\source\repos\OnlineStore\OnlineStoreModel\bin\Debug\System.Web.Helpers.dll
+C:\Users\sit410\source\repos\OnlineStore\OnlineStoreModel\bin\Debug\System.Web.Mvc.dll
+C:\Users\sit410\source\repos\OnlineStore\OnlineStoreModel\bin\Debug\System.Web.Razor.dll
+C:\Users\sit410\source\repos\OnlineStore\OnlineStoreModel\bin\Debug\System.Web.WebPages.Deployment.dll
+C:\Users\sit410\source\repos\OnlineStore\OnlineStoreModel\bin\Debug\System.Web.WebPages.dll
+C:\Users\sit410\source\repos\OnlineStore\OnlineStoreModel\bin\Debug\System.Web.WebPages.Razor.dll
+C:\Users\sit410\source\repos\OnlineStore\OnlineStoreModel\bin\Debug\System.Web.Helpers.xml
+C:\Users\sit410\source\repos\OnlineStore\OnlineStoreModel\bin\Debug\System.Web.Mvc.xml
+C:\Users\sit410\source\repos\OnlineStore\OnlineStoreModel\bin\Debug\System.Web.Razor.xml
+C:\Users\sit410\source\repos\OnlineStore\OnlineStoreModel\bin\Debug\System.Web.WebPages.xml
+C:\Users\sit410\source\repos\OnlineStore\OnlineStoreModel\bin\Debug\System.Web.WebPages.Deployment.xml
+C:\Users\sit410\source\repos\OnlineStore\OnlineStoreModel\bin\Debug\System.Web.WebPages.Razor.xml

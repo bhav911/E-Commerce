@@ -20,7 +20,7 @@ namespace OnlineStoreRepository.Services
         }
         public Users AuthenticateUser(LoginModel credentials)
         {
-            Users result = db.Users.Where(u => u.username == credentials.Login_name && u.password == credentials.Login_password).FirstOrDefault();
+            Users result = db.Users.Where(u => u.email == credentials.Login_email && u.password == credentials.Login_password).FirstOrDefault();
             return result;
         }
     }

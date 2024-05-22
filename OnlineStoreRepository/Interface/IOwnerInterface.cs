@@ -12,5 +12,6 @@ namespace OnlineStoreRepository.Interface
     {
         void RegisterOwner(Owner owner);
         Owner AuthenticateOwner(LoginModel credentials);
+        List<Owner> GetAllShops();
     }
 }

@@ -14,10 +14,8 @@ namespace OnlineStoreModel.CustomModels
         public string Role { get; set; }
 
         [Required]
-        [RegularExpression("^[A-Za-z0-9_]*$", ErrorMessage = "Only alphanumeric and '-' are allowed")]
-        [MaxLength(length: 20, ErrorMessage = "Length must be less than 20 characters")]
-        [MinLength(length: 8, ErrorMessage = "Length must be greater than 8 characters")]
-        public string Login_name { get; set; }
+        [RegularExpression(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", ErrorMessage = "Invalid email format")]
+        public string Login_email { get; set; }
 
         [Required]
         [MaxLength(length: 20, ErrorMessage = "Length must be less than 20 characters")]

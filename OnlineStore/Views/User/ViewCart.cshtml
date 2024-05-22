@@ -1,0 +1,74 @@
+﻿@model List<OnlineStoreModel.CustomModels.CartModel>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+    function IncrementQuantity(ele, cartID) {
+        $.ajax({
+            url: "/User/IncrementQuantity?cartID=" + cartID,
+            type: "POST",
+            dataType: "json",
+            success: function (res) {
+                debugger
+                let tar = $(ele).closest('tr').find('.quantity')[0];
+                tar.val = parseInt(tar.val) + 1;
+            },
+            error: function (err) {
+
+            }
+        })
+    }
+    function DecrementQuantity(ele, cartID) {
+        $.ajax({
+            url: "/User/DecrementQuantity?cartID=" + cartID,
+            type: "POST",
+            dataType: "json",
+            success: function (res) {
+                debugger
+                let tar = $(ele).closest('tr').find('.quantity')[0];
+                tar.val = parseInt(tar.val) - 1;
+            },
+            error: function (err) {
+
+            }
+        })
+    }
+</script>
+
+
+<table class="table table-borderless">
+    <tr>
+        <th>
+            Product
+        </th>
+        <th>
+           Quantity
+        </th>
+        <th>
+            Unit Price
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.productName)
+            </td>
+            <td class="quantity">
+                @Html.DisplayFor(modelItem => item.productQuantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.productPrice)
+            </td>
+            <td>
+                <button type="button" class="btn btn-success btn-sm" onclick="IncrementQuantity(this, @item.CartID)">+</button>
+                <button type="button" class="btn btn-danger btn-sm" onclick="DecrementQuantity(this, @item.CartID)">-</button> 
+            </td>
+        </tr>
+    }
+
+</table>

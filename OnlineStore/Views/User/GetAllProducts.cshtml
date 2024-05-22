@@ -1,0 +1,55 @@
+﻿@model List<OnlineStoreModel.CustomModels.ProductModel>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+    function AddToCart(prodID) {
+        $.ajax({
+            url: "/User/AddProductToCart?productID=" + prodID,
+            type: "POST",
+            dataType: "json",
+            success: function (response) {
+                alert("Added To Cart")
+            },
+            error: function (err) {
+
+            }
+        })
+    }
+</script>
+
+
+<div>
+    @foreach (var product in Model)
+    {
+        <div class="card mb-4">
+            <h5 class="card-header bg-primary-subtle">@product.ProductName</h5>
+            <div class="card-body">
+                <div class="d-flex justify-content-between gap-5">
+                    <div>
+                        <h5 class="card-title">@product.ProductDescription</h5>
+                        @{
+                            if (product.Availability)
+                            {
+                                <p class="card-text text-success fw-bold">Available</p>
+                            }
+                            else
+                            {
+                                <p class="card-text text-danger">Not Available</p>
+                            }
+                        }
+                    </div>
+                    <div>
+                        <h1 class="text-primary mb-4">@product.ProductPrice</h1>
+                    </div>
+                </div>
+                <div class="text-end">
+                    <button class="btn btn-primary" id="addToCart" onclick="AddToCart(@product.ProductID)">Add to cart</button>
+                    @Html.ActionLink("Buy", "BuyProduct", "User", new { @productID = product.ProductID }, new { @class = "btn btn-success" })
+                </div>
+            </div>
+        </div>
+    }
+</div>

@@ -32,9 +32,9 @@
                 </div>
             </div>
             <div class="col">
-                <div class="form-floating mb-3 border p-3 rounded-3" >
+                <div class="form-floating mb-3 border p-3 rounded-3">
                     <span>Available ? &nbsp;</span>
-                    @Html.TextBoxFor(p => p.Availability, new {  @type="checkbox", @class= "form-check-input"})
+                    @Html.CheckBoxFor(p => p.Availability, new { @class="form-check-input" })
                 </div>
             </div>
         </div>
