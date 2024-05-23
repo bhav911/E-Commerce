@@ -15,6 +15,7 @@ namespace OnlineStore.Controllers
     public class OwnerController : Controller
     {
         private readonly ProductService _product = new ProductService();
+        private readonly OwnerService _owner = new OwnerService();
         public ActionResult Dashboard()
         {
             return View();
@@ -64,6 +65,13 @@ namespace OnlineStore.Controllers
             List<Products> productList = _product.GetAllProducts(UserSession.UserID);
             List<ProductModel> productModelList = ModelConverter.ConvertProductListToProductModelList(productList);
             return View(productModelList);
+        }
+
+        public ActionResult GetRecievedOrders()
+        {
+            List<Orders> ordersRecieved = _owner.GetReceivedOrders(UserSession.UserID);
+            List<OrdersReceivedModel> ordersReceivedModels = ModelConverter.ConvertOrdersReceivedToOrdersrecievedModel(ordersRecieved);
+            return View(ordersReceivedModels);
         }
     }
 }

@@ -126,5 +126,39 @@ namespace OnlineStoreHelper.Helpers
 
             return cartModelList;
         }
+
+        public static List<OrderHistoryModel> ConvertOrderListToOrderModelList(List<Orders> orderPlacedList)
+        {
+            List<OrderHistoryModel> orderModelList = new List<OrderHistoryModel>();
+            foreach (Orders order in orderPlacedList)
+            {
+                OrderHistoryModel current = new OrderHistoryModel()
+                {
+                    productName = order.Products.ProductName,
+                    productPrice = order.unitPrice,
+                    productQuantity= (int)order.Quantity
+                };
+                orderModelList.Add(current);
+            }
+            return orderModelList;
+        }
+
+        public static List<OrdersReceivedModel> ConvertOrdersReceivedToOrdersrecievedModel(List<Orders> ordersRecieved)
+        {
+            List<OrdersReceivedModel> ordersReceivedModel = new List<OrdersReceivedModel>();
+
+            foreach(Orders order in ordersRecieved)
+            {
+                OrdersReceivedModel orderRecieved = new OrdersReceivedModel()
+                {
+                    ProductName = order.Products.ProductName,
+                    ProductQuantity = (int)order.Quantity,
+                    Email = order.Users.email
+                };
+                ordersReceivedModel.Add(orderRecieved);
+            }
+
+            return ordersReceivedModel;
+        }        
     }
 }

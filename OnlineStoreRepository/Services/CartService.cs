@@ -48,8 +48,38 @@ namespace OnlineStoreRepository.Services
             if(cart.quantity > 0)
             {
                 cart.quantity--;
+                if(cart.quantity == 0)
+                {
+                    db.CART.Remove(cart);
+                }
                 db.SaveChanges();
             }
+        }
+        public List<CART> GetOrderDetail(int userID)
+        {
+            List<CART> cartList = db.CART.Where(c => c.userID == userID).ToList();
+            return cartList;
+        }
+
+        public void ShiftFromCartToOrders(int userID)
+        {
+            List<CART> cartList = db.CART.Where(c => c.userID == userID).ToList();
+            foreach(CART item in cartList)
+            {
+                Orders newOrder = new Orders()
+                {
+                    ProductID = item.productID,
+                    Quantity = item.quantity,
+                    UserID = userID,
+                    unitPrice = (decimal)item.Products.ProductPrice
+                };
+                db.Orders.Add(newOrder);
+            }
+            foreach (CART item in cartList)
+            {
+                db.CART.Remove(item);
+            }
+            db.SaveChanges();
         }
     }
 }

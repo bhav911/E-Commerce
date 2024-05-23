@@ -18,10 +18,16 @@ namespace OnlineStoreRepository.Services
             {
                 ProductID = orderModel.productID,
                 UserID = orderModel.userID,
-                Quantity = orderModel.quantity
+                Quantity = orderModel.quantity,
+                unitPrice = (decimal)orderModel.ProductPrice
             };
             var status = db.Orders.Add(order);
             db.SaveChanges();
+        }
+        public List<Orders> GetOrderDetail(int userID)
+        {
+            List<Orders> ordersList = db.Orders.Where(o => o.UserID == userID).ToList();
+            return ordersList;
         }
     }
 }

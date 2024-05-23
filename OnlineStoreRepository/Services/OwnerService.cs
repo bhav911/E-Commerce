@@ -27,5 +27,10 @@ namespace OnlineStoreRepository.Services
             List<Owner> allShops = db.Owner.ToList();
             return allShops;
         }
+        public List<Orders> GetReceivedOrders(int ownerID)
+        {
+            List<Orders> orderList = db.Orders.Where(o => o.Products.ShopID == ownerID).ToList();
+            return orderList;
+        }
     }
 }

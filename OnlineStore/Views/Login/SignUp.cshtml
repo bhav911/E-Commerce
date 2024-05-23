@@ -49,9 +49,13 @@
     function toggleDescription() {
         if ($('#role').val() == "Admin") {
             $('#shopDescription').removeClass("d-none");
+            $('#UsernameLabel').text("Shop name");
+            $('#hideGender').addClass("d-none");
         }
         else {
             $('#shopDescription').addClass("d-none");
+            $('#UsernameLabel').text("Username");
+            $('#hideGender').removeClass("d-none");
         }
     }
   
@@ -78,7 +82,7 @@
             <div class="col-6">
                 <div class="form-floating mb-3">
                     @Html.TextBoxFor(m => m.Username, new { @class = "form-control", @placeholder = "" })
-                    @Html.LabelFor(m => m.Username, "Username")
+                    @Html.LabelFor(m => m.Username, "Username", new { @id= "UsernameLabel" })
                     @Html.ValidationMessageFor(m => m.Username, null, new { @class = "text-danger" })
                 </div>
             </div>
@@ -92,7 +96,7 @@
         </div>
         <div class="form-floating mb-3 d-none" id="shopDescription">
             @Html.TextAreaFor(m => m.Description, new { @class="form-control", @placeholder=""})
-            @Html.LabelFor(m => m.Description, "Describe your merchantise")
+            @Html.LabelFor(m => m.Description, "Describe your merchandise")
         </div>
         <div class="row">
             <div class="col-6">
@@ -113,14 +117,6 @@
 
         <div class="row mb-3">
             <div class="col-4">
-                <select class="form-select p-3" name="gender" id="gender">
-                    <option selected>Male</option>
-                    <option>Female</option>
-                    <option>Other</option>
-                </select>
-                @Html.ValidationMessageFor(m => m.Gender, null, new { @class = "text-danger" })
-            </div>
-            <div class="col-4">
                 <select id="state-holder" class="form-select p-3" name="StateID" onchange="changeCity()">
                     <option value="">Select State</option>
                 </select>
@@ -132,6 +128,17 @@
                 </select>
                 @Html.ValidationMessageFor(m => m.CityID, null, new { @class = "text-danger" })
             </div>
+            @if (Model != null && Model.Role != "Admin")
+            {
+                <div class="col-4" id="hideGender">
+                    <select class="form-select p-3" name="gender" id="gender">
+                        <option selected>Male</option>
+                        <option>Female</option>
+                        <option>Other</option>
+                    </select>
+                    @Html.ValidationMessageFor(m => m.Gender, null, new { @class = "text-danger" })
+                </div>
+            }
         </div>
 
 

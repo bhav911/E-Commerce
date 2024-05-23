@@ -1,0 +1,50 @@
+﻿@model List<OnlineStoreModel.CustomModels.CartModel>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    <h3 class="mb-5 fw-bold text-center">Order Details</h3>
+    <table class="table table-borderless">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Unit Price</th>
+                <th>Quantity</th>
+                <th>Total Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.productName</td>
+                    <td>@item.productPrice</td>
+                    <td>@item.productQuantity</td>
+                    <td>@(@item.productPrice * @item.productQuantity)</td>    
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            @{ 
+                decimal totalPrice = 0;
+                foreach (var item in Model)
+                {
+                    totalPrice += @item.productPrice * @item.productQuantity;
+                }
+                <tr class="table-secondary">
+                    <td></td>
+                    <td></td>
+                    <td class="fw-bold">Total:</td>
+                    <td>@totalPrice</td>
+                </tr>
+            }
+        </tfoot>
+    </table>
+    <div class="text-center mt-5">
+        <form method="GET" action="/User/Checkout">
+            <button type="submit" class="btn btn-success">Checkout</button>
+        </form>
+    </div>
+</div>

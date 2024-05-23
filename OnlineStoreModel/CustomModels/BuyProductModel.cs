@@ -11,5 +11,6 @@ namespace OnlineStoreModel.CustomModels
         public int productID { get; set; }
         public int quantity { get; set; }
         public int userID { get; set; }
+        public decimal ProductPrice { get; set; }
     }
 }

@@ -33,8 +33,7 @@ namespace OnlineStoreModel.CustomModels
         [RegularExpression(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", ErrorMessage ="Invalid email format")]
         public string Email { get; set; }
 
-        [Required]
-        [RegularExpression("^(Male|Female|Other)$", ErrorMessage ="Invalid")]
+        //[RegularExpression("^(Male|Female|Other)$", ErrorMessage ="Invalid")]
         public string Gender { get; set; }
 
         [Required(ErrorMessage ="Please Select your state")]

@@ -54,3 +54,31 @@ D:\dotnet\OnlineStore\E-Commerce\OnlineStoreHelper\obj\Debug\OnlineStoreHelper.c
 D:\dotnet\OnlineStore\E-Commerce\OnlineStoreHelper\obj\Debug\OnlineStoreHelper.csproj.CopyComplete
 D:\dotnet\OnlineStore\E-Commerce\OnlineStoreHelper\obj\Debug\OnlineStoreHelper.dll
 D:\dotnet\OnlineStore\E-Commerce\OnlineStoreHelper\obj\Debug\OnlineStoreHelper.pdb
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreHelper\bin\Debug\OnlineStoreHelper.dll.config
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreHelper\bin\Debug\OnlineStoreHelper.dll
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreHelper\bin\Debug\OnlineStoreHelper.pdb
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreHelper\bin\Debug\EntityFramework.dll
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreHelper\bin\Debug\EntityFramework.SqlServer.dll
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreHelper\bin\Debug\Microsoft.Web.Infrastructure.dll
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreHelper\bin\Debug\OnlineStoreModel.dll
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreHelper\bin\Debug\System.Web.Helpers.dll
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreHelper\bin\Debug\System.Web.Mvc.dll
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreHelper\bin\Debug\System.Web.Razor.dll
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreHelper\bin\Debug\System.Web.WebPages.Deployment.dll
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreHelper\bin\Debug\System.Web.WebPages.dll
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreHelper\bin\Debug\System.Web.WebPages.Razor.dll
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreHelper\bin\Debug\OnlineStoreModel.pdb
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreHelper\bin\Debug\OnlineStoreModel.dll.config
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreHelper\bin\Debug\EntityFramework.xml
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreHelper\bin\Debug\EntityFramework.SqlServer.xml
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreHelper\bin\Debug\System.Web.Helpers.xml
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreHelper\bin\Debug\System.Web.Mvc.xml
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreHelper\bin\Debug\System.Web.Razor.xml
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreHelper\bin\Debug\System.Web.WebPages.xml
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreHelper\bin\Debug\System.Web.WebPages.Deployment.xml
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreHelper\bin\Debug\System.Web.WebPages.Razor.xml
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreHelper\obj\Debug\OnlineStoreHelper.csproj.AssemblyReference.cache
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreHelper\obj\Debug\OnlineStoreHelper.csproj.CoreCompileInputs.cache
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreHelper\obj\Debug\OnlineStoreHelper.csproj.CopyComplete
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreHelper\obj\Debug\OnlineStoreHelper.dll
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreHelper\obj\Debug\OnlineStoreHelper.pdb

@@ -34,6 +34,7 @@
     <Property Name="ProductID" Type="int" />
     <Property Name="UserID" Type="int" />
     <Property Name="Quantity" Type="int" />
+    <Property Name="unitPrice" Type="decimal" Precision="7" Scale="2" Nullable="false" />
   </EntityType>
   <EntityType Name="Owner">
     <Key>

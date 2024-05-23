@@ -18,6 +18,7 @@ namespace OnlineStoreModel.Context
         public Nullable<int> ProductID { get; set; }
         public Nullable<int> UserID { get; set; }
         public Nullable<int> Quantity { get; set; }
+        public decimal unitPrice { get; set; }
     
         public virtual Products Products { get; set; }
         public virtual Users Users { get; set; }

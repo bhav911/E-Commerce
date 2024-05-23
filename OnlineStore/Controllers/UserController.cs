@@ -76,11 +76,26 @@ namespace OnlineStore.Controllers
         {
             _cart.DecrementQuantity(cartID);
             return Json(true, JsonRequestBehavior.AllowGet);
+        }        
+
+        public ActionResult GetOrderDetails()
+        {
+            List<CART> orderDetailList = _cart.GetOrderDetail(UserSession.UserID);
+            List<CartModel> orderDetailModelList = ModelConverter.ConvertCartListToCartListModel(orderDetailList);
+            return View(orderDetailModelList);
         }
 
-        ////public ActionResult CheckOut()
-        ////{
+        public ActionResult GetOrdersPlaced()
+        {
+            List<Orders> orderPlacedList = _order.GetOrderDetail(UserSession.UserID);
+            List<OrderHistoryModel> orderPlacedModelList = ModelConverter.ConvertOrderListToOrderModelList(orderPlacedList);
+            return View(orderPlacedModelList);
+        }
 
-        ////}
+        public ActionResult Checkout()
+        {
+            _cart.ShiftFromCartToOrders(UserSession.UserID);
+            return RedirectToAction("ShopList");
+        }
     }
 }

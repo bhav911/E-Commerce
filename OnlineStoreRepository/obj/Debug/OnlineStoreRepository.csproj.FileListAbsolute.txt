@@ -60,3 +60,34 @@ D:\dotnet\OnlineStore\E-Commerce\OnlineStoreRepository\obj\Debug\OnlineStoreRepo
 D:\dotnet\OnlineStore\E-Commerce\OnlineStoreRepository\obj\Debug\OnlineStoreRepository.csproj.CopyComplete
 D:\dotnet\OnlineStore\E-Commerce\OnlineStoreRepository\obj\Debug\OnlineStoreRepository.dll
 D:\dotnet\OnlineStore\E-Commerce\OnlineStoreRepository\obj\Debug\OnlineStoreRepository.pdb
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreRepository\bin\Debug\OnlineStoreRepository.dll.config
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreRepository\bin\Debug\OnlineStoreRepository.dll
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreRepository\bin\Debug\OnlineStoreRepository.pdb
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreRepository\bin\Debug\EntityFramework.dll
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreRepository\bin\Debug\EntityFramework.SqlServer.dll
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreRepository\bin\Debug\Microsoft.Web.Infrastructure.dll
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreRepository\bin\Debug\OnlineStoreHelper.dll
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreRepository\bin\Debug\OnlineStoreModel.dll
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreRepository\bin\Debug\System.Web.Helpers.dll
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreRepository\bin\Debug\System.Web.Mvc.dll
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreRepository\bin\Debug\System.Web.Razor.dll
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreRepository\bin\Debug\System.Web.WebPages.Deployment.dll
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreRepository\bin\Debug\System.Web.WebPages.dll
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreRepository\bin\Debug\System.Web.WebPages.Razor.dll
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreRepository\bin\Debug\OnlineStoreHelper.pdb
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreRepository\bin\Debug\OnlineStoreHelper.dll.config
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreRepository\bin\Debug\OnlineStoreModel.pdb
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreRepository\bin\Debug\OnlineStoreModel.dll.config
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreRepository\bin\Debug\EntityFramework.xml
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreRepository\bin\Debug\EntityFramework.SqlServer.xml
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreRepository\bin\Debug\System.Web.Helpers.xml
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreRepository\bin\Debug\System.Web.Mvc.xml
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreRepository\bin\Debug\System.Web.Razor.xml
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreRepository\bin\Debug\System.Web.WebPages.xml
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreRepository\bin\Debug\System.Web.WebPages.Deployment.xml
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreRepository\bin\Debug\System.Web.WebPages.Razor.xml
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreRepository\obj\Debug\OnlineStoreRepository.csproj.AssemblyReference.cache
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreRepository\obj\Debug\OnlineStoreRepository.csproj.CoreCompileInputs.cache
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreRepository\obj\Debug\OnlineStoreRepository.csproj.CopyComplete
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreRepository\obj\Debug\OnlineStoreRepository.dll
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreRepository\obj\Debug\OnlineStoreRepository.pdb

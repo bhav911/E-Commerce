@@ -118,6 +118,8 @@
     <Compile Include="CustomModels\CityModel.cs" />
     <Compile Include="CustomModels\LoginModel.cs" />
     <Compile Include="CustomModels\NewRegistration.cs" />
+    <Compile Include="CustomModels\OrderHistoryModel.cs" />
+    <Compile Include="CustomModels\OrdersReceivedModel.cs" />
     <Compile Include="CustomModels\OwnerModel.cs" />
     <Compile Include="CustomModels\ProductModel.cs" />
     <Compile Include="CustomModels\StateModel.cs" />

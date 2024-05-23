@@ -29,6 +29,7 @@ namespace OnlineStore.Controllers
                     Owner owner = _owner.AuthenticateOwner(credential);
                     if (owner != null)
                     {
+                        TempData["Role"] = "Owner";
                         UserSession.UserID = owner.ShopID;
                         UserSession.Username = owner.shopname;
                         UserSession.UserRole = credential.Role;
@@ -40,6 +41,7 @@ namespace OnlineStore.Controllers
                     Users user = _user.AuthenticateUser(credential);
                     if (user != null)
                     {
+                        TempData["Role"] = "User";
                         UserSession.UserID = user.UserID;
                         UserSession.Username = user.username;
                         UserSession.UserRole = credential.Role;
@@ -75,6 +77,12 @@ namespace OnlineStore.Controllers
                 }
             }
             return View(newUser);
+        }
+
+        public ActionResult SignOut()
+        {
+            Session.Clear();
+            return RedirectToAction("SignIn");
         }
 
         public JsonResult  GetStates()

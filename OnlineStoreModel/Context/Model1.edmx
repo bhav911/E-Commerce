@@ -39,6 +39,7 @@
           <Property Name="ProductID" Type="int" />
           <Property Name="UserID" Type="int" />
           <Property Name="Quantity" Type="int" />
+          <Property Name="unitPrice" Type="decimal" Precision="7" Scale="2" Nullable="false" />
         </EntityType>
         <EntityType Name="Owner">
           <Key>
@@ -287,8 +288,8 @@
           <Property Name="ShopID" Type="Int32" />
           <Property Name="Availability" Type="Boolean" />
           <NavigationProperty Name="Owner" Relationship="OnlineStoreModel.fk_shop_product1" FromRole="Products" ToRole="Owner" />
-          <NavigationProperty Name="Orders" Relationship="OnlineStoreModel.fk_productID_order" FromRole="Products" ToRole="Orders" />
           <NavigationProperty Name="CART" Relationship="OnlineStoreModel.fk_productID_cart" FromRole="Products" ToRole="CART" />
+          <NavigationProperty Name="Orders" Relationship="OnlineStoreModel.fk_productID_order" FromRole="Products" ToRole="Orders" />
         </EntityType>
         <EntityType Name="States">
           <Key>
@@ -312,8 +313,8 @@
           <Property Name="CityID" Type="Int32" />
           <NavigationProperty Name="Cities" Relationship="Self.fk_user_city" FromRole="Users" ToRole="Cities" />
           <NavigationProperty Name="States" Relationship="Self.fk_user_state" FromRole="Users" ToRole="States" />
-          <NavigationProperty Name="Orders" Relationship="OnlineStoreModel.fk_userID_order" FromRole="Users" ToRole="Orders" />
           <NavigationProperty Name="CART" Relationship="OnlineStoreModel.fk_userID_cart" FromRole="Users" ToRole="CART" />
+          <NavigationProperty Name="Orders" Relationship="OnlineStoreModel.fk_userID_order" FromRole="Users" ToRole="Orders" />
         </EntityType>
         <Association Name="fk_user_city">
           <End Role="Cities" Type="Self.Cities" Multiplicity="0..1" />
@@ -370,15 +371,6 @@
             <End Role="States" EntitySet="States" />
             <End Role="Owner" EntitySet="Owner" />
           </AssociationSet>
-          <EntitySet Name="Orders" EntityType="OnlineStoreModel.Orders" />
-          <AssociationSet Name="fk_productID_order" Association="OnlineStoreModel.fk_productID_order">
-            <End Role="Products" EntitySet="Products" />
-            <End Role="Orders" EntitySet="Orders" />
-          </AssociationSet>
-          <AssociationSet Name="fk_userID_order" Association="OnlineStoreModel.fk_userID_order">
-            <End Role="Users" EntitySet="Users" />
-            <End Role="Orders" EntitySet="Orders" />
-          </AssociationSet>
           <EntitySet Name="CART" EntityType="OnlineStoreModel.CART" />
           <AssociationSet Name="fk_productID_cart" Association="OnlineStoreModel.fk_productID_cart">
             <End Role="Products" EntitySet="Products" />
@@ -387,6 +379,15 @@
           <AssociationSet Name="fk_userID_cart" Association="OnlineStoreModel.fk_userID_cart">
             <End Role="Users" EntitySet="Users" />
             <End Role="CART" EntitySet="CART" />
+          </AssociationSet>
+          <EntitySet Name="Orders" EntityType="OnlineStoreModel.Orders" />
+          <AssociationSet Name="fk_productID_order" Association="OnlineStoreModel.fk_productID_order">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="fk_userID_order" Association="OnlineStoreModel.fk_userID_order">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Orders" EntitySet="Orders" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Owner">
@@ -453,41 +454,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Orders">
-          <Key>
-            <PropertyRef Name="OrderID" />
-          </Key>
-          <Property Name="OrderID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ProductID" Type="Int32" />
-          <Property Name="UserID" Type="Int32" />
-          <Property Name="Quantity" Type="Int32" />
-          <NavigationProperty Name="Products" Relationship="OnlineStoreModel.fk_productID_order" FromRole="Orders" ToRole="Products" />
-          <NavigationProperty Name="Users" Relationship="OnlineStoreModel.fk_userID_order" FromRole="Orders" ToRole="Users" />
-        </EntityType>
-        <Association Name="fk_productID_order">
-          <End Type="OnlineStoreModel.Products" Role="Products" Multiplicity="0..1" />
-          <End Type="OnlineStoreModel.Orders" Role="Orders" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Products">
-              <PropertyRef Name="ProductID" />
-            </Principal>
-            <Dependent Role="Orders">
-              <PropertyRef Name="ProductID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_userID_order">
-          <End Type="OnlineStoreModel.Users" Role="Users" Multiplicity="0..1" />
-          <End Type="OnlineStoreModel.Orders" Role="Orders" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Users">
-              <PropertyRef Name="UserID" />
-            </Principal>
-            <Dependent Role="Orders">
-              <PropertyRef Name="UserID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="CART">
           <Key>
             <PropertyRef Name="cartID" />
@@ -520,6 +486,42 @@
             </Principal>
             <Dependent Role="CART">
               <PropertyRef Name="userID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Orders">
+          <Key>
+            <PropertyRef Name="OrderID" />
+          </Key>
+          <Property Name="OrderID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductID" Type="Int32" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="Quantity" Type="Int32" />
+          <Property Name="unitPrice" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
+          <NavigationProperty Name="Products" Relationship="OnlineStoreModel.fk_productID_order" FromRole="Orders" ToRole="Products" />
+          <NavigationProperty Name="Users" Relationship="OnlineStoreModel.fk_userID_order" FromRole="Orders" ToRole="Users" />
+        </EntityType>
+        <Association Name="fk_productID_order">
+          <End Type="OnlineStoreModel.Products" Role="Products" Multiplicity="0..1" />
+          <End Type="OnlineStoreModel.Orders" Role="Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="ProductID" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_userID_order">
+          <End Type="OnlineStoreModel.Users" Role="Users" Multiplicity="0..1" />
+          <End Type="OnlineStoreModel.Orders" Role="Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="UserID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -594,16 +596,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Orders">
-            <EntityTypeMapping TypeName="OnlineStoreModel.Orders">
-              <MappingFragment StoreEntitySet="Orders">
-                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
-                <ScalarProperty Name="OrderID" ColumnName="OrderID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="CART">
             <EntityTypeMapping TypeName="OnlineStoreModel.CART">
               <MappingFragment StoreEntitySet="CART">
@@ -611,6 +603,17 @@
                 <ScalarProperty Name="productID" ColumnName="productID" />
                 <ScalarProperty Name="userID" ColumnName="userID" />
                 <ScalarProperty Name="cartID" ColumnName="cartID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Orders">
+            <EntityTypeMapping TypeName="OnlineStoreModel.Orders">
+              <MappingFragment StoreEntitySet="Orders">
+                <ScalarProperty Name="unitPrice" ColumnName="unitPrice" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="OrderID" ColumnName="OrderID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

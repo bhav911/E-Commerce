@@ -1,0 +1,67 @@
+﻿<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+    <!-- Sidebar - Brand -->
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/Home/EntryAction">
+        <div class="sidebar-brand-icon rotate-n-15">
+            <i class="fas fa-laugh-wink"></i>
+        </div>
+        <div class="sidebar-brand-text mx-3">E - Commerce</div>
+    </a>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider my-0">
+
+    <!-- Nav Item - Dashboard -->
+    @{ if (TempData.ContainsKey("Role") && TempData.Peek("Role").Equals("Owner"))
+        {
+            <li class="nav-item active">
+                <a class="nav-link" href="/Owner/GetAllProducts">
+                    <i class="fas fa-fw fa-bolt"></i>
+                    <span>List Of Products</span>
+                </a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/Owner/AddProduct">
+                    <i class="fas fa-fw fa-book"></i>
+                    <span>Add Product</span>
+                </a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/Owner/GetRecievedOrders">
+                    <i class="fas fa-fw fa-book"></i>
+                    <span>Orders Recieved</span>
+                </a>
+            </li>
+        }
+        else
+        {
+            <li class="nav-item active">
+                <a class="nav-link" href="/User/ShopList">
+                    <i class="fas fa-fw fa-bolt"></i>
+                    <span>All Shops</span>
+                </a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/User/ViewCart">
+                    <i class="fas fa-fw fa-pen"></i>
+                    <span>Your Cart</span>
+                </a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/User/GetOrdersPlaced">
+                    <i class="fas fa-fw fa-book"></i>
+                    <span>Your Orders</span>
+                </a>
+            </li>
+        }
+        <li class="nav-item active">
+            <a class="nav-link" href="/Login/SignOut">
+                <i class="fas fa-fw fa-book"></i>
+                <span>Logout</span>
+            </a>
+        </li>
+    }
+
+
+
+</ul>
