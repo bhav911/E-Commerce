@@ -23,6 +23,8 @@
         <EntityTypeShape EntityType="OnlineStoreModel.Orders" Width="1.5" PointX="18.25" PointY="4.375" />
         <AssociationConnector Association="OnlineStoreModel.fk_productID_order" />
         <AssociationConnector Association="OnlineStoreModel.fk_userID_order" />
+        <EntityTypeShape EntityType="OnlineStoreModel.ProductImages" Width="1.5" PointX="16.25" PointY="7.75" />
+        <AssociationConnector Association="OnlineStoreModel.fk_productID" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

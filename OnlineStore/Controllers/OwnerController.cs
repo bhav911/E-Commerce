@@ -5,6 +5,7 @@ using OnlineStoreModel.CustomModels;
 using OnlineStoreRepository.Services;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -29,13 +30,27 @@ namespace OnlineStore.Controllers
         [HttpPost]
         public ActionResult AddProduct(ProductModel newProduct)
         {
+            int c = Request.Files[0].ContentLength;
             if (ModelState.IsValid)
             {
+                string aggregatedProductImages = "";
+                foreach(HttpPostedFileBase file in newProduct.productImages)
+                {
+                    aggregatedProductImages += GetUniqueFileName(file) + ",";
+                }
+                aggregatedProductImages = aggregatedProductImages.Substring(0, aggregatedProductImages.Length - 1);
                 Products convertedProduct = ModelConverter.ConvertProductModelToProduct(newProduct, UserSession.UserID);
-                _product.AddProduct(convertedProduct);
+                _product.AddProduct(convertedProduct, aggregatedProductImages);
                 return RedirectToAction("GetAllProducts");
             }
             return View(newProduct);
+        }
+
+        private string GetUniqueFileName(HttpPostedFileBase file)
+        {
+            string uniqefilename = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+            file.SaveAs(HttpContext.Server.MapPath("~/Content/ProductImages/") + uniqefilename);
+            return uniqefilename;
         }
 
         public ActionResult EditProduct(int productID)

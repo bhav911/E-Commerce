@@ -33,5 +33,6 @@ namespace OnlineStoreModel.Context
         public virtual DbSet<Owner> Owner { get; set; }
         public virtual DbSet<CART> CART { get; set; }
         public virtual DbSet<Orders> Orders { get; set; }
+        public virtual DbSet<ProductImages> ProductImages { get; set; }
     }
 }

@@ -48,6 +48,14 @@
     <Property Name="CityID" Type="int" />
     <Property Name="Description" Type="varchar" MaxLength="255" />
   </EntityType>
+  <EntityType Name="ProductImages">
+    <Key>
+      <PropertyRef Name="imageId" />
+    </Key>
+    <Property Name="imageId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ProductID" Type="int" />
+    <Property Name="uniqueImageName" Type="varchar" MaxLength="300" />
+  </EntityType>
   <EntityType Name="Products">
     <Key>
       <PropertyRef Name="ProductID" />
@@ -78,6 +86,18 @@
     <Property Name="StateID" Type="int" />
     <Property Name="CityID" Type="int" />
   </EntityType>
+  <Association Name="fk_productID">
+    <End Role="Products" Type="Self.Products" Multiplicity="0..1" />
+    <End Role="ProductImages" Type="Self.ProductImages" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Products">
+        <PropertyRef Name="ProductID" />
+      </Principal>
+      <Dependent Role="ProductImages">
+        <PropertyRef Name="ProductID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="fk_productID_cart">
     <End Role="Products" Type="Self.Products" Multiplicity="1" />
     <End Role="CART" Type="Self.CART" Multiplicity="*" />
@@ -204,9 +224,14 @@
     <EntitySet Name="Coupons" EntityType="Self.Coupons" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Owner" EntityType="Self.Owner" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ProductImages" EntityType="Self.ProductImages" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="States" EntityType="Self.States" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="fk_productID" Association="Self.fk_productID">
+      <End Role="Products" EntitySet="Products" />
+      <End Role="ProductImages" EntitySet="ProductImages" />
+    </AssociationSet>
     <AssociationSet Name="fk_productID_cart" Association="Self.fk_productID_cart">
       <End Role="Products" EntitySet="Products" />
       <End Role="CART" EntitySet="CART" />

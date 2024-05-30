@@ -6,7 +6,7 @@
 
 <div>
     <h3 class="text-center mb-5">Add Product</h3>
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         <div class="row">
             <div class="col-6">
                 <div class="form-floating mb-3">
@@ -37,9 +37,67 @@
                     @Html.CheckBoxFor(p => p.Availability, new { @class="form-check-input" })
                 </div>
             </div>
+            <div id="image_holder" class="d-flex gap-3">
+                <input type="file" multiple hidden id="product-image-holder"/>
+                <label class="" for="product-image-holder" id="add_image_btn"><i class="fa-regular fa-square-plus fa-2xl p-5"></i></label>
+            </div>
         </div>
         <div class="d-flex justify-content-center">
             <button type="submit" class="btn btn-success">Add</button>
         </div>
     </form>
 </div>
+
+<style>
+    #add_image_btn{
+        /*height: 100px;
+        width: 100px;*/
+        border: 2px dashed gray; 
+        cursor:pointer;
+    }
+
+    #image_holder{
+        overflow-x:auto
+    }
+</style>
+
+
+<script>
+    let counter = 1;
+    $('#product-image-holder').on('change', function (event) {
+        let files = event.target.files;
+        let count = $('.product_image').length;
+        $.each(files, (ind, ele) => {
+            if (count + ind >= 10)
+                return;
+            let file = ele;
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    let img = $('<img>');
+                    $(img).attr({ 'src': e.target.result });
+                    $(img).css({ 'width': '100px', 'height': '100px' });
+                    $(img).addClass('product_image');
+                    let inp = $('<input>')
+                    $(inp).val(e.target.result);
+                    $(inp).addClass('productImages');
+                    $(inp).prop('hidden', true);
+                    let div = $('<div>');
+                    $(div).append(img);
+                    $(div).append(inp);
+                    $('#image_holder').append(div);
+                };
+                reader.readAsDataURL(file);
+            }
+
+        })
+    })
+
+
+    $('#image_holder').on('click', function (event) {
+        if (event.target.classList.contains('product_image')) {
+            let parent = $(event.target);
+            $(parent).remove();
+        }
+    });
+</script>

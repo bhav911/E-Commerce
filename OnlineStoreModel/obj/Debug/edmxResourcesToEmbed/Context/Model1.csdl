@@ -33,6 +33,7 @@
     <NavigationProperty Name="Owner" Relationship="OnlineStoreModel.fk_shop_product1" FromRole="Products" ToRole="Owner" />
     <NavigationProperty Name="CART" Relationship="OnlineStoreModel.fk_productID_cart" FromRole="Products" ToRole="CART" />
     <NavigationProperty Name="Orders" Relationship="OnlineStoreModel.fk_productID_order" FromRole="Products" ToRole="Orders" />
+    <NavigationProperty Name="ProductImages" Relationship="OnlineStoreModel.fk_productID" FromRole="Products" ToRole="ProductImages" />
   </EntityType>
   <EntityType Name="States">
     <Key>
@@ -131,6 +132,11 @@
     <AssociationSet Name="fk_userID_order" Association="OnlineStoreModel.fk_userID_order">
       <End Role="Users" EntitySet="Users" />
       <End Role="Orders" EntitySet="Orders" />
+    </AssociationSet>
+    <EntitySet Name="ProductImages" EntityType="OnlineStoreModel.ProductImages" />
+    <AssociationSet Name="fk_productID" Association="OnlineStoreModel.fk_productID">
+      <End Role="Products" EntitySet="Products" />
+      <End Role="ProductImages" EntitySet="ProductImages" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="Owner">
@@ -265,6 +271,27 @@
       </Principal>
       <Dependent Role="Orders">
         <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="ProductImages">
+    <Key>
+      <PropertyRef Name="imageId" />
+    </Key>
+    <Property Name="imageId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProductID" Type="Int32" />
+    <Property Name="uniqueImageName" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Products" Relationship="OnlineStoreModel.fk_productID" FromRole="ProductImages" ToRole="Products" />
+  </EntityType>
+  <Association Name="fk_productID">
+    <End Type="OnlineStoreModel.Products" Role="Products" Multiplicity="0..1" />
+    <End Type="OnlineStoreModel.ProductImages" Role="ProductImages" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Products">
+        <PropertyRef Name="ProductID" />
+      </Principal>
+      <Dependent Role="ProductImages">
+        <PropertyRef Name="ProductID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

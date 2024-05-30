@@ -19,6 +19,7 @@ namespace OnlineStoreModel.Context
         {
             this.CART = new HashSet<CART>();
             this.Orders = new HashSet<Orders>();
+            this.ProductImages = new HashSet<ProductImages>();
         }
     
         public int ProductID { get; set; }
@@ -33,5 +34,7 @@ namespace OnlineStoreModel.Context
         public virtual ICollection<CART> CART { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Orders> Orders { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ProductImages> ProductImages { get; set; }
     }
 }

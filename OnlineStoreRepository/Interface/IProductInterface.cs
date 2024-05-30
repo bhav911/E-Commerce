@@ -9,7 +9,7 @@ namespace OnlineStoreRepository.Interface
 {
     public interface IProductInterface
     {
-        void AddProduct(Products newProduct);
+        void AddProduct(Products newProduct, string aggregatedProductImages);
         void EditProduct(Products newProductInfo);
         Products GetProduct(int prodID);
         List<Products> GetAllProducts(int ShopID);
