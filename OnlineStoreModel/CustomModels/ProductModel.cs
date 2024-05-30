@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace OnlineStoreModel.CustomModels
 {
@@ -20,5 +21,6 @@ namespace OnlineStoreModel.CustomModels
         public decimal ProductPrice { get; set; }
         public int ShopID { get; set; }
         public bool Availability { get; set; }
+        public List<HttpPostedFileBase> productImages { get; set; }
     }
 }

@@ -11,9 +11,16 @@ namespace OnlineStoreRepository.Services
     public class ProductService : IProductInterface
     {
         private readonly OnlineStoreEntities db = new OnlineStoreEntities();
-        public void AddProduct(Products newProduct)
+        public void AddProduct(Products newProduct, string aggregatedProductImages)
         {
-            db.Products.Add(newProduct);
+            Products products = db.Products.Add(newProduct);
+            db.SaveChanges();
+            ProductImages productImages = new ProductImages()
+            {
+                ProductID = products.ProductID,
+                uniqueImageName = aggregatedProductImages
+            };
+            db.ProductImages.Add(productImages);
             db.SaveChanges();
         }
 

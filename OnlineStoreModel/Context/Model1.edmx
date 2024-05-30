@@ -53,6 +53,14 @@
           <Property Name="CityID" Type="int" />
           <Property Name="Description" Type="varchar" MaxLength="255" />
         </EntityType>
+        <EntityType Name="ProductImages">
+          <Key>
+            <PropertyRef Name="imageId" />
+          </Key>
+          <Property Name="imageId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductID" Type="int" />
+          <Property Name="uniqueImageName" Type="varchar" MaxLength="300" />
+        </EntityType>
         <EntityType Name="Products">
           <Key>
             <PropertyRef Name="ProductID" />
@@ -83,6 +91,18 @@
           <Property Name="StateID" Type="int" />
           <Property Name="CityID" Type="int" />
         </EntityType>
+        <Association Name="fk_productID">
+          <End Role="Products" Type="Self.Products" Multiplicity="0..1" />
+          <End Role="ProductImages" Type="Self.ProductImages" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="ProductID" />
+            </Principal>
+            <Dependent Role="ProductImages">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_productID_cart">
           <End Role="Products" Type="Self.Products" Multiplicity="1" />
           <End Role="CART" Type="Self.CART" Multiplicity="*" />
@@ -209,9 +229,14 @@
           <EntitySet Name="Coupons" EntityType="Self.Coupons" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Owner" EntityType="Self.Owner" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProductImages" EntityType="Self.ProductImages" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="States" EntityType="Self.States" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="fk_productID" Association="Self.fk_productID">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="ProductImages" EntitySet="ProductImages" />
+          </AssociationSet>
           <AssociationSet Name="fk_productID_cart" Association="Self.fk_productID_cart">
             <End Role="Products" EntitySet="Products" />
             <End Role="CART" EntitySet="CART" />
@@ -290,6 +315,7 @@
           <NavigationProperty Name="Owner" Relationship="OnlineStoreModel.fk_shop_product1" FromRole="Products" ToRole="Owner" />
           <NavigationProperty Name="CART" Relationship="OnlineStoreModel.fk_productID_cart" FromRole="Products" ToRole="CART" />
           <NavigationProperty Name="Orders" Relationship="OnlineStoreModel.fk_productID_order" FromRole="Products" ToRole="Orders" />
+          <NavigationProperty Name="ProductImages" Relationship="OnlineStoreModel.fk_productID" FromRole="Products" ToRole="ProductImages" />
         </EntityType>
         <EntityType Name="States">
           <Key>
@@ -388,6 +414,11 @@
           <AssociationSet Name="fk_userID_order" Association="OnlineStoreModel.fk_userID_order">
             <End Role="Users" EntitySet="Users" />
             <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <EntitySet Name="ProductImages" EntityType="OnlineStoreModel.ProductImages" />
+          <AssociationSet Name="fk_productID" Association="OnlineStoreModel.fk_productID">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="ProductImages" EntitySet="ProductImages" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Owner">
@@ -525,6 +556,27 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="ProductImages">
+          <Key>
+            <PropertyRef Name="imageId" />
+          </Key>
+          <Property Name="imageId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductID" Type="Int32" />
+          <Property Name="uniqueImageName" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Products" Relationship="OnlineStoreModel.fk_productID" FromRole="ProductImages" ToRole="Products" />
+        </EntityType>
+        <Association Name="fk_productID">
+          <End Type="OnlineStoreModel.Products" Role="Products" Multiplicity="0..1" />
+          <End Type="OnlineStoreModel.ProductImages" Role="ProductImages" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="ProductID" />
+            </Principal>
+            <Dependent Role="ProductImages">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -614,6 +666,15 @@
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="ProductID" ColumnName="ProductID" />
                 <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductImages">
+            <EntityTypeMapping TypeName="OnlineStoreModel.ProductImages">
+              <MappingFragment StoreEntitySet="ProductImages">
+                <ScalarProperty Name="uniqueImageName" ColumnName="uniqueImageName" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="imageId" ColumnName="imageId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

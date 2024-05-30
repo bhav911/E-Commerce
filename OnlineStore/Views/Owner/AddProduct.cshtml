@@ -6,7 +6,7 @@
 
 <div>
     <h3 class="text-center mb-5">Add Product</h3>
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         <div class="row">
             <div class="col-6">
                 <div class="form-floating mb-3">
@@ -36,6 +36,9 @@
                     <span>Available ? &nbsp;</span>
                     @Html.CheckBoxFor(p => p.Availability, new { @class="form-check-input" })
                 </div>
+            </div>
+            <div>
+                <input type="file" name="productImages" multiple />
             </div>
         </div>
         <div class="d-flex justify-content-center">
