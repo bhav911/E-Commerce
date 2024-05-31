@@ -22,5 +22,7 @@ namespace OnlineStoreModel.CustomModels
         public int ShopID { get; set; }
         public bool Availability { get; set; }
         public List<HttpPostedFileBase> productImages { get; set; }
+        public string[] ImagePaths { get; set; }
+        public int? ImageID { get; set; }
     }
 }

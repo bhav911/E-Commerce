@@ -34,7 +34,7 @@ namespace OnlineStoreHelper.Helpers
                 email = userModel.Email,
                 password = userModel.Password,
                 StateID = userModel.StateID,
-                gender = userModel.Gender == "Male" ? "M" : (userModel.Gender == "Female" ? "F" : "O")                
+                gender = userModel.Gender == "Male" ? "M" : (userModel.Gender == "Female" ? "F" : "O"),        
             };
 
             return user;
@@ -48,7 +48,8 @@ namespace OnlineStoreHelper.Helpers
                 ProductDescription = productModel.ProductDescription,
                 ProductPrice = productModel.ProductPrice,
                 ShopID = shopID,
-                Availability = productModel.Availability
+                Availability = productModel.Availability,
+                isDeleted = false
             };
             return product;
         }
@@ -62,8 +63,14 @@ namespace OnlineStoreHelper.Helpers
                 ProductPrice = (decimal)product.ProductPrice,
                 Availability = (bool)product.Availability,
                 ProductID = product.ProductID,
-                ShopID = (int)product.ShopID
+                ShopID = (int)product.ShopID,
+                ImageID = product.ProductImages.FirstOrDefault().imageId
             };
+            string paths = product.ProductImages.FirstOrDefault().uniqueImageName;
+            if(paths != null && paths.Length > 0)
+            {
+                productModel.ImagePaths = paths.Split(',');
+            }
             return productModel;
         }
 
@@ -78,8 +85,13 @@ namespace OnlineStoreHelper.Helpers
                     ProductDescription  = product.ProductDescription,
                     ProductID = product.ProductID,
                     ProductName = product.ProductName,
-                    ProductPrice = (decimal)product.ProductPrice
+                    ProductPrice = (decimal)product.ProductPrice                    
                 };
+                string imagePaths = product.ProductImages.FirstOrDefault().uniqueImageName;
+                if(imagePaths != null)
+                {
+                    newproduct.ImagePaths = imagePaths.Split(',');
+                }
                 productModelList.Add(newproduct);
             }
             return productModelList;

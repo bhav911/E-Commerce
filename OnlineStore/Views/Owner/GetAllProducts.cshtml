@@ -48,7 +48,7 @@
                         <td>No</td>
                     }
                 }
-                <td>
+                <td class="d-flex flex-nowrap gap-2">
                     @Html.ActionLink("Edit", "EditProduct", new { @productID = item.ProductID }, new { @class = "btn btn-sm btn-primary" })
                     @Html.ActionLink("Delete", "DeleteProduct", new { @productID = item.ProductID }, new { @class = "btn btn-sm btn-danger" })
                 </td>

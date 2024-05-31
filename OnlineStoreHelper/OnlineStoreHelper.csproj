@@ -75,6 +75,7 @@
   <ItemGroup>
     <Compile Include="Helpers\CustomAuthorizeHelperAttribute.cs" />
     <Compile Include="Helpers\ModelConverter.cs" />
+    <Compile Include="Helpers\SqlSPHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sessions\UserSession.cs" />
   </ItemGroup>

@@ -23,6 +23,7 @@
     <EntitySetMapping Name="Products">
       <EntityTypeMapping TypeName="OnlineStoreModel.Products">
         <MappingFragment StoreEntitySet="Products">
+          <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
           <ScalarProperty Name="ProductID" ColumnName="ProductID" />
           <ScalarProperty Name="ProductName" ColumnName="ProductName" />
           <ScalarProperty Name="ProductDescription" ColumnName="ProductDescription" />

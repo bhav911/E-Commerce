@@ -37,7 +37,8 @@ namespace OnlineStore.Controllers
                 {
                     aggregatedProductImages += GetUniqueFileName(file) + ",";
                 }
-                aggregatedProductImages = aggregatedProductImages.Substring(0, aggregatedProductImages.Length - 1);
+                if(aggregatedProductImages.Length > 0)
+                    aggregatedProductImages = aggregatedProductImages.Substring(0, aggregatedProductImages.Length - 1);
                 Products convertedProduct = ModelConverter.ConvertProductModelToProduct(newProduct, UserSession.UserID);
                 _product.AddProduct(convertedProduct, aggregatedProductImages);
                 return RedirectToAction("GetAllProducts");
@@ -62,9 +63,26 @@ namespace OnlineStore.Controllers
         [HttpPost]
         public ActionResult EditProduct(ProductModel productModel)
         {
+            string[] imageFileToDelete = null;
+            if (productModel.ImagePaths != null && productModel.ImagePaths[0].Length > 0)
+            {
+                productModel.ImagePaths[0] = productModel.ImagePaths[0].Substring(1);
+                imageFileToDelete = productModel.ImagePaths[0].Split(',');
+            }
+            string aggregatedImagePathToAdd = "";
+            if(productModel.productImages != null)
+            {
+                foreach (HttpPostedFileBase file in productModel.productImages)
+                {
+                    if (file == null)
+                        continue;
+                    aggregatedImagePathToAdd += GetUniqueFileName(file) + ",";
+                }
+                aggregatedImagePathToAdd = aggregatedImagePathToAdd.Substring(0, aggregatedImagePathToAdd.Length - 1);
+            }
             Products product = ModelConverter.ConvertProductModelToProduct(productModel, UserSession.UserID);
             product.ProductID = productModel.ProductID;
-            _product.EditProduct(product);
+            _product.EditProduct(product, aggregatedImagePathToAdd, imageFileToDelete, (int)productModel.ImageID);
             return RedirectToAction("getAllProducts");
         }
 

@@ -26,13 +26,14 @@
     </Key>
     <Property Name="ProductID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="ProductName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="ProductDescription" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="ProductDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
     <Property Name="ProductPrice" Type="Decimal" Precision="7" Scale="2" />
     <Property Name="ShopID" Type="Int32" />
     <Property Name="Availability" Type="Boolean" />
     <NavigationProperty Name="Owner" Relationship="OnlineStoreModel.fk_shop_product1" FromRole="Products" ToRole="Owner" />
     <NavigationProperty Name="CART" Relationship="OnlineStoreModel.fk_productID_cart" FromRole="Products" ToRole="CART" />
     <NavigationProperty Name="Orders" Relationship="OnlineStoreModel.fk_productID_order" FromRole="Products" ToRole="Orders" />
+    <Property Name="isDeleted" Type="Boolean" />
     <NavigationProperty Name="ProductImages" Relationship="OnlineStoreModel.fk_productID" FromRole="Products" ToRole="ProductImages" />
   </EntityType>
   <EntityType Name="States">
