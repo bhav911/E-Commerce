@@ -31,10 +31,10 @@
 </div>
 <form method="post" class="text-end">
     <input type="text" name="productID" hidden value="@Model.ProductID"/>
-    <input type="text" name="shopID" hidden value="@Model.ShopID"/>
+    <input type="text" name="shopID" hidden value="@Model.OwnerID"/>
     <input type="text" name="ProductPrice" hidden value="@Model.ProductPrice"/>
     <label class="fw-bold">Quantity:</label>
     <input type="number" class="" name="quantity" value="1" min="0"/>
     <button type="submit" class="btn btn-success">Buy</button>
-    @Html.ActionLink("Cancel", "GetAllProducts","User", new { @shopID = Model.ShopID }, new { @class="btn btn-secondary"}) 
+    @Html.ActionLink("Cancel", "GetAllProducts","User", new { @shopID = Model.OwnerID }, new { @class="btn btn-secondary"}) 
 </form>

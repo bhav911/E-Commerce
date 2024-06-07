@@ -8,10 +8,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.IO;
+using System.Text;
+using System.Security.Cryptography;
 
 namespace OnlineStore.Controllers
 {
     [CustomAuthorizeHelper]
+    [CustomUserAuthenticateHelper]
     public class UserController : Controller
     {
         private readonly OwnerService _owner = new OwnerService();
@@ -36,9 +40,9 @@ namespace OnlineStore.Controllers
         {
             OrderModel order = new OrderModel()
             {
-                quantity = 1,
-                userID = UserSession.UserID,
-                productID = productID
+                Quantity = 1,
+                CustomerID = UserSession.UserID,
+                ProductID = productID
             };
             _cart.AddToCart(order);
             return Json(true, JsonRequestBehavior.AllowGet);
@@ -54,7 +58,7 @@ namespace OnlineStore.Controllers
         [HttpPost]
         public ActionResult BuyProduct(OrderModel order, int shopID)
         {
-            order.userID = UserSession.UserID;
+            order.CustomerID = UserSession.UserID;
             _order.AddOrder(order);
             return RedirectToAction("GetAllProducts", new { shopID });
         }
@@ -97,5 +101,12 @@ namespace OnlineStore.Controllers
             _cart.ShiftFromCartToOrders(UserSession.UserID);
             return RedirectToAction("ShopList");
         }
+
+        public ActionResult Unauthorize(string role)
+        {
+            ViewBag.role = "Customer";
+            return View();
+        }
+
     }
 }

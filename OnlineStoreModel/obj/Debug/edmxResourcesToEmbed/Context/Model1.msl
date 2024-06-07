@@ -1,56 +1,56 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="OnlineStoreModelStoreContainer" CdmEntityContainer="OnlineStoreEntities">
+    <EntitySetMapping Name="CART">
+      <EntityTypeMapping TypeName="OnlineStoreModel.CART">
+        <MappingFragment StoreEntitySet="CART">
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+          <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+          <ScalarProperty Name="CartID" ColumnName="CartID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Cities">
       <EntityTypeMapping TypeName="OnlineStoreModel.Cities">
         <MappingFragment StoreEntitySet="Cities">
-          <ScalarProperty Name="CityID" ColumnName="CityID" />
-          <ScalarProperty Name="CityName" ColumnName="CityName" />
           <ScalarProperty Name="StateID" ColumnName="StateID" />
+          <ScalarProperty Name="CityName" ColumnName="CityName" />
+          <ScalarProperty Name="CityID" ColumnName="CityID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Coupons">
       <EntityTypeMapping TypeName="OnlineStoreModel.Coupons">
         <MappingFragment StoreEntitySet="Coupons">
-          <ScalarProperty Name="CouponID" ColumnName="CouponID" />
-          <ScalarProperty Name="CouponName" ColumnName="CouponName" />
+          <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
           <ScalarProperty Name="CouponDiscount" ColumnName="CouponDiscount" />
-          <ScalarProperty Name="ShopID" ColumnName="ShopID" />
+          <ScalarProperty Name="CouponName" ColumnName="CouponName" />
+          <ScalarProperty Name="CouponID" ColumnName="CouponID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Products">
-      <EntityTypeMapping TypeName="OnlineStoreModel.Products">
-        <MappingFragment StoreEntitySet="Products">
-          <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
-          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
-          <ScalarProperty Name="ProductName" ColumnName="ProductName" />
-          <ScalarProperty Name="ProductDescription" ColumnName="ProductDescription" />
-          <ScalarProperty Name="ProductPrice" ColumnName="ProductPrice" />
-          <ScalarProperty Name="ShopID" ColumnName="ShopID" />
-          <ScalarProperty Name="Availability" ColumnName="Availability" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="States">
-      <EntityTypeMapping TypeName="OnlineStoreModel.States">
-        <MappingFragment StoreEntitySet="States">
-          <ScalarProperty Name="StateID" ColumnName="StateID" />
-          <ScalarProperty Name="StateName" ColumnName="StateName" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Users">
-      <EntityTypeMapping TypeName="OnlineStoreModel.Users">
-        <MappingFragment StoreEntitySet="Users">
-          <ScalarProperty Name="UserID" ColumnName="UserID" />
-          <ScalarProperty Name="username" ColumnName="username" />
-          <ScalarProperty Name="password" ColumnName="password" />
-          <ScalarProperty Name="email" ColumnName="email" />
-          <ScalarProperty Name="gender" ColumnName="gender" />
-          <ScalarProperty Name="StateID" ColumnName="StateID" />
+    <EntitySetMapping Name="Customers">
+      <EntityTypeMapping TypeName="OnlineStoreModel.Customers">
+        <MappingFragment StoreEntitySet="Customers">
           <ScalarProperty Name="CityID" ColumnName="CityID" />
+          <ScalarProperty Name="StateID" ColumnName="StateID" />
+          <ScalarProperty Name="gender" ColumnName="gender" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="username" ColumnName="username" />
+          <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Orders">
+      <EntityTypeMapping TypeName="OnlineStoreModel.Orders">
+        <MappingFragment StoreEntitySet="Orders">
+          <ScalarProperty Name="unitPrice" ColumnName="unitPrice" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+          <ScalarProperty Name="OrderID" ColumnName="OrderID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -63,28 +63,19 @@
           <ScalarProperty Name="email" ColumnName="email" />
           <ScalarProperty Name="password" ColumnName="password" />
           <ScalarProperty Name="shopname" ColumnName="shopname" />
-          <ScalarProperty Name="ShopID" ColumnName="ShopID" />
+          <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="CART">
-      <EntityTypeMapping TypeName="OnlineStoreModel.CART">
-        <MappingFragment StoreEntitySet="CART">
-          <ScalarProperty Name="quantity" ColumnName="quantity" />
-          <ScalarProperty Name="productID" ColumnName="productID" />
-          <ScalarProperty Name="userID" ColumnName="userID" />
-          <ScalarProperty Name="cartID" ColumnName="cartID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Orders">
-      <EntityTypeMapping TypeName="OnlineStoreModel.Orders">
-        <MappingFragment StoreEntitySet="Orders">
-          <ScalarProperty Name="unitPrice" ColumnName="unitPrice" />
-          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-          <ScalarProperty Name="UserID" ColumnName="UserID" />
-          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
-          <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+    <EntitySetMapping Name="OwnerKYC">
+      <EntityTypeMapping TypeName="OnlineStoreModel.OwnerKYC">
+        <MappingFragment StoreEntitySet="OwnerKYC">
+          <ScalarProperty Name="shopImage" ColumnName="shopImage" />
+          <ScalarProperty Name="passpostImage" ColumnName="passpostImage" />
+          <ScalarProperty Name="aadharCard" ColumnName="aadharCard" />
+          <ScalarProperty Name="panCard" ColumnName="panCard" />
+          <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+          <ScalarProperty Name="kycID" ColumnName="kycID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -93,7 +84,28 @@
         <MappingFragment StoreEntitySet="ProductImages">
           <ScalarProperty Name="uniqueImageName" ColumnName="uniqueImageName" />
           <ScalarProperty Name="ProductID" ColumnName="ProductID" />
-          <ScalarProperty Name="imageId" ColumnName="imageId" />
+          <ScalarProperty Name="ImageID" ColumnName="ImageID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Products">
+      <EntityTypeMapping TypeName="OnlineStoreModel.Products">
+        <MappingFragment StoreEntitySet="Products">
+          <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
+          <ScalarProperty Name="Availability" ColumnName="Availability" />
+          <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+          <ScalarProperty Name="ProductPrice" ColumnName="ProductPrice" />
+          <ScalarProperty Name="ProductDescription" ColumnName="ProductDescription" />
+          <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="States">
+      <EntityTypeMapping TypeName="OnlineStoreModel.States">
+        <MappingFragment StoreEntitySet="States">
+          <ScalarProperty Name="StateName" ColumnName="StateName" />
+          <ScalarProperty Name="StateID" ColumnName="StateID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

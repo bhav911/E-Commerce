@@ -14,7 +14,7 @@ namespace OnlineStoreModel.Context
     
     public partial class ProductImages
     {
-        public int imageId { get; set; }
+        public int ImageID { get; set; }
         public Nullable<int> ProductID { get; set; }
         public string uniqueImageName { get; set; }
     

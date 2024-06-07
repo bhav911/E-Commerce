@@ -26,15 +26,15 @@ namespace OnlineStoreModel.Context
         public string ProductName { get; set; }
         public string ProductDescription { get; set; }
         public Nullable<decimal> ProductPrice { get; set; }
-        public Nullable<int> ShopID { get; set; }
+        public Nullable<int> OwnerID { get; set; }
         public Nullable<bool> Availability { get; set; }
         public Nullable<bool> isDeleted { get; set; }
     
-        public virtual Owner Owner { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CART> CART { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Orders> Orders { get; set; }
+        public virtual Owner Owner { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProductImages> ProductImages { get; set; }
     }

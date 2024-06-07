@@ -18,10 +18,11 @@ namespace OnlineStoreModel.Context
         public Owner()
         {
             this.Coupons = new HashSet<Coupons>();
+            this.OwnerKYC = new HashSet<OwnerKYC>();
             this.Products = new HashSet<Products>();
         }
     
-        public int ShopID { get; set; }
+        public int OwnerID { get; set; }
         public string shopname { get; set; }
         public string password { get; set; }
         public string email { get; set; }
@@ -32,6 +33,8 @@ namespace OnlineStoreModel.Context
         public virtual Cities Cities { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Coupons> Coupons { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OwnerKYC> OwnerKYC { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Products> Products { get; set; }
         public virtual States States { get; set; }

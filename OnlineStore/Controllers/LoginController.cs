@@ -24,13 +24,17 @@ namespace OnlineStore.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (credential.Role == "Admin")
+                string encr = EncryptionDecryptionHelper.Encrypt(credential.Login_password);
+                string decr = EncryptionDecryptionHelper.Decrypt(encr);
+
+
+                if (credential.Role == "Owner")
                 {
                     Owner owner = _owner.AuthenticateOwner(credential);
                     if (owner != null)
                     {
                         TempData["Role"] = "Owner";
-                        UserSession.UserID = owner.ShopID;
+                        UserSession.UserID = owner.OwnerID;
                         UserSession.Username = owner.shopname;
                         UserSession.UserRole = credential.Role;
                         return RedirectToAction("GetAllProducts", "Owner");
@@ -38,11 +42,11 @@ namespace OnlineStore.Controllers
                 }
                 else if(credential.Role == "Customer")
                 {
-                    Users user = _user.AuthenticateUser(credential);
+                    Customers user = _user.AuthenticateUser(credential);
                     if (user != null)
                     {
                         TempData["Role"] = "User";
-                        UserSession.UserID = user.UserID;
+                        UserSession.UserID = user.CustomerID;
                         UserSession.Username = user.username;
                         UserSession.UserRole = credential.Role;
                         return RedirectToAction("ShopList", "User");
@@ -71,7 +75,7 @@ namespace OnlineStore.Controllers
                 }
                 else if (newUser.Role == "Customer")
                 {
-                    Users user = ModelConverter.ConvertNewUserToUser(newUser);
+                    Customers user = ModelConverter.ConvertNewUserToUser(newUser);
                     _user.RegisterUser(user);
                     return RedirectToAction("SignIn");
                 }

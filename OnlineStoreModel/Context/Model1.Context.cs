@@ -25,14 +25,15 @@ namespace OnlineStoreModel.Context
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<CART> CART { get; set; }
         public virtual DbSet<Cities> Cities { get; set; }
         public virtual DbSet<Coupons> Coupons { get; set; }
+        public virtual DbSet<Customers> Customers { get; set; }
+        public virtual DbSet<Orders> Orders { get; set; }
+        public virtual DbSet<Owner> Owner { get; set; }
+        public virtual DbSet<OwnerKYC> OwnerKYC { get; set; }
+        public virtual DbSet<ProductImages> ProductImages { get; set; }
         public virtual DbSet<Products> Products { get; set; }
         public virtual DbSet<States> States { get; set; }
-        public virtual DbSet<Users> Users { get; set; }
-        public virtual DbSet<Owner> Owner { get; set; }
-        public virtual DbSet<CART> CART { get; set; }
-        public virtual DbSet<Orders> Orders { get; set; }
-        public virtual DbSet<ProductImages> ProductImages { get; set; }
     }
 }

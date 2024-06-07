@@ -11,9 +11,16 @@
     <script src="~/Scripts/jquery-3.4.1.js"></script>
 </head>
 <body>
+    <div id="cart-toast" class="position-fixed top-0 end-0 p-3" style="z-index: 11">
+        <div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header bg-primary py-2 px-3">
+                <strong class="me-auto fs-4 text-white">Added to Cart</strong>
+                @Html.ActionLink("View", "ViewCart", "User", new { @class = "btn btn-light btn-sm" })
+            </div>
+        </div>
+    </div>
 
 
-    
 
     <div id="wrapper">
 

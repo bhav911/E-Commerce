@@ -8,9 +8,9 @@ namespace OnlineStoreModel.CustomModels
 {
     public class OrderModel
     {
-        public int productID { get; set; }
-        public int quantity { get; set; }
-        public int userID { get; set; }
+        public int ProductID { get; set; }
+        public int Quantity { get; set; }
+        public int CustomerID { get; set; }
         public decimal ProductPrice { get; set; }
     }
 }

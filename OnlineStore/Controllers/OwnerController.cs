@@ -13,6 +13,7 @@ using System.Web.Mvc;
 namespace OnlineStore.Controllers
 {
     [CustomAuthorizeHelper]
+    [CustomAdminAuthentucateHelper]
     public class OwnerController : Controller
     {
         private readonly ProductService _product = new ProductService();
@@ -48,9 +49,18 @@ namespace OnlineStore.Controllers
 
         private string GetUniqueFileName(HttpPostedFileBase file)
         {
-            string uniqefilename = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-            file.SaveAs(HttpContext.Server.MapPath("~/Content/ProductImages/") + uniqefilename);
-            return uniqefilename;
+            if (file == null)
+                return null;
+            string ext = Path.GetExtension(file.FileName);
+            string uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+            file.SaveAs(HttpContext.Server.MapPath("~/Content/ProductImages/") + uniqueFileName);
+            if (ext.Equals(".pdf")){
+                file.SaveAs(HttpContext.Server.MapPath("~/Content/KYC/PDFs/") + uniqueFileName);
+            }
+            else{
+                file.SaveAs(HttpContext.Server.MapPath("~/Content/KYC/IMGs/") + uniqueFileName);
+            }
+            return uniqueFileName;
         }
 
         public ActionResult EditProduct(int productID)
@@ -105,5 +115,32 @@ namespace OnlineStore.Controllers
             List<OrdersReceivedModel> ordersReceivedModels = ModelConverter.ConvertOrdersReceivedToOrdersrecievedModel(ordersRecieved);
             return View(ordersReceivedModels);
         }
+
+        public ActionResult Unauthorize(string role)
+        {
+            ViewBag.role = "Owner";
+            return View();
+        }
+
+        public ActionResult UploadDocuments()
+        {
+            DocumentModel docs = _owner.GetDocumentPath(UserSession.UserID);
+            return View(docs);
+        }
+        [HttpPost]
+        public ActionResult UploadDocuments(DocumentModel docs)
+        {
+            if (ModelState.IsValid)
+            {
+                docs.DocPaths[0] = GetUniqueFileName(docs.PanCard);
+                docs.DocPaths[1] = GetUniqueFileName(docs.AadharCard);
+                docs.DocPaths[2] = GetUniqueFileName(docs.PassportImage);
+                docs.DocPaths[3] = GetUniqueFileName(docs.ShopImage);
+                _owner.SaveDocuments(docs.DocPaths,UserSession.UserID);
+                return RedirectToAction("GetAllProducts");
+            }
+            return RedirectToAction("UploadDocuments");
+        }
+
     }
 }

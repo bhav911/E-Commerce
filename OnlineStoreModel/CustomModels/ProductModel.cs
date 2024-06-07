@@ -19,7 +19,7 @@ namespace OnlineStoreModel.CustomModels
 
         [Range(0, 99999, ErrorMessage = "Product price limited to 1 Lakh")]
         public decimal ProductPrice { get; set; }
-        public int ShopID { get; set; }
+        public int OwnerID { get; set; }
         public bool Availability { get; set; }
         public List<HttpPostedFileBase> productImages { get; set; }
         public string[] ImagePaths { get; set; }

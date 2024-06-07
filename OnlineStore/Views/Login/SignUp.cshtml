@@ -47,7 +47,7 @@
     }
 
     function toggleDescription() {
-        if ($('#role').val() == "Admin") {
+        if ($('#role').val() == "Owner") {
             $('#shopDescription').removeClass("d-none");
             $('#UsernameLabel').text("Shop name");
             $('#hideGender').addClass("d-none");
@@ -73,7 +73,7 @@
         <div class="mb-3">
             <select class="form-select text-success p-3 fw-bold border border-success" name="Role" onchange="resetForm()" id="role">
                 <option value="">Select Role</option>
-                <option>Admin</option>
+                <option>Owner</option>
                 <option>Customer</option>
             </select>
             @Html.ValidationMessageFor(m => m.Role, null, new { @class = "text-danger" })
@@ -128,7 +128,7 @@
                 </select>
                 @Html.ValidationMessageFor(m => m.CityID, null, new { @class = "text-danger" })
             </div>
-            @if (Model != null && Model.Role != "Admin")
+            @if (Model != null && Model.Role != "Owner")
             {
                 <div class="col-4" id="hideGender">
                     <select class="form-select p-3" name="gender" id="gender">

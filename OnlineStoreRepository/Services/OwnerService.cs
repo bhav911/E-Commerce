@@ -29,8 +29,40 @@ namespace OnlineStoreRepository.Services
         }
         public List<Orders> GetReceivedOrders(int ownerID)
         {
-            List<Orders> orderList = db.Orders.Where(o => o.Products.ShopID == ownerID).ToList();
+            List<Orders> orderList = db.Orders.Where(o => o.Products.OwnerID == ownerID).ToList();
             return orderList;
+        }
+        public void SaveDocuments(string[] docs, int userID)
+        {
+            Owner owner = db.Owner.FirstOrDefault(u => u.OwnerID == userID);
+            OwnerKYC ownerkyc = owner.OwnerKYC.FirstOrDefault();
+            if(ownerkyc == null)
+            {
+                ownerkyc = new OwnerKYC()
+                {
+                    OwnerID = userID
+                };
+            }
+            if(docs[0] != null)
+                ownerkyc.panCard = docs[0];
+            if (docs[1] != null)
+                ownerkyc.aadharCard = docs[1];
+            if (docs[2] != null)
+                ownerkyc.passpostImage = docs[2];
+            if (docs[3] != null)
+                ownerkyc.shopImage = docs[3];
+            db.SaveChanges();
+        }
+
+        public DocumentModel GetDocumentPath(int userID)
+        {
+            OwnerKYC ownerKyc = db.OwnerKYC.FirstOrDefault(u => u.OwnerID == userID);
+            DocumentModel docs = new DocumentModel();
+            docs.DocPaths[0] = ownerKyc.panCard;
+            docs.DocPaths[1] = ownerKyc.aadharCard;
+            docs.DocPaths[2] = ownerKyc.passpostImage;
+            docs.DocPaths[3] = ownerKyc.shopImage;
+            return docs;
         }
     }
 }

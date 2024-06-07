@@ -17,7 +17,7 @@ namespace OnlineStoreModel.Context
         public int CouponID { get; set; }
         public string CouponName { get; set; }
         public Nullable<decimal> CouponDiscount { get; set; }
-        public Nullable<int> ShopID { get; set; }
+        public Nullable<int> OwnerID { get; set; }
     
         public virtual Owner Owner { get; set; }
     }

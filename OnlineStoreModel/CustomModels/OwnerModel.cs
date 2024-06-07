@@ -8,11 +8,11 @@ namespace OnlineStoreModel.CustomModels
 {
     public class OwnerModel
     {
-        public int ShopID { get; set; }
-        public string shopname { get; set; }
-        public string description { get; set; }
-        public string password { get; set; }
-        public string email { get; set; }
+        public int OwnerID { get; set; }
+        public string Shopname { get; set; }
+        public string Description { get; set; }
+        public string Password { get; set; }
+        public string Email { get; set; }
         public string State { get; set; }
         public string City { get; set; }
     }

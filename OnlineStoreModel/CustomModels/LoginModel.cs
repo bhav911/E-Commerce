@@ -10,7 +10,7 @@ namespace OnlineStoreModel.CustomModels
     public class LoginModel
     {
         [Required(ErrorMessage = "Please Select Role")]
-        [RegularExpression("^(Admin|Customer)$", ErrorMessage = "Please Select Role")]
+        [RegularExpression("^(Owner|Customer)$", ErrorMessage = "Please Select Role")]
         public string Role { get; set; }
 
         [Required]

@@ -1,39 +1,176 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="OnlineStoreModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="OnlineStoreEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="CART" EntityType="OnlineStoreModel.CART" />
+    <EntitySet Name="Cities" EntityType="OnlineStoreModel.Cities" />
+    <EntitySet Name="Coupons" EntityType="OnlineStoreModel.Coupons" />
+    <EntitySet Name="Customers" EntityType="OnlineStoreModel.Customers" />
+    <EntitySet Name="Orders" EntityType="OnlineStoreModel.Orders" />
+    <EntitySet Name="Owner" EntityType="OnlineStoreModel.Owner" />
+    <EntitySet Name="OwnerKYC" EntityType="OnlineStoreModel.OwnerKYC" />
+    <EntitySet Name="ProductImages" EntityType="OnlineStoreModel.ProductImages" />
+    <EntitySet Name="Products" EntityType="OnlineStoreModel.Products" />
+    <EntitySet Name="States" EntityType="OnlineStoreModel.States" />
+    <AssociationSet Name="fk_productID_cart" Association="OnlineStoreModel.fk_productID_cart">
+      <End Role="Products" EntitySet="Products" />
+      <End Role="CART" EntitySet="CART" />
+    </AssociationSet>
+    <AssociationSet Name="fk_userID_cart" Association="OnlineStoreModel.fk_userID_cart">
+      <End Role="Customers" EntitySet="Customers" />
+      <End Role="CART" EntitySet="CART" />
+    </AssociationSet>
+    <AssociationSet Name="fk_shop_city" Association="OnlineStoreModel.fk_shop_city">
+      <End Role="Cities" EntitySet="Cities" />
+      <End Role="Owner" EntitySet="Owner" />
+    </AssociationSet>
+    <AssociationSet Name="fk_user_city" Association="OnlineStoreModel.fk_user_city">
+      <End Role="Cities" EntitySet="Cities" />
+      <End Role="Customers" EntitySet="Customers" />
+    </AssociationSet>
+    <AssociationSet Name="fk_shop_coupon" Association="OnlineStoreModel.fk_shop_coupon">
+      <End Role="Owner" EntitySet="Owner" />
+      <End Role="Coupons" EntitySet="Coupons" />
+    </AssociationSet>
+    <AssociationSet Name="fk_user_state" Association="OnlineStoreModel.fk_user_state">
+      <End Role="States" EntitySet="States" />
+      <End Role="Customers" EntitySet="Customers" />
+    </AssociationSet>
+    <AssociationSet Name="fk_userID_order" Association="OnlineStoreModel.fk_userID_order">
+      <End Role="Customers" EntitySet="Customers" />
+      <End Role="Orders" EntitySet="Orders" />
+    </AssociationSet>
+    <AssociationSet Name="fk_productID_order" Association="OnlineStoreModel.fk_productID_order">
+      <End Role="Products" EntitySet="Products" />
+      <End Role="Orders" EntitySet="Orders" />
+    </AssociationSet>
+    <AssociationSet Name="fk_ownerKYC_shopID" Association="OnlineStoreModel.fk_ownerKYC_shopID">
+      <End Role="Owner" EntitySet="Owner" />
+      <End Role="OwnerKYC" EntitySet="OwnerKYC" />
+    </AssociationSet>
+    <AssociationSet Name="fk_shop_product" Association="OnlineStoreModel.fk_shop_product">
+      <End Role="Owner" EntitySet="Owner" />
+      <End Role="Products" EntitySet="Products" />
+    </AssociationSet>
+    <AssociationSet Name="fk_shop_state" Association="OnlineStoreModel.fk_shop_state">
+      <End Role="States" EntitySet="States" />
+      <End Role="Owner" EntitySet="Owner" />
+    </AssociationSet>
+    <AssociationSet Name="fk_productID" Association="OnlineStoreModel.fk_productID">
+      <End Role="Products" EntitySet="Products" />
+      <End Role="ProductImages" EntitySet="ProductImages" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="CART">
+    <Key>
+      <PropertyRef Name="CartID" />
+    </Key>
+    <Property Name="CartID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CustomerID" Type="Int32" Nullable="false" />
+    <Property Name="ProductID" Type="Int32" Nullable="false" />
+    <Property Name="Quantity" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Products" Relationship="OnlineStoreModel.fk_productID_cart" FromRole="CART" ToRole="Products" />
+    <NavigationProperty Name="Customers" Relationship="OnlineStoreModel.fk_userID_cart" FromRole="CART" ToRole="Customers" />
+  </EntityType>
   <EntityType Name="Cities">
     <Key>
       <PropertyRef Name="CityID" />
     </Key>
     <Property Name="CityID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="CityName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="CityName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="StateID" Type="Int32" />
-    <NavigationProperty Name="Users" Relationship="Self.fk_user_city" FromRole="Cities" ToRole="Users" />
-    <NavigationProperty Name="Owner" Relationship="OnlineStoreModel.fk_shop_city1" FromRole="Cities" ToRole="Owner" />
+    <NavigationProperty Name="Owner" Relationship="OnlineStoreModel.fk_shop_city" FromRole="Cities" ToRole="Owner" />
+    <NavigationProperty Name="Customers" Relationship="OnlineStoreModel.fk_user_city" FromRole="Cities" ToRole="Customers" />
   </EntityType>
   <EntityType Name="Coupons">
     <Key>
       <PropertyRef Name="CouponID" />
     </Key>
     <Property Name="CouponID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="CouponName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="CouponName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
     <Property Name="CouponDiscount" Type="Decimal" Precision="5" Scale="2" />
-    <Property Name="ShopID" Type="Int32" />
-    <NavigationProperty Name="Owner" Relationship="OnlineStoreModel.fk_shop_coupon1" FromRole="Coupons" ToRole="Owner" />
+    <Property Name="OwnerID" Type="Int32" />
+    <NavigationProperty Name="Owner" Relationship="OnlineStoreModel.fk_shop_coupon" FromRole="Coupons" ToRole="Owner" />
+  </EntityType>
+  <EntityType Name="Customers">
+    <Key>
+      <PropertyRef Name="CustomerID" />
+    </Key>
+    <Property Name="CustomerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="username" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="password" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="gender" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="StateID" Type="Int32" />
+    <Property Name="CityID" Type="Int32" />
+    <NavigationProperty Name="CART" Relationship="OnlineStoreModel.fk_userID_cart" FromRole="Customers" ToRole="CART" />
+    <NavigationProperty Name="Cities" Relationship="OnlineStoreModel.fk_user_city" FromRole="Customers" ToRole="Cities" />
+    <NavigationProperty Name="States" Relationship="OnlineStoreModel.fk_user_state" FromRole="Customers" ToRole="States" />
+    <NavigationProperty Name="Orders" Relationship="OnlineStoreModel.fk_userID_order" FromRole="Customers" ToRole="Orders" />
+  </EntityType>
+  <EntityType Name="Orders">
+    <Key>
+      <PropertyRef Name="OrderID" />
+    </Key>
+    <Property Name="OrderID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProductID" Type="Int32" />
+    <Property Name="CustomerID" Type="Int32" />
+    <Property Name="Quantity" Type="Int32" />
+    <Property Name="unitPrice" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
+    <NavigationProperty Name="Customers" Relationship="OnlineStoreModel.fk_userID_order" FromRole="Orders" ToRole="Customers" />
+    <NavigationProperty Name="Products" Relationship="OnlineStoreModel.fk_productID_order" FromRole="Orders" ToRole="Products" />
+  </EntityType>
+  <EntityType Name="Owner">
+    <Key>
+      <PropertyRef Name="OwnerID" />
+    </Key>
+    <Property Name="OwnerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="shopname" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="password" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="StateID" Type="Int32" />
+    <Property Name="CityID" Type="Int32" />
+    <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Cities" Relationship="OnlineStoreModel.fk_shop_city" FromRole="Owner" ToRole="Cities" />
+    <NavigationProperty Name="Coupons" Relationship="OnlineStoreModel.fk_shop_coupon" FromRole="Owner" ToRole="Coupons" />
+    <NavigationProperty Name="OwnerKYC" Relationship="OnlineStoreModel.fk_ownerKYC_shopID" FromRole="Owner" ToRole="OwnerKYC" />
+    <NavigationProperty Name="Products" Relationship="OnlineStoreModel.fk_shop_product" FromRole="Owner" ToRole="Products" />
+    <NavigationProperty Name="States" Relationship="OnlineStoreModel.fk_shop_state" FromRole="Owner" ToRole="States" />
+  </EntityType>
+  <EntityType Name="OwnerKYC">
+    <Key>
+      <PropertyRef Name="kycID" />
+    </Key>
+    <Property Name="kycID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="OwnerID" Type="Int32" />
+    <Property Name="panCard" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="aadharCard" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="passpostImage" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="shopImage" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Owner" Relationship="OnlineStoreModel.fk_ownerKYC_shopID" FromRole="OwnerKYC" ToRole="Owner" />
+  </EntityType>
+  <EntityType Name="ProductImages">
+    <Key>
+      <PropertyRef Name="ImageID" />
+    </Key>
+    <Property Name="ImageID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProductID" Type="Int32" />
+    <Property Name="uniqueImageName" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Products" Relationship="OnlineStoreModel.fk_productID" FromRole="ProductImages" ToRole="Products" />
   </EntityType>
   <EntityType Name="Products">
     <Key>
       <PropertyRef Name="ProductID" />
     </Key>
     <Property Name="ProductID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="ProductName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ProductName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="ProductDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
     <Property Name="ProductPrice" Type="Decimal" Precision="7" Scale="2" />
-    <Property Name="ShopID" Type="Int32" />
+    <Property Name="OwnerID" Type="Int32" />
     <Property Name="Availability" Type="Boolean" />
-    <NavigationProperty Name="Owner" Relationship="OnlineStoreModel.fk_shop_product1" FromRole="Products" ToRole="Owner" />
+    <Property Name="isDeleted" Type="Boolean" />
     <NavigationProperty Name="CART" Relationship="OnlineStoreModel.fk_productID_cart" FromRole="Products" ToRole="CART" />
     <NavigationProperty Name="Orders" Relationship="OnlineStoreModel.fk_productID_order" FromRole="Products" ToRole="Orders" />
-    <Property Name="isDeleted" Type="Boolean" />
+    <NavigationProperty Name="Owner" Relationship="OnlineStoreModel.fk_shop_product" FromRole="Products" ToRole="Owner" />
     <NavigationProperty Name="ProductImages" Relationship="OnlineStoreModel.fk_productID" FromRole="Products" ToRole="ProductImages" />
   </EntityType>
   <EntityType Name="States">
@@ -41,122 +178,35 @@
       <PropertyRef Name="StateID" />
     </Key>
     <Property Name="StateID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="StateName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-    <NavigationProperty Name="Users" Relationship="Self.fk_user_state" FromRole="States" ToRole="Users" />
-    <NavigationProperty Name="Owner" Relationship="OnlineStoreModel.fk_shop_state1" FromRole="States" ToRole="Owner" />
+    <Property Name="StateName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Customers" Relationship="OnlineStoreModel.fk_user_state" FromRole="States" ToRole="Customers" />
+    <NavigationProperty Name="Owner" Relationship="OnlineStoreModel.fk_shop_state" FromRole="States" ToRole="Owner" />
   </EntityType>
-  <EntityType Name="Users">
-    <Key>
-      <PropertyRef Name="UserID" />
-    </Key>
-    <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="username" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="password" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="gender" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
-    <Property Name="StateID" Type="Int32" />
-    <Property Name="CityID" Type="Int32" />
-    <NavigationProperty Name="Cities" Relationship="Self.fk_user_city" FromRole="Users" ToRole="Cities" />
-    <NavigationProperty Name="States" Relationship="Self.fk_user_state" FromRole="Users" ToRole="States" />
-    <NavigationProperty Name="CART" Relationship="OnlineStoreModel.fk_userID_cart" FromRole="Users" ToRole="CART" />
-    <NavigationProperty Name="Orders" Relationship="OnlineStoreModel.fk_userID_order" FromRole="Users" ToRole="Orders" />
-  </EntityType>
-  <Association Name="fk_user_city">
-    <End Role="Cities" Type="Self.Cities" Multiplicity="0..1" />
-    <End Role="Users" Type="Self.Users" Multiplicity="*" />
+  <Association Name="fk_productID_cart">
+    <End Type="OnlineStoreModel.Products" Role="Products" Multiplicity="1" />
+    <End Type="OnlineStoreModel.CART" Role="CART" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Cities">
-        <PropertyRef Name="CityID" />
+      <Principal Role="Products">
+        <PropertyRef Name="ProductID" />
       </Principal>
-      <Dependent Role="Users">
-        <PropertyRef Name="CityID" />
+      <Dependent Role="CART">
+        <PropertyRef Name="ProductID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="fk_user_state">
-    <End Role="States" Type="Self.States" Multiplicity="0..1" />
-    <End Role="Users" Type="Self.Users" Multiplicity="*" />
+  <Association Name="fk_userID_cart">
+    <End Type="OnlineStoreModel.Customers" Role="Customers" Multiplicity="1" />
+    <End Type="OnlineStoreModel.CART" Role="CART" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="States">
-        <PropertyRef Name="StateID" />
+      <Principal Role="Customers">
+        <PropertyRef Name="CustomerID" />
       </Principal>
-      <Dependent Role="Users">
-        <PropertyRef Name="StateID" />
+      <Dependent Role="CART">
+        <PropertyRef Name="CustomerID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <EntityContainer Name="OnlineStoreEntities" annotation:LazyLoadingEnabled="true">
-    <EntitySet Name="Cities" EntityType="Self.Cities" />
-    <EntitySet Name="Coupons" EntityType="Self.Coupons" />
-    <EntitySet Name="Products" EntityType="Self.Products" />
-    <EntitySet Name="States" EntityType="Self.States" />
-    <EntitySet Name="Users" EntityType="Self.Users" />
-    <AssociationSet Name="fk_user_city" Association="Self.fk_user_city">
-      <End Role="Cities" EntitySet="Cities" />
-      <End Role="Users" EntitySet="Users" />
-    </AssociationSet>
-    <AssociationSet Name="fk_user_state" Association="Self.fk_user_state">
-      <End Role="States" EntitySet="States" />
-      <End Role="Users" EntitySet="Users" />
-    </AssociationSet>
-    <EntitySet Name="Owner" EntityType="OnlineStoreModel.Owner" />
-    <AssociationSet Name="fk_shop_city1" Association="OnlineStoreModel.fk_shop_city1">
-      <End Role="Cities" EntitySet="Cities" />
-      <End Role="Owner" EntitySet="Owner" />
-    </AssociationSet>
-    <AssociationSet Name="fk_shop_coupon1" Association="OnlineStoreModel.fk_shop_coupon1">
-      <End Role="Owner" EntitySet="Owner" />
-      <End Role="Coupons" EntitySet="Coupons" />
-    </AssociationSet>
-    <AssociationSet Name="fk_shop_product1" Association="OnlineStoreModel.fk_shop_product1">
-      <End Role="Owner" EntitySet="Owner" />
-      <End Role="Products" EntitySet="Products" />
-    </AssociationSet>
-    <AssociationSet Name="fk_shop_state1" Association="OnlineStoreModel.fk_shop_state1">
-      <End Role="States" EntitySet="States" />
-      <End Role="Owner" EntitySet="Owner" />
-    </AssociationSet>
-    <EntitySet Name="CART" EntityType="OnlineStoreModel.CART" />
-    <AssociationSet Name="fk_productID_cart" Association="OnlineStoreModel.fk_productID_cart">
-      <End Role="Products" EntitySet="Products" />
-      <End Role="CART" EntitySet="CART" />
-    </AssociationSet>
-    <AssociationSet Name="fk_userID_cart" Association="OnlineStoreModel.fk_userID_cart">
-      <End Role="Users" EntitySet="Users" />
-      <End Role="CART" EntitySet="CART" />
-    </AssociationSet>
-    <EntitySet Name="Orders" EntityType="OnlineStoreModel.Orders" />
-    <AssociationSet Name="fk_productID_order" Association="OnlineStoreModel.fk_productID_order">
-      <End Role="Products" EntitySet="Products" />
-      <End Role="Orders" EntitySet="Orders" />
-    </AssociationSet>
-    <AssociationSet Name="fk_userID_order" Association="OnlineStoreModel.fk_userID_order">
-      <End Role="Users" EntitySet="Users" />
-      <End Role="Orders" EntitySet="Orders" />
-    </AssociationSet>
-    <EntitySet Name="ProductImages" EntityType="OnlineStoreModel.ProductImages" />
-    <AssociationSet Name="fk_productID" Association="OnlineStoreModel.fk_productID">
-      <End Role="Products" EntitySet="Products" />
-      <End Role="ProductImages" EntitySet="ProductImages" />
-    </AssociationSet>
-  </EntityContainer>
-  <EntityType Name="Owner">
-    <Key>
-      <PropertyRef Name="ShopID" />
-    </Key>
-    <Property Name="ShopID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="shopname" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
-    <Property Name="password" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-    <Property Name="email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="StateID" Type="Int32" />
-    <Property Name="CityID" Type="Int32" />
-    <NavigationProperty Name="Cities" Relationship="OnlineStoreModel.fk_shop_city1" FromRole="Owner" ToRole="Cities" />
-    <NavigationProperty Name="Coupons" Relationship="OnlineStoreModel.fk_shop_coupon1" FromRole="Owner" ToRole="Coupons" />
-    <NavigationProperty Name="Products" Relationship="OnlineStoreModel.fk_shop_product1" FromRole="Owner" ToRole="Products" />
-    <NavigationProperty Name="States" Relationship="OnlineStoreModel.fk_shop_state1" FromRole="Owner" ToRole="States" />
-    <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-  </EntityType>
-  <Association Name="fk_shop_city1">
+  <Association Name="fk_shop_city">
     <End Type="OnlineStoreModel.Cities" Role="Cities" Multiplicity="0..1" />
     <End Type="OnlineStoreModel.Owner" Role="Owner" Multiplicity="*" />
     <ReferentialConstraint>
@@ -168,89 +218,54 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="fk_shop_coupon1">
+  <Association Name="fk_user_city">
+    <End Type="OnlineStoreModel.Cities" Role="Cities" Multiplicity="0..1" />
+    <End Type="OnlineStoreModel.Customers" Role="Customers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Cities">
+        <PropertyRef Name="CityID" />
+      </Principal>
+      <Dependent Role="Customers">
+        <PropertyRef Name="CityID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_shop_coupon">
     <End Type="OnlineStoreModel.Owner" Role="Owner" Multiplicity="0..1" />
     <End Type="OnlineStoreModel.Coupons" Role="Coupons" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Owner">
-        <PropertyRef Name="ShopID" />
+        <PropertyRef Name="OwnerID" />
       </Principal>
       <Dependent Role="Coupons">
-        <PropertyRef Name="ShopID" />
+        <PropertyRef Name="OwnerID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="fk_shop_product1">
-    <End Type="OnlineStoreModel.Owner" Role="Owner" Multiplicity="0..1" />
-    <End Type="OnlineStoreModel.Products" Role="Products" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Owner">
-        <PropertyRef Name="ShopID" />
-      </Principal>
-      <Dependent Role="Products">
-        <PropertyRef Name="ShopID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="fk_shop_state1">
+  <Association Name="fk_user_state">
     <End Type="OnlineStoreModel.States" Role="States" Multiplicity="0..1" />
-    <End Type="OnlineStoreModel.Owner" Role="Owner" Multiplicity="*" />
+    <End Type="OnlineStoreModel.Customers" Role="Customers" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="States">
         <PropertyRef Name="StateID" />
       </Principal>
-      <Dependent Role="Owner">
+      <Dependent Role="Customers">
         <PropertyRef Name="StateID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <EntityType Name="CART">
-    <Key>
-      <PropertyRef Name="cartID" />
-    </Key>
-    <Property Name="cartID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="userID" Type="Int32" Nullable="false" />
-    <Property Name="productID" Type="Int32" Nullable="false" />
-    <Property Name="quantity" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="Products" Relationship="OnlineStoreModel.fk_productID_cart" FromRole="CART" ToRole="Products" />
-    <NavigationProperty Name="Users" Relationship="OnlineStoreModel.fk_userID_cart" FromRole="CART" ToRole="Users" />
-  </EntityType>
-  <Association Name="fk_productID_cart">
-    <End Type="OnlineStoreModel.Products" Role="Products" Multiplicity="1" />
-    <End Type="OnlineStoreModel.CART" Role="CART" Multiplicity="*" />
+  <Association Name="fk_userID_order">
+    <End Type="OnlineStoreModel.Customers" Role="Customers" Multiplicity="0..1" />
+    <End Type="OnlineStoreModel.Orders" Role="Orders" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Products">
-        <PropertyRef Name="ProductID" />
+      <Principal Role="Customers">
+        <PropertyRef Name="CustomerID" />
       </Principal>
-      <Dependent Role="CART">
-        <PropertyRef Name="productID" />
+      <Dependent Role="Orders">
+        <PropertyRef Name="CustomerID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="fk_userID_cart">
-    <End Type="OnlineStoreModel.Users" Role="Users" Multiplicity="1" />
-    <End Type="OnlineStoreModel.CART" Role="CART" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Users">
-        <PropertyRef Name="UserID" />
-      </Principal>
-      <Dependent Role="CART">
-        <PropertyRef Name="userID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <EntityType Name="Orders">
-    <Key>
-      <PropertyRef Name="OrderID" />
-    </Key>
-    <Property Name="OrderID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="ProductID" Type="Int32" />
-    <Property Name="UserID" Type="Int32" />
-    <Property Name="Quantity" Type="Int32" />
-    <Property Name="unitPrice" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
-    <NavigationProperty Name="Products" Relationship="OnlineStoreModel.fk_productID_order" FromRole="Orders" ToRole="Products" />
-    <NavigationProperty Name="Users" Relationship="OnlineStoreModel.fk_userID_order" FromRole="Orders" ToRole="Users" />
-  </EntityType>
   <Association Name="fk_productID_order">
     <End Type="OnlineStoreModel.Products" Role="Products" Multiplicity="0..1" />
     <End Type="OnlineStoreModel.Orders" Role="Orders" Multiplicity="*" />
@@ -263,27 +278,42 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="fk_userID_order">
-    <End Type="OnlineStoreModel.Users" Role="Users" Multiplicity="0..1" />
-    <End Type="OnlineStoreModel.Orders" Role="Orders" Multiplicity="*" />
+  <Association Name="fk_ownerKYC_shopID">
+    <End Type="OnlineStoreModel.Owner" Role="Owner" Multiplicity="0..1" />
+    <End Type="OnlineStoreModel.OwnerKYC" Role="OwnerKYC" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Users">
-        <PropertyRef Name="UserID" />
+      <Principal Role="Owner">
+        <PropertyRef Name="OwnerID" />
       </Principal>
-      <Dependent Role="Orders">
-        <PropertyRef Name="UserID" />
+      <Dependent Role="OwnerKYC">
+        <PropertyRef Name="OwnerID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <EntityType Name="ProductImages">
-    <Key>
-      <PropertyRef Name="imageId" />
-    </Key>
-    <Property Name="imageId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="ProductID" Type="Int32" />
-    <Property Name="uniqueImageName" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
-    <NavigationProperty Name="Products" Relationship="OnlineStoreModel.fk_productID" FromRole="ProductImages" ToRole="Products" />
-  </EntityType>
+  <Association Name="fk_shop_product">
+    <End Type="OnlineStoreModel.Owner" Role="Owner" Multiplicity="0..1" />
+    <End Type="OnlineStoreModel.Products" Role="Products" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Owner">
+        <PropertyRef Name="OwnerID" />
+      </Principal>
+      <Dependent Role="Products">
+        <PropertyRef Name="OwnerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_shop_state">
+    <End Type="OnlineStoreModel.States" Role="States" Multiplicity="0..1" />
+    <End Type="OnlineStoreModel.Owner" Role="Owner" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="States">
+        <PropertyRef Name="StateID" />
+      </Principal>
+      <Dependent Role="Owner">
+        <PropertyRef Name="StateID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="fk_productID">
     <End Type="OnlineStoreModel.Products" Role="Products" Multiplicity="0..1" />
     <End Type="OnlineStoreModel.ProductImages" Role="ProductImages" Multiplicity="*" />

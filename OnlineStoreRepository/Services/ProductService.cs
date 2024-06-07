@@ -65,7 +65,7 @@ namespace OnlineStoreRepository.Services
 
         public List<Products> GetAllProducts(int shopID)
         {
-            List<Products> productList = db.Products.Where(s => s.ShopID == shopID && (bool)!s.isDeleted).ToList();
+            List<Products> productList = db.Products.Where(s => s.OwnerID == shopID && (bool)!s.isDeleted).ToList();
             return productList;
         }
 

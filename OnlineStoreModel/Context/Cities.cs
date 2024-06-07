@@ -17,8 +17,8 @@ namespace OnlineStoreModel.Context
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Cities()
         {
-            this.Users = new HashSet<Users>();
             this.Owner = new HashSet<Owner>();
+            this.Customers = new HashSet<Customers>();
         }
     
         public int CityID { get; set; }
@@ -26,8 +26,8 @@ namespace OnlineStoreModel.Context
         public Nullable<int> StateID { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Users> Users { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Owner> Owner { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Customers> Customers { get; set; }
     }
 }

@@ -14,12 +14,12 @@ namespace OnlineStoreModel.Context
     
     public partial class CART
     {
-        public int cartID { get; set; }
-        public int userID { get; set; }
-        public int productID { get; set; }
-        public int quantity { get; set; }
+        public int CartID { get; set; }
+        public int CustomerID { get; set; }
+        public int ProductID { get; set; }
+        public int Quantity { get; set; }
     
         public virtual Products Products { get; set; }
-        public virtual Users Users { get; set; }
+        public virtual Customers Customers { get; set; }
     }
 }

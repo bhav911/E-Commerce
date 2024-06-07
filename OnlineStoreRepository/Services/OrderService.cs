@@ -16,9 +16,9 @@ namespace OnlineStoreRepository.Services
         {
             Orders order = new Orders()
             {
-                ProductID = orderModel.productID,
-                UserID = orderModel.userID,
-                Quantity = orderModel.quantity,
+                ProductID = orderModel.ProductID,
+                CustomerID = orderModel.CustomerID,
+                Quantity = orderModel.Quantity,
                 unitPrice = (decimal)orderModel.ProductPrice
             };
             var status = db.Orders.Add(order);
@@ -26,7 +26,7 @@ namespace OnlineStoreRepository.Services
         }
         public List<Orders> GetOrderDetail(int userID)
         {
-            List<Orders> ordersList = db.Orders.Where(o => o.UserID == userID).ToList();
+            List<Orders> ordersList = db.Orders.Where(o => o.CustomerID == userID).ToList();
             return ordersList;
         }
     }

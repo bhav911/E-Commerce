@@ -8,9 +8,9 @@ namespace OnlineStoreModel.CustomModels
 {
     public class OrderHistoryModel
     {
-        public string productName { get; set; }
-        public int productQuantity { get; set; }
-        public decimal productPrice { get; set; }
-        public decimal totalPrice { get; set; }
+        public string ProductName { get; set; }
+        public int ProductQuantity { get; set; }
+        public decimal ProductPrice { get; set; }
+        public decimal TotalPrice { get; set; }
     }
 }

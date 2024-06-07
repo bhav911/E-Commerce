@@ -13,14 +13,14 @@ namespace OnlineStoreRepository.Services
     {
         private readonly OnlineStoreEntities db = new OnlineStoreEntities();
 
-        public void RegisterUser(Users newUser)
+        public void RegisterUser(Customers newUser)
         {
-            db.Users.Add(newUser);
+            db.Customers.Add(newUser);
             db.SaveChanges();
         }
-        public Users AuthenticateUser(LoginModel credentials)
+        public Customers AuthenticateUser(LoginModel credentials)
         {
-            Users result = db.Users.Where(u => u.email == credentials.Login_email && u.password == credentials.Login_password).FirstOrDefault();
+            Customers result = db.Customers.Where(u => u.email == credentials.Login_email && u.password == credentials.Login_password).FirstOrDefault();
             return result;
         }
     }

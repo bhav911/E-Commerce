@@ -10,7 +10,7 @@ namespace OnlineStoreRepository.Interface
 {
     public interface IUserInterface
     {
-        void RegisterUser(Users newUser);
-        Users AuthenticateUser(LoginModel credentials);
+        void RegisterUser(Customers newUser);
+        Customers AuthenticateUser(LoginModel credentials);
     }
 }

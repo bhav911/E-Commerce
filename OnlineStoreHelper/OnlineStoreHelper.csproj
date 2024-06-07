@@ -73,7 +73,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\CustomAdminAuthentucateHelperAttribute.cs" />
     <Compile Include="Helpers\CustomAuthorizeHelperAttribute.cs" />
+    <Compile Include="Helpers\CustomUserAuthenticateHelperAttribute.cs" />
+    <Compile Include="Helpers\EncryptionDecryptionHelper.cs" />
     <Compile Include="Helpers\ModelConverter.cs" />
     <Compile Include="Helpers\SqlSPHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

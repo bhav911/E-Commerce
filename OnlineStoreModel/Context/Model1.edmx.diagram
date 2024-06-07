@@ -4,26 +4,28 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="ff05f88ae44344bea79847492e7b58cf" Name="Diagram1" ZoomLevel="94">
-        <EntityTypeShape EntityType="OnlineStoreModel.Cities" Width="1.5" PointX="16.75" PointY="1.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="OnlineStoreModel.Coupons" Width="1.5" PointX="15.25" PointY="4.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="OnlineStoreModel.Products" Width="1.5" PointX="14" PointY="1.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="OnlineStoreModel.States" Width="1.5" PointX="19.25" PointY="1.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="OnlineStoreModel.Users" Width="1.5" PointX="12.625" PointY="4.75" IsExpanded="true" />
-        <AssociationConnector Association="OnlineStoreModel.fk_user_city" ManuallyRouted="false" />
-        <AssociationConnector Association="OnlineStoreModel.fk_user_state" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="OnlineStoreModel.Owner" Width="1.5" PointX="22.25" PointY="2" />
-        <AssociationConnector Association="OnlineStoreModel.fk_shop_city1" />
-        <AssociationConnector Association="OnlineStoreModel.fk_shop_coupon1" />
-        <AssociationConnector Association="OnlineStoreModel.fk_shop_product1" />
-        <AssociationConnector Association="OnlineStoreModel.fk_shop_state1" />
-        <EntityTypeShape EntityType="OnlineStoreModel.CART" Width="1.5" PointX="10.75" PointY="2.75" />
+      <Diagram DiagramId="ff05f88ae44344bea79847492e7b58cf" Name="Diagram1" ZoomLevel="81">
+        <EntityTypeShape EntityType="OnlineStoreModel.CART" Width="1.5" PointX="8.25" PointY="13.375" />
+        <EntityTypeShape EntityType="OnlineStoreModel.Cities" Width="1.5" PointX="0.75" PointY="9.5" />
+        <EntityTypeShape EntityType="OnlineStoreModel.Coupons" Width="1.5" PointX="5.25" PointY="6" />
+        <EntityTypeShape EntityType="OnlineStoreModel.Customers" Width="1.5" PointX="6" PointY="8.875" />
+        <EntityTypeShape EntityType="OnlineStoreModel.Orders" Width="1.5" PointX="8.25" PointY="10.25" />
+        <EntityTypeShape EntityType="OnlineStoreModel.Owner" Width="1.5" PointX="3" PointY="8.875" />
+        <EntityTypeShape EntityType="OnlineStoreModel.OwnerKYC" Width="1.5" PointX="5.25" PointY="13.75" />
+        <EntityTypeShape EntityType="OnlineStoreModel.ProductImages" Width="1.5" PointX="1" PointY="13.125" />
+        <EntityTypeShape EntityType="OnlineStoreModel.Products" Width="1.5" PointX="7.875" PointY="5.5" />
+        <EntityTypeShape EntityType="OnlineStoreModel.States" Width="1.5" PointX="0.75" PointY="6.625" />
         <AssociationConnector Association="OnlineStoreModel.fk_productID_cart" />
         <AssociationConnector Association="OnlineStoreModel.fk_userID_cart" />
-        <EntityTypeShape EntityType="OnlineStoreModel.Orders" Width="1.5" PointX="18.25" PointY="4.375" />
-        <AssociationConnector Association="OnlineStoreModel.fk_productID_order" />
+        <AssociationConnector Association="OnlineStoreModel.fk_shop_city" />
+        <AssociationConnector Association="OnlineStoreModel.fk_user_city" />
+        <AssociationConnector Association="OnlineStoreModel.fk_shop_coupon" />
+        <AssociationConnector Association="OnlineStoreModel.fk_user_state" />
         <AssociationConnector Association="OnlineStoreModel.fk_userID_order" />
-        <EntityTypeShape EntityType="OnlineStoreModel.ProductImages" Width="1.5" PointX="16.25" PointY="7.75" />
+        <AssociationConnector Association="OnlineStoreModel.fk_productID_order" />
+        <AssociationConnector Association="OnlineStoreModel.fk_ownerKYC_shopID" />
+        <AssociationConnector Association="OnlineStoreModel.fk_shop_product" />
+        <AssociationConnector Association="OnlineStoreModel.fk_shop_state" />
         <AssociationConnector Association="OnlineStoreModel.fk_productID" />
       </Diagram>
     </edmx:Diagrams>

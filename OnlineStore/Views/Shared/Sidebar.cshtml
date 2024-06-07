@@ -1,7 +1,7 @@
 ﻿<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/Home/EntryAction">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
         <div class="sidebar-brand-icon rotate-n-15">
             <i class="fas fa-laugh-wink"></i>
         </div>
@@ -17,19 +17,31 @@
             <li class="nav-item active">
                 <a class="nav-link" href="/Owner/GetAllProducts">
                     <i class="fas fa-fw fa-bolt"></i>
-                    <span>List Of Products</span>
+                    <span>Products</span>
                 </a>
             </li>
             <li class="nav-item active">
                 <a class="nav-link" href="/Owner/AddProduct">
-                    <i class="fas fa-fw fa-book"></i>
+                    <i class="fas fa-fw fa-box"></i>
                     <span>Add Product</span>
+                </a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/Owner/AddCoupon">
+                    <i class="fa-solid fa-ticket"></i>
+                    <span>Add Coupon</span>
                 </a>
             </li>
             <li class="nav-item active">
                 <a class="nav-link" href="/Owner/GetRecievedOrders">
                     <i class="fas fa-fw fa-book"></i>
                     <span>Orders Recieved</span>
+                </a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/Owner/UploadDocuments">
+                    <i class="fas fa-fw fa-person"></i>
+                    <span>KYC</span>
                 </a>
             </li>
         }
@@ -55,8 +67,14 @@
             </li>
         }
         <li class="nav-item active">
+            <a class="nav-link" href="/@(TempData.Peek("Role").Equals("Owner") ? "Owner" : "User")/GetAccount">
+                <i class="fa-solid fa-sm fa-user"></i>
+                <span>Account</span>
+            </a>
+        </li>
+        <li class="nav-item active">
             <a class="nav-link" href="/Login/SignOut">
-                <i class="fas fa-fw fa-book"></i>
+                <i class="fa-solid fa-right-from-bracket"></i>
                 <span>Logout</span>
             </a>
         </li>

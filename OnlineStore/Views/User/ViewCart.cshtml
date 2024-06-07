@@ -23,32 +23,25 @@
     function DecrementQuantity(ele, cartID) {
         let element = $(ele).closest('tr').find('.quantity')[0];
         let quantity = parseInt($(element).text());
-        if (quantity > 0) {
-            $.ajax({
-                url: "/User/DecrementQuantity?cartID=" + cartID,
-                type: "POST",
-                dataType: "json",
-                success: function (res) {
-                    debugger
-                    if (quantity == 1) {
-                        $(ele).closest('tr').remove();
-                        $('#holder').html(
-                            `<div class="d-flex flex-column align-items-center ">
-                                <div>
-                                    <img class="" src="https://img.freepik.com/premium-vector/nothing-here-flat-illustration_418302-77.jpg" />
-                                </div>
-                                <p class="fw-bold text-center fs-4">Your cart is empty...</p>
-                            </div>`
-                        )
-                    }
-                    let tar = $(ele).closest('tr').find('.quantity')[0];
-                    $(tar).text(parseInt($(tar).text()) - 1);
-                },
-                error: function (err) {
-
+        $.ajax({
+            url: "/User/DecrementQuantity?cartID=" + cartID,
+            type: "POST",
+            dataType: "json",
+            success: function (res) {
+                debugger
+                if (quantity == 1) {
+                    let ele = $('<a>').attr('href', '/User/ViewCart');
+                    $('body').prepend(ele); 
+                    ele[0].click();
+                    return;
                 }
-            })
-        }
+                let tar = $(ele).closest('tr').find('.quantity')[0];
+                $(tar).text(parseInt($(tar).text()) - 1);
+            },
+            error: function (err) {
+
+            }
+        })
     }
 </script>
 
@@ -79,13 +72,13 @@
                     {
                         <tr>
                             <td>
-                                @Html.DisplayFor(modelItem => item.productName)
-                            </td>
-                            <td class="quantity">
-                                @Html.DisplayFor(modelItem => item.productQuantity)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.productPrice)
+                                @Html.DisplayFor(modelItem => item.ProductName)
+                            </td>                                  
+                            <td class="quantity">                  
+                                @Html.DisplayFor(modelItem => item.ProductQuantity)
+                            </td>                                  
+                            <td>                                   
+                                @Html.DisplayFor(modelItem => item.ProductPrice)
                             </td>
                             <td>
                                 <button type="button" class="btn btn-success btn-sm" onclick="IncrementQuantity(this, @item.CartID)">+</button>

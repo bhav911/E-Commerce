@@ -17,7 +17,7 @@ namespace OnlineStoreModel.Context
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public States()
         {
-            this.Users = new HashSet<Users>();
+            this.Customers = new HashSet<Customers>();
             this.Owner = new HashSet<Owner>();
         }
     
@@ -25,7 +25,7 @@ namespace OnlineStoreModel.Context
         public string StateName { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Users> Users { get; set; }
+        public virtual ICollection<Customers> Customers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Owner> Owner { get; set; }
     }

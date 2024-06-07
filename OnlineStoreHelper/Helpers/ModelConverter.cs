@@ -25,9 +25,9 @@ namespace OnlineStoreHelper.Helpers
             return owner;
         }
 
-        public static Users ConvertNewUserToUser(NewRegistration userModel)
+        public static Customers ConvertNewUserToUser(NewRegistration userModel)
         {
-            Users user = new Users()
+            Customers user = new Customers()
             {
                 username = userModel.Username,
                 CityID = userModel.CityID,
@@ -47,7 +47,7 @@ namespace OnlineStoreHelper.Helpers
                 ProductName = productModel.ProductName,
                 ProductDescription = productModel.ProductDescription,
                 ProductPrice = productModel.ProductPrice,
-                ShopID = shopID,
+                OwnerID = shopID,
                 Availability = productModel.Availability,
                 isDeleted = false
             };
@@ -63,8 +63,8 @@ namespace OnlineStoreHelper.Helpers
                 ProductPrice = (decimal)product.ProductPrice,
                 Availability = (bool)product.Availability,
                 ProductID = product.ProductID,
-                ShopID = (int)product.ShopID,
-                ImageID = product.ProductImages.FirstOrDefault().imageId
+                OwnerID = (int)product.OwnerID,
+                ImageID = product.ProductImages.FirstOrDefault().ImageID
             };
             string paths = product.ProductImages.FirstOrDefault().uniqueImageName;
             if(paths != null && paths.Length > 0)
@@ -105,12 +105,12 @@ namespace OnlineStoreHelper.Helpers
             {
                 OwnerModel ownerModel = new OwnerModel()
                 {
-                    ShopID = owner.ShopID,
-                    shopname = owner.shopname,
-                    email = owner.email,
+                    OwnerID = owner.OwnerID,
+                    Shopname = owner.shopname,
+                    Email = owner.email,
                     State = owner.States.StateName,
                     City = owner.Cities.CityName,
-                    description = owner.Description
+                    Description = owner.Description
                 };
 
                 ownerModelList.Add(ownerModel);
@@ -127,10 +127,10 @@ namespace OnlineStoreHelper.Helpers
             {
                 CartModel cartModel = new CartModel()
                 {
-                    productName = cart.Products.ProductName,
-                    productPrice = (decimal)cart.Products.ProductPrice,
-                    productQuantity = cart.quantity,
-                    CartID = cart.cartID
+                    ProductName = cart.Products.ProductName,
+                    ProductPrice = (decimal)cart.Products.ProductPrice,
+                    ProductQuantity = cart.Quantity,
+                    CartID = cart.CartID
                 };
 
                 cartModelList.Add(cartModel);
@@ -146,9 +146,9 @@ namespace OnlineStoreHelper.Helpers
             {
                 OrderHistoryModel current = new OrderHistoryModel()
                 {
-                    productName = order.Products.ProductName,
-                    productPrice = order.unitPrice,
-                    productQuantity= (int)order.Quantity
+                    ProductName = order.Products.ProductName,
+                    ProductPrice = order.unitPrice,
+                    ProductQuantity= (int)order.Quantity
                 };
                 orderModelList.Add(current);
             }
@@ -165,7 +165,7 @@ namespace OnlineStoreHelper.Helpers
                 {
                     ProductName = order.Products.ProductName,
                     ProductQuantity = (int)order.Quantity,
-                    Email = order.Users.email
+                    Email = order.Customers.email
                 };
                 ordersReceivedModel.Add(orderRecieved);
             }

@@ -15,7 +15,7 @@
         <div class="mb-3">
             <select class="form-select p-3 text-decoration-none text-success fw-bold  border border-success" name="role" onchange="resetForm()" id="role">
                 <option>Select Role</option>
-                <option>Admin</option>
+                <option>Owner</option>
                 <option>Customer</option>
             </select>
             @Html.ValidationMessageFor(m => m.Role, null, new { @class = "text-danger" })
