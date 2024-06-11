@@ -45,7 +45,7 @@ namespace OnlineStore.Controllers
                     Customers user = _user.AuthenticateUser(credential);
                     if (user != null)
                     {
-                        TempData["Role"] = "User";
+                        TempData["Role"] = "Customer";
                         UserSession.UserID = user.CustomerID;
                         UserSession.Username = user.username;
                         UserSession.UserRole = credential.Role;

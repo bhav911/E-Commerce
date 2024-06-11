@@ -14,13 +14,20 @@ namespace OnlineStoreModel.Context
     
     public partial class Orders
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Orders()
+        {
+            this.OrderDetails = new HashSet<OrderDetails>();
+        }
+    
         public int OrderID { get; set; }
-        public Nullable<int> ProductID { get; set; }
-        public Nullable<int> CustomerID { get; set; }
-        public Nullable<int> Quantity { get; set; }
-        public decimal unitPrice { get; set; }
+        public int CustomerID { get; set; }
+        public decimal SubTotal { get; set; }
+        public Nullable<decimal> Discount { get; set; }
+        public decimal TotalPrice { get; set; }
     
         public virtual Customers Customers { get; set; }
-        public virtual Products Products { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OrderDetails> OrderDetails { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OnlineStoreModel.Context;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,9 +9,10 @@ namespace OnlineStoreModel.CustomModels
 {
     public class OrderHistoryModel
     {
-        public string ProductName { get; set; }
-        public int ProductQuantity { get; set; }
-        public decimal ProductPrice { get; set; }
+        public int OrderID { get; set; }
+        public decimal SubTotal { get; set; }
+        public Nullable<decimal> Discount { get; set; }
         public decimal TotalPrice { get; set; }
+        public List<OrderDetailsModel> orderDetails { get; set; }
     }
 }

@@ -73,8 +73,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Helpers\CustomAdminAuthentucateHelperAttribute.cs" />
     <Compile Include="Helpers\CustomAuthorizeHelperAttribute.cs" />
+    <Compile Include="Helpers\CustomOwnerAuthentucateHelperAttribute.cs" />
     <Compile Include="Helpers\CustomUserAuthenticateHelperAttribute.cs" />
     <Compile Include="Helpers\EncryptionDecryptionHelper.cs" />
     <Compile Include="Helpers\ModelConverter.cs" />

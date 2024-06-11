@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 namespace OnlineStoreModel.CustomModels
 {
-    public class OrderModel
-    {
-        public int ProductID { get; set; }
-        public int Quantity { get; set; }
-        public int CustomerID { get; set; }
+    public class OrderDetailsModel
+    {        
+        public string ProductName { get; set; }
+        public int ProductQuantity { get; set; }
         public decimal ProductPrice { get; set; }
-        public int couponApplied { get; set; }
+        public decimal TotalPrice { get; set; }
     }
 }

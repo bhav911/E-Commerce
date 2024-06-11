@@ -12,13 +12,15 @@ namespace OnlineStoreModel.Context
     using System;
     using System.Collections.Generic;
     
-    public partial class Coupons
+    public partial class OrderDetails
     {
-        public int CouponID { get; set; }
-        public string CouponName { get; set; }
-        public decimal CouponDiscount { get; set; }
-        public Nullable<System.DateTime> CouponExpiry { get; set; }
-        public bool Active { get; set; }
-        public Nullable<decimal> MinimumPurchase { get; set; }
+        public int OrderDetailID { get; set; }
+        public int OrderID { get; set; }
+        public Nullable<int> ProductID { get; set; }
+        public Nullable<int> Quantity { get; set; }
+        public decimal unitPrice { get; set; }
+    
+        public virtual Orders Orders { get; set; }
+        public virtual Products Products { get; set; }
     }
 }

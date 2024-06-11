@@ -17,7 +17,6 @@ namespace OnlineStoreModel.Context
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Owner()
         {
-            this.Coupons = new HashSet<Coupons>();
             this.OwnerKYC = new HashSet<OwnerKYC>();
             this.Products = new HashSet<Products>();
         }
@@ -31,8 +30,6 @@ namespace OnlineStoreModel.Context
         public string Description { get; set; }
     
         public virtual Cities Cities { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Coupons> Coupons { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OwnerKYC> OwnerKYC { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

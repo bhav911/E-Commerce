@@ -102,6 +102,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Context\OrderDetails.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Context\Orders.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -121,11 +124,14 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="CustomModels\BuyProductModel.cs" />
+    <Compile Include="CustomModels\CartCouponModel.cs" />
     <Compile Include="CustomModels\CartModel.cs" />
     <Compile Include="CustomModels\CityModel.cs" />
+    <Compile Include="CustomModels\CouponModel.cs" />
     <Compile Include="CustomModels\DocumentModel.cs" />
     <Compile Include="CustomModels\LoginModel.cs" />
     <Compile Include="CustomModels\NewRegistration.cs" />
+    <Compile Include="CustomModels\OrderDetailsModel.cs" />
     <Compile Include="CustomModels\OrderHistoryModel.cs" />
     <Compile Include="CustomModels\OrdersReceivedModel.cs" />
     <Compile Include="CustomModels\OwnerModel.cs" />

@@ -13,5 +13,6 @@ namespace OnlineStoreModel.CustomModels
         public int ProductQuantity { get; set; }
         public decimal ProductPrice {get; set; }
         public decimal TotalPrice { get; set; }
+        public List<CouponModel> CouponList { get; set; }
     }
 }

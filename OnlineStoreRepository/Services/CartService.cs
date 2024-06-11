@@ -60,21 +60,38 @@ namespace OnlineStoreRepository.Services
             List<CART> cartList = db.CART.Where(c => c.CustomerID == userID).ToList();
             return cartList;
         }
-
-        public void ShiftFromCartToOrders(int userID)
+        public void ShiftFromCartToOrders(int userID, int couponApplied)
         {
             List<CART> cartList = db.CART.Where(c => c.CustomerID == userID).ToList();
-            foreach(CART item in cartList)
+            decimal subTotal = 0;
+            List<OrderDetails> orderDetailList = new List<OrderDetails>();
+            foreach (CART item in cartList)
             {
-                Orders newOrder = new Orders()
+                subTotal += (decimal)(item.Quantity * item.Products.ProductPrice);
+                OrderDetails orderDetails = new OrderDetails()
                 {
                     ProductID = item.ProductID,
                     Quantity = item.Quantity,
-                    CustomerID = userID,
-                    unitPrice = (decimal)item.Products.ProductPrice
+                    unitPrice = (decimal)(item.Products.ProductPrice)
                 };
-                db.Orders.Add(newOrder);
+                orderDetailList.Add(orderDetails);
             }
+            Orders order = new Orders()
+            {
+                CustomerID = userID,
+                Discount = couponApplied == -1 ? 0 : db.Coupons.FirstOrDefault(q => q.CouponID == couponApplied).CouponDiscount,
+                SubTotal = subTotal
+            };
+            order.TotalPrice = (decimal)(order.SubTotal - (order.SubTotal * (order.Discount / 100)));
+
+            Orders addedOrder = db.Orders.Add(order);
+            db.SaveChanges();
+            foreach(OrderDetails orderDetails in orderDetailList)
+            {
+                orderDetails.OrderID = addedOrder.OrderID;
+            }
+            db.OrderDetails.AddRange(orderDetailList);
+            db.SaveChanges();            
             foreach (CART item in cartList)
             {
                 db.CART.Remove(item);

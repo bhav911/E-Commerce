@@ -14,19 +14,31 @@ namespace OnlineStoreRepository.Services
         private readonly OnlineStoreEntities db = new OnlineStoreEntities();
         public void AddOrder(OrderModel orderModel)
         {
+            decimal productPrice = (decimal)db.Products.FirstOrDefault(q => q.ProductID == orderModel.ProductID).ProductPrice;
             Orders order = new Orders()
             {
-                ProductID = orderModel.ProductID,
                 CustomerID = orderModel.CustomerID,
-                Quantity = orderModel.Quantity,
-                unitPrice = (decimal)orderModel.ProductPrice
+                Discount = orderModel.couponApplied == -1 ? 0 : db.Coupons.FirstOrDefault(q => q.CouponID == orderModel.couponApplied).CouponDiscount,
+                SubTotal = productPrice * orderModel.Quantity
             };
-            var status = db.Orders.Add(order);
+            order.TotalPrice = (decimal)(order.SubTotal - (order.SubTotal * (order.Discount / 100)));
+            Orders addedOrder = db.Orders.Add(order);
+            db.SaveChanges();
+
+            OrderDetails orderDetails = new OrderDetails()
+            {
+                OrderID = addedOrder.OrderID,
+                Quantity = orderModel.Quantity,
+                ProductID = orderModel.ProductID,
+                unitPrice = productPrice
+            };
+
+            db.OrderDetails.Add(orderDetails);
             db.SaveChanges();
         }
         public List<Orders> GetOrderDetail(int userID)
         {
-            List<Orders> ordersList = db.Orders.Where(o => o.CustomerID == userID).ToList();
+            List<Orders> ordersList = db.Orders.Where(q => q.CustomerID == userID).ToList();
             return ordersList;
         }
     }

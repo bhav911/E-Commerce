@@ -26,12 +26,7 @@
                     <span>Add Product</span>
                 </a>
             </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="/Owner/AddCoupon">
-                    <i class="fa-solid fa-ticket"></i>
-                    <span>Add Coupon</span>
-                </a>
-            </li>
+
             <li class="nav-item active">
                 <a class="nav-link" href="/Owner/GetRecievedOrders">
                     <i class="fas fa-fw fa-book"></i>
@@ -45,7 +40,7 @@
                 </a>
             </li>
         }
-        else
+        else if (TempData.ContainsKey("Role") && TempData.Peek("Role").Equals("Customer"))
         {
             <li class="nav-item active">
                 <a class="nav-link" href="/User/ShopList">
@@ -66,18 +61,37 @@
                 </a>
             </li>
         }
-        <li class="nav-item active">
-            <a class="nav-link" href="/@(TempData.Peek("Role").Equals("Owner") ? "Owner" : "User")/GetAccount">
-                <i class="fa-solid fa-sm fa-user"></i>
-                <span>Account</span>
-            </a>
-        </li>
-        <li class="nav-item active">
-            <a class="nav-link" href="/Login/SignOut">
-                <i class="fa-solid fa-right-from-bracket"></i>
-                <span>Logout</span>
-            </a>
-        </li>
+        else
+        {
+            <li class="nav-item active">
+                <a class="nav-link" href="/Admin/Coupons">
+                    <i class="fa-solid fa-ticket"></i>
+                    <span>All Coupons</span>
+                </a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/Admin/AddCoupon">
+                    <i class="fa-solid fa-ticket"></i>
+                    <span>Add Coupon</span>
+                </a>
+            </li>
+        }
+        if (TempData.ContainsKey("Role"))
+        {
+            <li class="nav-item active">
+                <a class="nav-link" href="/@(TempData.Peek("Role").Equals("Owner") ? "Owner" : "User")/GetAccount">
+                    <i class="fa-solid fa-sm fa-user"></i>
+                    <span>Account</span>
+                </a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/Login/SignOut">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Logout</span>
+                </a>
+            </li>
+
+        }
     }
 
 

@@ -225,6 +225,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\OwnerController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -380,6 +381,8 @@
     <Content Include="Views\Owner\GetRecievedOrders.cshtml" />
     <Content Include="Views\Shared\Unauthorize.cshtml" />
     <Content Include="Views\Owner\UploadDocuments.cshtml" />
+    <Content Include="Views\Admin\AddCoupon.cshtml" />
+    <Content Include="Views\Admin\Coupons.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

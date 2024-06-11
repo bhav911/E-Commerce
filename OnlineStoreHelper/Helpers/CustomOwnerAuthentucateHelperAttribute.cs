@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace OnlineStoreHelper.Helpers
 {
-    public class CustomAdminAuthentucateHelperAttribute : AuthorizeAttribute
+    public class CustomOwnerAuthentucateHelperAttribute : AuthorizeAttribute
     {
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {

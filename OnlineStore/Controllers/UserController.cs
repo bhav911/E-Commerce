@@ -22,6 +22,7 @@ namespace OnlineStore.Controllers
         private readonly ProductService _product = new ProductService();
         private readonly OrderService _order = new OrderService();
         private readonly CartService _cart = new CartService();
+        private readonly CouponService _coupon = new CouponService();
         public ActionResult ShopList()
         {
             List<Owner> shopList = _owner.GetAllShops();
@@ -86,7 +87,27 @@ namespace OnlineStore.Controllers
         {
             List<CART> orderDetailList = _cart.GetOrderDetail(UserSession.UserID);
             List<CartModel> orderDetailModelList = ModelConverter.ConvertCartListToCartListModel(orderDetailList);
-            return View(orderDetailModelList);
+            List<Coupons> couponList = _coupon.GetCoupons();
+            List<CouponModel> couponModelList = ModelConverter.ConvertCouponListToCouponModelList(couponList);
+            CartCouponModel cartCouponModel = new CartCouponModel()
+            {
+                CartModelList = orderDetailModelList,
+                CouponModelList = couponModelList
+            };
+            cartCouponModel.TotalPrice = CalculateTotalPrice(orderDetailModelList);
+            return View(cartCouponModel);
+        }
+
+        [NonAction]
+        private decimal CalculateTotalPrice(List<CartModel> orderDetailModelList)
+        {
+            decimal total = 0;
+            foreach(var item in orderDetailModelList)
+            {
+                total += item.ProductQuantity * item.ProductPrice;
+            }
+
+            return total;
         }
 
         public ActionResult GetOrdersPlaced()
@@ -96,9 +117,10 @@ namespace OnlineStore.Controllers
             return View(orderPlacedModelList);
         }
 
-        public ActionResult Checkout()
+        [HttpPost]
+        public ActionResult Checkout(int couponApplied = -1)
         {
-            _cart.ShiftFromCartToOrders(UserSession.UserID);
+                _cart.ShiftFromCartToOrders(UserSession.UserID, couponApplied);
             return RedirectToAction("ShopList");
         }
 

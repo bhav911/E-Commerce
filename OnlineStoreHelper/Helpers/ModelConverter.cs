@@ -146,31 +146,80 @@ namespace OnlineStoreHelper.Helpers
             {
                 OrderHistoryModel current = new OrderHistoryModel()
                 {
-                    ProductName = order.Products.ProductName,
-                    ProductPrice = order.unitPrice,
-                    ProductQuantity= (int)order.Quantity
+                    SubTotal = order.SubTotal,
+                    Discount = order.Discount,
+                    TotalPrice = order.TotalPrice,
+                    orderDetails = new List<OrderDetailsModel>(),
+                    OrderID = order.OrderID
                 };
+
+                List<OrderDetails> orderDetailList = order.OrderDetails.ToList();
+                foreach(OrderDetails orderDetails in orderDetailList)
+                {
+                    OrderDetailsModel orderModel = new OrderDetailsModel()
+                    {
+                        ProductName = orderDetails.Products.ProductName,
+                        ProductPrice = orderDetails.unitPrice,
+                        ProductQuantity = (int)orderDetails.Quantity,
+                        TotalPrice = (decimal)(orderDetails.unitPrice * orderDetails.Quantity),
+                    };
+                    current.orderDetails.Add(orderModel);
+                }
                 orderModelList.Add(current);
             }
-            return orderModelList;
+            return orderModelList.OrderByDescending(q => q.OrderID).ToList();
         }
 
-        public static List<OrdersReceivedModel> ConvertOrdersReceivedToOrdersrecievedModel(List<Orders> ordersRecieved)
+        public static List<OrdersReceivedModel> ConvertOrdersReceivedToOrdersrecievedModel(List<OrderDetails> ordersRecieved)
         {
             List<OrdersReceivedModel> ordersReceivedModel = new List<OrdersReceivedModel>();
 
-            foreach(Orders order in ordersRecieved)
+            foreach(OrderDetails order in ordersRecieved)
             {
                 OrdersReceivedModel orderRecieved = new OrdersReceivedModel()
                 {
                     ProductName = order.Products.ProductName,
                     ProductQuantity = (int)order.Quantity,
-                    Email = order.Customers.email
+                    Email = order.Orders.Customers.email
                 };
                 ordersReceivedModel.Add(orderRecieved);
             }
 
             return ordersReceivedModel;
         }        
+
+        public static Coupons ConvertCouponModelToCoupon(CouponModel couponModel, int ownerID)
+        {
+            Coupons coupons = new Coupons()
+            {
+                Active = couponModel.Active,
+                CouponDiscount = couponModel.CouponDiscount,
+                CouponExpiry = couponModel.CouponExpiry,
+                CouponName = couponModel.CouponName,
+                MinimumPurchase = couponModel.MinimunPurchase,
+            };
+            return coupons;
+        }
+
+        public static List<CouponModel> ConvertCouponListToCouponModelList(List<Coupons> couponList)
+        {
+            List<CouponModel> couponModelList = new List<CouponModel>();
+            foreach(Coupons coupon in couponList)
+            {
+                CouponModel couponModel = new CouponModel()
+                {
+                    Active = coupon.Active,
+                    CouponDiscount = coupon.CouponDiscount,
+                    CouponExpiry = (System.DateTime)coupon.CouponExpiry,
+                    CouponID = coupon.CouponID,
+                    CouponName = coupon.CouponName,
+                    MinimunPurchase = (decimal)coupon.MinimumPurchase,
+                };
+
+                couponModelList.Add(couponModel);
+            }
+
+            return couponModelList;
+        }
     }
 }

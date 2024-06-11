@@ -24,5 +24,7 @@ namespace OnlineStoreModel.CustomModels
         public List<HttpPostedFileBase> productImages { get; set; }
         public string[] ImagePaths { get; set; }
         public int? ImageID { get; set; }
+        public List<CouponModel> CouponModelList { get; set; }
+        public int couponApplied { get; set; }
     }
 }

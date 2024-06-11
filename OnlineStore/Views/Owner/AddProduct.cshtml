@@ -27,7 +27,7 @@
         <div class="row">
             <div class="col-9">
                 <div class="form-floating mb-3">
-                    @Html.TextAreaFor(p => p.ProductDescription, 5, 110, new { @class = "border rounded-2 border-2 px-2 py-5", @placeholder = "" })
+                    @Html.TextAreaFor(p => p.ProductDescription, 5, 150, new { @class = "border rounded-2 border-2 px-2 py-5", @placeholder = "" })
                     @Html.LabelFor(p => p.ProductDescription, "Product Description")
                     @Html.ValidationMessageFor(p => p.ProductDescription, null, new { @class = "text-danger" })
                 </div>
@@ -53,7 +53,7 @@
                             foreach (var image in Model.ImagePaths)
                             {
                                 <div class="p-3 imageDiv position-relative">
-                                    <img src="~/Content/ProductImages/@image" image-name="@image" style="width:100px; height:100px" class="border border-dark" />
+                                    <img src="~/Content/ProductImages/@image" image-name="@image" style="width:100px; height:100px" class="border border-dark rounded-2" />
                                     <button type="button" class="btn btn-danger position-absolute btn-sm rounded-circle translate-middle-x translate-middle-y end-0 edit-del-btn">&times;</button>
                                 </div>
                             }
@@ -103,7 +103,7 @@
                     debugger
                     const reader = new FileReader();
                     reader.onload = function (e) {
-                        let image = $('<img>').attr('src', e.target.result).css({ 'width': '100px', 'height': '100px' }).addClass('border border-dark')
+                        let image = $('<img>').attr('src', e.target.result).css({ 'width': '100px', 'height': '100px' }).addClass('border border-secondary rounded-5')
                         let deleteBtn = $('<button>').addClass('btn btn-danger btn-sm position-absolute translate-middle-x translate-middle-y rounded-circle end-0').text('x').attr('type', 'button')
                             .on('click', function () {
                                 $(this).parent().remove();

@@ -30,11 +30,93 @@
     </div>
 </div>
 <form method="post" class="text-end">
-    <input type="text" name="productID" hidden value="@Model.ProductID"/>
-    <input type="text" name="shopID" hidden value="@Model.OwnerID"/>
-    <input type="text" name="ProductPrice" hidden value="@Model.ProductPrice"/>
+    <input type="text" name="productID" hidden value="@Model.ProductID" />
+    <input type="text" name="shopID" hidden value="@Model.OwnerID" />
+    <input type="text" name="ProductPrice" hidden value="@Model.ProductPrice" />
     <label class="fw-bold">Quantity:</label>
-    <input type="number" class="" name="quantity" value="1" min="0"/>
-    <button type="submit" class="btn btn-success">Buy</button>
-    @Html.ActionLink("Cancel", "GetAllProducts","User", new { @shopID = Model.OwnerID }, new { @class="btn btn-secondary"}) 
+    <input type="number" class="" name="quantity" value="1" min="0" />
+    <button type="button" class="btn btn-success" id="reviewBtn" data-bs-toggle="modal" data-bs-target="#reviewModal">Review</button>
+    @Html.ActionLink("Cancel", "GetAllProducts", "User", new { @shopID = Model.OwnerID }, new { @class = "btn btn-secondary" })
+    <div class="modal fade text-start" id="reviewModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Review Order</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h3>
+                            @Model.ProductName
+                        </h3>
+                        <p class="fs-2 text-primary fw-bold">
+                            @Model.ProductPrice
+                        </p>
+                    </div>
+                    <div>
+                        <p>Quantity:<span id="modelQuantity"></span></p>
+
+                        <p>Sub Total:<span id="modelSubTotal"></span></p>
+
+                        <p>Discount:<span id="modelDiscount"></span></p>
+
+                        <p>Total Price:<span id="modelTotatPrice"></span></p>
+
+                    </div>
+                    <div>
+                        <select name="couponApplied" class="form-select" id="CouponHolder">
+                            <option>Apply Coupon</option>
+                        </select>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success">Buy</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </form>
+
+
+<script>
+
+    $('#CouponHolder').on('change', function () {
+        let discount = parseInt($(this).find('option:selected').attr('disc'));
+        $('#modelDiscount').text(discount);
+        debugger
+        let subtotal = parseInt($('#modelSubTotal').text())
+        $('#modelTotatPrice').text(subtotal - (subtotal * (discount / 100)))
+    })
+
+    $('#reviewBtn').on('click', function () {
+        $('#modelDiscount').text("")
+        $('#modelTotatPrice').text("")
+        let quantity = parseInt($('[name="quantity"]').val())
+        let unitPrice = parseInt($('[name="ProductPrice"]').val())
+        let price = unitPrice * quantity
+        $('#modelQuantity').text(quantity)
+        $('#modelSubTotal').text(price)
+        $.ajax({
+            url: "/Admin/Coupons",
+            method: "GET",
+            contentType: "json",
+            success: function (coupon) {
+                debugger
+                let select = $('#CouponHolder');
+                $(select).empty()
+                $(select).append(`<option value='-1'>Apply Coupon</option>`)
+                $.each(coupon, (ind, ele) => {
+                    if (ele.MinimunPurchase < price)
+                        $(select).append(`
+                            <option value='${ele.CouponID}' disc='${ele.CouponDiscount}'> ${ele.CouponName}</option>
+                        `)
+                })
+            },
+            error: function (err) {
+
+            }
+        })
+    })
+</script>

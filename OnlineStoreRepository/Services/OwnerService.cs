@@ -27,9 +27,9 @@ namespace OnlineStoreRepository.Services
             List<Owner> allShops = db.Owner.ToList();
             return allShops;
         }
-        public List<Orders> GetReceivedOrders(int ownerID)
+        public List<OrderDetails> GetReceivedOrders(int ownerID)
         {
-            List<Orders> orderList = db.Orders.Where(o => o.Products.OwnerID == ownerID).ToList();
+            List<OrderDetails> orderList = db.OrderDetails.Where(q => q.Products.OwnerID == ownerID).ToList();
             return orderList;
         }
         public void SaveDocuments(string[] docs, int userID)
