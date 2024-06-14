@@ -1,0 +1,75 @@
+C:\Users\sit410\source\repos\OnlineStore\OnlineStoreModel\bin\Debug\OnlineStoreModel.dll.config
+C:\Users\sit410\source\repos\OnlineStore\OnlineStoreModel\bin\Debug\OnlineStoreModel.dll
+C:\Users\sit410\source\repos\OnlineStore\OnlineStoreModel\bin\Debug\OnlineStoreModel.pdb
+C:\Users\sit410\source\repos\OnlineStore\OnlineStoreModel\bin\Debug\EntityFramework.dll
+C:\Users\sit410\source\repos\OnlineStore\OnlineStoreModel\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\sit410\source\repos\OnlineStore\OnlineStoreModel\bin\Debug\EntityFramework.xml
+C:\Users\sit410\source\repos\OnlineStore\OnlineStoreModel\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\sit410\source\repos\OnlineStore\OnlineStoreModel\obj\Debug\OnlineStoreModel.csproj.AssemblyReference.cache
+C:\Users\sit410\source\repos\OnlineStore\OnlineStoreModel\obj\Debug\OnlineStoreModel.csproj.CoreCompileInputs.cache
+C:\Users\sit410\source\repos\OnlineStore\OnlineStoreModel\obj\Debug\OnlineStoreModel.csproj.CopyComplete
+C:\Users\sit410\source\repos\OnlineStore\OnlineStoreModel\obj\Debug\OnlineStoreModel.dll
+C:\Users\sit410\source\repos\OnlineStore\OnlineStoreModel\obj\Debug\OnlineStoreModel.pdb
+C:\Users\sit410\source\repos\OnlineStore\OnlineStoreModel\bin\Debug\Microsoft.Web.Infrastructure.dll
+C:\Users\sit410\source\repos\OnlineStore\OnlineStoreModel\bin\Debug\System.Web.Helpers.dll
+C:\Users\sit410\source\repos\OnlineStore\OnlineStoreModel\bin\Debug\System.Web.Mvc.dll
+C:\Users\sit410\source\repos\OnlineStore\OnlineStoreModel\bin\Debug\System.Web.Razor.dll
+C:\Users\sit410\source\repos\OnlineStore\OnlineStoreModel\bin\Debug\System.Web.WebPages.Deployment.dll
+C:\Users\sit410\source\repos\OnlineStore\OnlineStoreModel\bin\Debug\System.Web.WebPages.dll
+C:\Users\sit410\source\repos\OnlineStore\OnlineStoreModel\bin\Debug\System.Web.WebPages.Razor.dll
+C:\Users\sit410\source\repos\OnlineStore\OnlineStoreModel\bin\Debug\System.Web.Helpers.xml
+C:\Users\sit410\source\repos\OnlineStore\OnlineStoreModel\bin\Debug\System.Web.Mvc.xml
+C:\Users\sit410\source\repos\OnlineStore\OnlineStoreModel\bin\Debug\System.Web.Razor.xml
+C:\Users\sit410\source\repos\OnlineStore\OnlineStoreModel\bin\Debug\System.Web.WebPages.xml
+C:\Users\sit410\source\repos\OnlineStore\OnlineStoreModel\bin\Debug\System.Web.WebPages.Deployment.xml
+C:\Users\sit410\source\repos\OnlineStore\OnlineStoreModel\bin\Debug\System.Web.WebPages.Razor.xml
+D:\dotnet\OnlineStore\E-Commerce\OnlineStoreModel\bin\Debug\OnlineStoreModel.dll.config
+D:\dotnet\OnlineStore\E-Commerce\OnlineStoreModel\bin\Debug\OnlineStoreModel.dll
+D:\dotnet\OnlineStore\E-Commerce\OnlineStoreModel\bin\Debug\OnlineStoreModel.pdb
+D:\dotnet\OnlineStore\E-Commerce\OnlineStoreModel\bin\Debug\EntityFramework.dll
+D:\dotnet\OnlineStore\E-Commerce\OnlineStoreModel\bin\Debug\EntityFramework.SqlServer.dll
+D:\dotnet\OnlineStore\E-Commerce\OnlineStoreModel\bin\Debug\Microsoft.Web.Infrastructure.dll
+D:\dotnet\OnlineStore\E-Commerce\OnlineStoreModel\bin\Debug\System.Web.Helpers.dll
+D:\dotnet\OnlineStore\E-Commerce\OnlineStoreModel\bin\Debug\System.Web.Mvc.dll
+D:\dotnet\OnlineStore\E-Commerce\OnlineStoreModel\bin\Debug\System.Web.Razor.dll
+D:\dotnet\OnlineStore\E-Commerce\OnlineStoreModel\bin\Debug\System.Web.WebPages.Deployment.dll
+D:\dotnet\OnlineStore\E-Commerce\OnlineStoreModel\bin\Debug\System.Web.WebPages.dll
+D:\dotnet\OnlineStore\E-Commerce\OnlineStoreModel\bin\Debug\System.Web.WebPages.Razor.dll
+D:\dotnet\OnlineStore\E-Commerce\OnlineStoreModel\bin\Debug\EntityFramework.xml
+D:\dotnet\OnlineStore\E-Commerce\OnlineStoreModel\bin\Debug\EntityFramework.SqlServer.xml
+D:\dotnet\OnlineStore\E-Commerce\OnlineStoreModel\bin\Debug\System.Web.Helpers.xml
+D:\dotnet\OnlineStore\E-Commerce\OnlineStoreModel\bin\Debug\System.Web.Mvc.xml
+D:\dotnet\OnlineStore\E-Commerce\OnlineStoreModel\bin\Debug\System.Web.Razor.xml
+D:\dotnet\OnlineStore\E-Commerce\OnlineStoreModel\bin\Debug\System.Web.WebPages.xml
+D:\dotnet\OnlineStore\E-Commerce\OnlineStoreModel\bin\Debug\System.Web.WebPages.Deployment.xml
+D:\dotnet\OnlineStore\E-Commerce\OnlineStoreModel\bin\Debug\System.Web.WebPages.Razor.xml
+D:\dotnet\OnlineStore\E-Commerce\OnlineStoreModel\obj\Debug\OnlineStoreModel.csproj.CoreCompileInputs.cache
+D:\dotnet\OnlineStore\E-Commerce\OnlineStoreModel\obj\Debug\OnlineStoreModel.csproj.CopyComplete
+D:\dotnet\OnlineStore\E-Commerce\OnlineStoreModel\obj\Debug\OnlineStoreModel.dll
+D:\dotnet\OnlineStore\E-Commerce\OnlineStoreModel\obj\Debug\OnlineStoreModel.pdb
+D:\dotnet\OnlineStore\E-Commerce\OnlineStoreModel\obj\Debug\OnlineStoreModel.csproj.AssemblyReference.cache
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreModel\bin\Debug\OnlineStoreModel.dll.config
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreModel\bin\Debug\OnlineStoreModel.dll
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreModel\bin\Debug\OnlineStoreModel.pdb
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreModel\bin\Debug\EntityFramework.dll
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreModel\bin\Debug\EntityFramework.SqlServer.dll
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreModel\bin\Debug\Microsoft.Web.Infrastructure.dll
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreModel\bin\Debug\System.Web.Helpers.dll
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreModel\bin\Debug\System.Web.Mvc.dll
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreModel\bin\Debug\System.Web.Razor.dll
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreModel\bin\Debug\System.Web.WebPages.Deployment.dll
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreModel\bin\Debug\System.Web.WebPages.dll
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreModel\bin\Debug\System.Web.WebPages.Razor.dll
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreModel\bin\Debug\EntityFramework.xml
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreModel\bin\Debug\EntityFramework.SqlServer.xml
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreModel\bin\Debug\System.Web.Helpers.xml
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreModel\bin\Debug\System.Web.Mvc.xml
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreModel\bin\Debug\System.Web.Razor.xml
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreModel\bin\Debug\System.Web.WebPages.xml
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreModel\bin\Debug\System.Web.WebPages.Deployment.xml
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreModel\bin\Debug\System.Web.WebPages.Razor.xml
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreModel\obj\Debug\OnlineStoreModel.csproj.AssemblyReference.cache
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreModel\obj\Debug\OnlineStoreModel.csproj.CoreCompileInputs.cache
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreModel\obj\Debug\OnlineStoreModel.csproj.CopyComplete
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreModel\obj\Debug\OnlineStoreModel.dll
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce\OnlineStoreModel\obj\Debug\OnlineStoreModel.pdb

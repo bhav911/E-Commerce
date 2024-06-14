@@ -1,0 +1,172 @@
+﻿@model OnlineStoreModel.CustomModels.DocumentModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    <form method="post" id="signup" enctype="multipart/form-data">
+        @{
+            <div class="border border-black p-5">
+                <h3 class="mb-5">Your Documents:</h3>
+                <div class="row flex-column gap-3">                   
+                    
+                    <div class="border border-black p-3 col-3 rounded-5 gap-3">
+                                <p class="fw-bold d-inline">Pan Card:</p>
+                        <div class="d-flex">
+                            @{
+                                if (Model.DocPaths[0] == null)
+                                {
+                                    <input type="file" name="PanCard" />
+                                    <button type="button" class="btn btn-danger btn-sm erase-btn">clear</button>
+                                }
+                            }
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <div class="d-flex gap-2">
+                                @{
+                                    if (Model.DocPaths[0] != null)
+                                    {
+                                        <button type="button" class="btn btn-primary btn-sm viewPDF" data-bs-toggle="modal" data-file="@Model.DocPaths[0]" doc="0" data-bs-target="#pdfModal">View</button>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="border border-black p-3 col-3 rounded-5 gap-3">
+                        <p class="fw-bold d-inline">Aadhar Card:</p>
+                        <div class="d-flex">
+                            @{
+                                if (Model.DocPaths[1] == null)
+                                {
+                                    <input type="file" name="AadharCard" />
+                                    <button type="button" class="btn btn-danger btn-sm erase-btn">clear</button>
+                                }
+                            }
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <div class="d-flex gap-2">
+                                @{
+                                    if (Model.DocPaths[1] != null)
+                                    {
+                                        <button type="button" class="btn btn-primary btn-sm viewPDF" data-bs-toggle="modal" data-file="@Model.DocPaths[1]" doc="3" data-bs-target="#pdfModal">View</button>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="border border-black p-3 col-3 rounded-5 gap-3">
+                        <p class="fw-bold d-inline">Passport Image:</p>
+                        <div class="d-flex">
+                            @{
+                                if (Model.DocPaths[2] == null)
+                                {
+                                    <input type="file" name="PassportImage" />
+                                    <button type="button" class="btn btn-danger btn-sm erase-btn">clear</button>
+                                }
+                            }
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <div class="d-flex gap-2">
+                                @{
+                                    if (Model.DocPaths[2] != null)
+                                    {
+                                        <button type="button" class="btn btn-primary btn-sm viewIMG" data-bs-toggle="modal" data-file="@Model.DocPaths[2]" doc="3" data-bs-target="#imgModal">View</button>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="border border-black p-3 col-3 rounded-5 gap-3">
+                        <p class="fw-bold d-inline">Shop Image:</p>
+                        <div class="d-flex">
+                            @{
+                                if (Model.DocPaths[3] == null)
+                                {
+                                    <input type="file" name="ShopImage" />
+                                    <button type="button" class="btn btn-danger btn-sm erase-btn">clear</button>
+                                }
+                            }
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <div class="d-flex gap-2">
+                                @{
+                                    if (Model.DocPaths[3] != null)
+                                    {
+                                        <button type="button" class="btn btn-primary btn-sm viewIMG" data-bs-toggle="modal" data-file="@Model.DocPaths[3]" doc="3" data-bs-target="#imgModal">View</button>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="modal fade" id="pdfModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="staticBackdropLabel">Aadhar Card</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <embed type="application/pdf" style="width: 100%; height: 600px; " />
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="imgModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="staticBackdropLabel">12 Marksheet</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <img style="width: 100%; height: 600px; " />
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    <div class="d-flex justify-content-center my-3 gap-2">
+        @{
+            if (Model.DocPaths[0] == null || Model.DocPaths[1] == null || Model.DocPaths[2] == null || Model.DocPaths[3] == null)
+            {
+                <button type="submit" class="btn btn-success">Save</button>
+            }
+        }
+    </div>
+    </form>
+</div>
+
+
+<script>
+
+    $('.viewPDF').on('click', function () {
+        debugger
+        $('#pdfModal').find('embed').attr('src', `/Content/KYC/PDFs/${$(this).attr('data-file')}`)
+        let ele = $('#pdfModal').find('.delete-doc')[0]
+        $(ele).attr('doc', $(this).attr('doc'))
+    })
+
+    $('.viewIMG').on('click', function () {
+        debugger
+        $('#imgModal').find('img').attr('src', `/Content/KYC/IMGs/${$(this).attr('data-file')}`)
+        let ele = $('#imgModal').find('.delete-doc')[0]
+        $(ele).attr('doc', $(this).attr('doc'))
+    })
+
+
+    $('.erase-btn').on('click', function () {
+        let file = this.previousElementSibling;
+        $(file).val("");
+    })
+</script>

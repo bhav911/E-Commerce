@@ -1,0 +1,10 @@
+﻿
+
+.table > :not(caption) > * > * {
+    border-bottom-width: 0px !important;
+}
+
+#ProductDescription {
+    /*width: max(100%, 150px);*/
+    width: 100%;
+}

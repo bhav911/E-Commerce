@@ -1,0 +1,61 @@
+﻿@model OnlineStoreModel.CustomModels.CartCouponModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div>
+    <form method="POST" action="/User/Checkout">
+        <h3 class="mb-5 fw-bold text-center">Order Details</h3>
+        <div>
+            <select name="couponApplied" class="form-select" id="CouponHolder">
+                <option>Apply Coupon</option>
+                @{
+                    foreach (var coupon in Model.CouponModelList)
+                    {
+                        if (coupon.MinimunPurchase < Model.TotalPrice)
+                        {
+                            <option value="@coupon.CouponID">@coupon.CouponName</option>
+                        }
+                    }
+                }
+            </select>
+        </div>
+        <table class="table table-borderless">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Unit Price</th>
+                    <th>Quantity</th>
+                    <th>Total Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.CartModelList)
+                {
+                    <tr>
+                        <td>@item.ProductName</td>
+                        <td>@item.ProductPrice</td>
+                        <td>@item.ProductQuantity</td>
+                        <td>@(@item.ProductPrice * @item.ProductQuantity)</td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                @{
+                    <tr class="table-secondary">
+                        <td></td>
+                        <td></td>
+                        <td class="fw-bold">Total:</td>
+                        <td>@Model.TotalPrice</td>
+                    </tr>
+                }
+            </tfoot>
+        </table>
+
+        <div class="d-flex justify-content-center">
+            <button type="submit" class="btn btn-success">Checkout</button>
+        </div>
+    </form>
+</div>

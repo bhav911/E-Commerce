@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/Content/Theme/sb-admin-2.css" />
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/Scripts/jquery-3.4.1.js"></script>
+</head>
+<body>
+    <div id="cart-toast" class="position-fixed top-0 end-0 p-3" style="z-index: 11">
+        <div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header bg-primary py-2 px-3">
+                <strong class="me-auto fs-4 text-white">Added to Cart</strong>
+                @Html.ActionLink("View", "ViewCart", "User", new { @class = "btn btn-light btn-sm" })
+            </div>
+        </div>
+    </div>
+
+
+
+    <div id="wrapper" class="position-relative">
+
+        @Html.Partial("Sidebar")
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <section style="padding: 2em 0;">
+                    <div class="container-fluid">
+                        <div class="row justify-content-center">
+                            <div class="col-12">
+                                <div class="wrap border" style="box-shadow: 0px 10px 34px -15px rgba(0, 0, 0, 0.24); background: #fff; border-radius: 5px; ">
+                                    <div class="login-wrap p-4 p-md-5">
+                                        @RenderBody()
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+            <!-- End of Main Content -->
+
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <script src="~/Content/Theme/sb-admin-2.js"></script>
+</body>
+</html>

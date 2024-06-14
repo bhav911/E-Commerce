@@ -1,0 +1,130 @@
+﻿@model OnlineStoreModel.CustomModels.ProductModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    <h3 class="text-center mb-5">Add Product</h3>
+    <form method="post" enctype="multipart/form-data">
+        @Html.TextBoxFor(p => p.ImageID, new { @class = "form-control", @placeholder = "", @type = "hidden" })
+        <div class="row">
+            <div class="col-6">
+                <div class="form-floating mb-3">
+                    @Html.TextBoxFor(p => p.ProductName, new { @class = "form-control", @placeholder = "" })
+                    @Html.LabelFor(p => p.ProductName, "Product Name")
+                    @Html.ValidationMessageFor(p => p.ProductName, null, new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-floating mb-3">
+                    @Html.TextBoxFor(p => p.ProductPrice, new { @class = "form-control", @placeholder = "", @type = "number", @step = "0.01" })
+                    @Html.LabelFor(p => p.ProductPrice, "Product Price")
+                    @Html.ValidationMessageFor(p => p.ProductPrice, null, new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-9">
+                <div class="form-floating mb-3">
+                    @Html.TextAreaFor(p => p.ProductDescription, 5, 150, new { @class = "border rounded-2 border-2 px-2 py-5", @placeholder = "" })
+                    @Html.LabelFor(p => p.ProductDescription, "Product Description")
+                    @Html.ValidationMessageFor(p => p.ProductDescription, null, new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-floating mb-3 border p-3 rounded-3">
+                    <span>Available ? &nbsp;</span>
+                    @Html.CheckBoxFor(p => p.Availability, new { @class = "form-check-input ms-auto" })
+                </div>
+            </div>
+            <div id="fileHolder">
+
+            </div>
+            <div class="d-flex gap-3">
+                <div>
+                    <label class="d-flex flex-column gap-3 justify-content-center align-items-center mt-3 pt-3" style="width:100px;height:100px;" id="add_image_btn"><i class="fa-regular fa-square-plus fa-2xl"></i><span>Add Images</span></label>
+                </div>
+                <div id="image_holder" class="d-flex gap-3 flex-nowrap w-100" style="overflow-x:auto">
+                    @{
+                        if (Model != null && Model.ImagePaths != null)
+                        {
+                            <input hidden name="ImagePaths" id="imagesToDelete" />
+                            foreach (var image in Model.ImagePaths)
+                            {
+                                <div class="p-3 imageDiv position-relative">
+                                    <img src="~/Content/ProductImages/@image" image-name="@image" style="width:100px; height:100px" class="border border-dark rounded-2" />
+                                    <button type="button" class="btn btn-danger position-absolute btn-sm rounded-circle translate-middle-x translate-middle-y end-0 edit-del-btn">&times;</button>
+                                </div>
+                            }
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="d-flex justify-content-center gap-2 mt-5">
+            @{
+                if (Model == null)
+                {
+                    <button type="submit" class="btn btn-success ">Add</button>
+                }
+                else
+                {
+                    <button type="submit" class="btn btn-success ">Save</button>
+                }
+            }
+            @Html.ActionLink("Cancel", "GetAllProducts", "Owner", null, new { @class = "btn btn-secondary" });
+        </div>
+    </form>
+</div>
+
+<style>
+    #add_image_btn {
+        border: 2px dashed gray;
+        cursor: pointer;
+    }
+</style>
+
+
+<script>
+    $('#add_image_btn').on('click', function (event) {
+        let input = $('<input>').attr({ 'type': 'file', 'name': 'ProductImages' }).addClass("productImages d-none")
+            .appendTo('#fileHolder')
+            .click()
+            .change(function () {
+                debugger
+                let count = $('.imageDiv').length;
+                if (count > 10) {
+                    alert('Only 10 images allowed')
+                    return;
+                }
+                let file = this.files[0];
+                if (file && file.type.startsWith('image/')) {
+                    debugger
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        let image = $('<img>').attr('src', e.target.result).css({ 'width': '100px', 'height': '100px' }).addClass('border border-secondary rounded-5')
+                        let deleteBtn = $('<button>').addClass('btn btn-danger btn-sm position-absolute translate-middle-x translate-middle-y rounded-circle end-0').text('x').attr('type', 'button')
+                            .on('click', function () {
+                                $(this).parent().remove();
+                                $(input).remove();
+                            })
+                        let div = $('<div>').addClass('position-relative p-3 imageDiv')
+                        $(div).append(image);
+                        $(div).append(deleteBtn);
+                        $('#image_holder').append(div);
+                    }
+                    reader.readAsDataURL(file);
+                }
+            })
+    });
+
+    $('.edit-del-btn').on('click', function () {
+        debugger
+        let image_name = $(this).prev().attr('image-name');
+        let inp = $('#imagesToDelete');
+        $(inp).val($(inp).val() + "," + image_name);
+        let parent = $(this).parent();
+        $(parent).remove();
+    })
+</script>

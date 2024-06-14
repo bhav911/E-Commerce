@@ -1,0 +1,110 @@
+﻿@model List<OnlineStoreModel.CustomModels.ProductModel>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+
+
+
+<div>
+    @foreach (var product in Model)
+    {
+        string firstImage = "";
+        if (product.ImagePaths != null)
+        {
+            firstImage = product.ImagePaths[0];
+        }
+        <div class="card mb-4 border-black">
+            <h5 class="card-header bg-primary-subtle fw-bold text-primary">@product.ProductName</h5>
+            <div class="card-body row  position-relative">
+                <div class="col-5 text-center">
+                    <div id="carousel-@product.ProductID" class="carousel slide carousel-dark" data-bs-ride="carousel">
+                        <div class="carousel-inner d-flex align-items-center " style="width:100%; height:400px">
+                            @{
+                                if (product.ImagePaths != null)
+                                {
+                                    foreach (var img in product.ImagePaths)
+                                    {
+                                        <div class="carousel-item @(img.Equals(firstImage) ? "active" : "") text-center">
+                                            <img src="~/Content/ProductImages/@img" class="d-block mx-auto p-5 w-75">
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <div class="mx-auto">
+                                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlomRxuD2hXxPAPem4LggnMmje2M5z_ZNvRg&s">
+                                    </div>
+                                }
+                            }
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carousel-@product.ProductID" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carousel-@product.ProductID" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-7">
+                    <div class="border-start border-primary-subtle border-3 d-flex justify-content-between gap-5">
+                        <div class="ps-2">
+                            <h5 class="card-title pe-5">@product.ProductDescription</h5>
+                            @{
+                                if (product.Availability)
+                                {
+                                    <p class="card-text text-success fw-bold">Available</p>
+                                }
+                                else
+                                {
+                                    <p class="card-text text-danger mb-0">Not Available</p>
+                                }
+                            }
+                        </div>
+                        <div>
+                            <h1 class="text-primary fw-bold">@product.ProductPrice<small>₹</small></h1>
+                        </div>
+                    </div>
+                    <div class="text-end bottom-0 position-absolute end-0">
+                        @{
+                            if (product.Availability)
+                            {
+                                <button class="btn btn-primary addToCart" prod-id="@product.ProductID" id="addToCart">Add to cart</button>
+                                @Html.ActionLink("Buy", "BuyProduct", "User", new { @productID = product.ProductID }, new { @class = "btn btn-success" })
+                            }
+                            else
+                            {
+                                <button class="btn btn-primary" disabled>Add to cart</button>
+                                <button class="btn btn-success" disabled>Buy</button>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+
+<script>
+    $('.addToCart').on('click', function () {
+        let prodID = $(this).attr('prod-id');
+        $.ajax({
+            url: "/User/AddProductToCart?productID=" + prodID,
+            type: "POST",
+            dataType: "json",
+            success: function (response) {
+                debugger
+                var toast = new bootstrap.Toast($('#liveToast'));
+                toast.show();
+            },
+            error: function (err) {
+
+            }
+        })
+    })
+</script>

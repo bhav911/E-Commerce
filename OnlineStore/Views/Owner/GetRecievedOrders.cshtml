@@ -1,0 +1,32 @@
+﻿@model List<OnlineStoreModel.CustomModels.OrdersReceivedModel>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    <h3 class="mb-5 fw-bold text-center">Order Details</h3>
+    <table class="table table-borderless">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Order Placer</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.ProductName</td>
+                    <td>@item.ProductQuantity</td>
+                    <td>@item.Email</td>
+                    <td>
+                        <button class="btn btn-primary">Delivered</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

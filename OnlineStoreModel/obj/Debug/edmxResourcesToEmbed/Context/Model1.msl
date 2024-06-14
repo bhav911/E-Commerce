@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="OnlineStoreModelStoreContainer" CdmEntityContainer="OnlineStoreEntities">
+    <EntitySetMapping Name="CART">
+      <EntityTypeMapping TypeName="OnlineStoreModel.CART">
+        <MappingFragment StoreEntitySet="CART">
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+          <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+          <ScalarProperty Name="CartID" ColumnName="CartID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Cities">
+      <EntityTypeMapping TypeName="OnlineStoreModel.Cities">
+        <MappingFragment StoreEntitySet="Cities">
+          <ScalarProperty Name="StateID" ColumnName="StateID" />
+          <ScalarProperty Name="CityName" ColumnName="CityName" />
+          <ScalarProperty Name="CityID" ColumnName="CityID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Coupons">
+      <EntityTypeMapping TypeName="OnlineStoreModel.Coupons">
+        <MappingFragment StoreEntitySet="Coupons">
+          <ScalarProperty Name="MinimumPurchase" ColumnName="MinimumPurchase" />
+          <ScalarProperty Name="Active" ColumnName="Active" />
+          <ScalarProperty Name="CouponExpiry" ColumnName="CouponExpiry" />
+          <ScalarProperty Name="CouponDiscount" ColumnName="CouponDiscount" />
+          <ScalarProperty Name="CouponName" ColumnName="CouponName" />
+          <ScalarProperty Name="CouponID" ColumnName="CouponID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Customers">
+      <EntityTypeMapping TypeName="OnlineStoreModel.Customers">
+        <MappingFragment StoreEntitySet="Customers">
+          <ScalarProperty Name="CityID" ColumnName="CityID" />
+          <ScalarProperty Name="StateID" ColumnName="StateID" />
+          <ScalarProperty Name="gender" ColumnName="gender" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="username" ColumnName="username" />
+          <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Owner">
+      <EntityTypeMapping TypeName="OnlineStoreModel.Owner">
+        <MappingFragment StoreEntitySet="Owner">
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="CityID" ColumnName="CityID" />
+          <ScalarProperty Name="StateID" ColumnName="StateID" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="shopname" ColumnName="shopname" />
+          <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="OwnerKYC">
+      <EntityTypeMapping TypeName="OnlineStoreModel.OwnerKYC">
+        <MappingFragment StoreEntitySet="OwnerKYC">
+          <ScalarProperty Name="shopImage" ColumnName="shopImage" />
+          <ScalarProperty Name="passpostImage" ColumnName="passpostImage" />
+          <ScalarProperty Name="aadharCard" ColumnName="aadharCard" />
+          <ScalarProperty Name="panCard" ColumnName="panCard" />
+          <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+          <ScalarProperty Name="kycID" ColumnName="kycID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProductImages">
+      <EntityTypeMapping TypeName="OnlineStoreModel.ProductImages">
+        <MappingFragment StoreEntitySet="ProductImages">
+          <ScalarProperty Name="uniqueImageName" ColumnName="uniqueImageName" />
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+          <ScalarProperty Name="ImageID" ColumnName="ImageID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Products">
+      <EntityTypeMapping TypeName="OnlineStoreModel.Products">
+        <MappingFragment StoreEntitySet="Products">
+          <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
+          <ScalarProperty Name="Availability" ColumnName="Availability" />
+          <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+          <ScalarProperty Name="ProductPrice" ColumnName="ProductPrice" />
+          <ScalarProperty Name="ProductDescription" ColumnName="ProductDescription" />
+          <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="States">
+      <EntityTypeMapping TypeName="OnlineStoreModel.States">
+        <MappingFragment StoreEntitySet="States">
+          <ScalarProperty Name="StateName" ColumnName="StateName" />
+          <ScalarProperty Name="StateID" ColumnName="StateID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="OrderDetails">
+      <EntityTypeMapping TypeName="OnlineStoreModel.OrderDetails">
+        <MappingFragment StoreEntitySet="OrderDetails">
+          <ScalarProperty Name="unitPrice" ColumnName="unitPrice" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+          <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+          <ScalarProperty Name="OrderDetailID" ColumnName="OrderDetailID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Orders">
+      <EntityTypeMapping TypeName="OnlineStoreModel.Orders">
+        <MappingFragment StoreEntitySet="Orders">
+          <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+          <ScalarProperty Name="Discount" ColumnName="Discount" />
+          <ScalarProperty Name="SubTotal" ColumnName="SubTotal" />
+          <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+          <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
