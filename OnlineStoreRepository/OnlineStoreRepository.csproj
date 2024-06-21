@@ -72,19 +72,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interface\IAdminInterface.cs" />
     <Compile Include="Interface\ICartInterface.cs" />
     <Compile Include="Interface\IOwnerInterface.cs" />
     <Compile Include="Interface\ICouponInterface.cs" />
     <Compile Include="Interface\IOrderInterface.cs" />
     <Compile Include="Interface\IProductInterface.cs" />
+    <Compile Include="Interface\IRatingInterface.cs" />
     <Compile Include="Interface\IStateCityInterface.cs" />
     <Compile Include="Interface\IUserInterface.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\AdminServices.cs" />
     <Compile Include="Services\CartService.cs" />
     <Compile Include="Services\CouponService.cs" />
     <Compile Include="Services\OrderService.cs" />
     <Compile Include="Services\OwnerService.cs" />
     <Compile Include="Services\ProductService.cs" />
+    <Compile Include="Services\RatingServices.cs" />
     <Compile Include="Services\StateCityService.cs" />
     <Compile Include="Services\UserService.cs" />
   </ItemGroup>

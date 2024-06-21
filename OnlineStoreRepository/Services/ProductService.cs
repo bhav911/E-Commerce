@@ -22,7 +22,14 @@ namespace OnlineStoreRepository.Services
                 ProductID = products.ProductID,
                 uniqueImageName = aggregatedProductImages
             };
-            db.ProductImages.Add(productImages);
+            productImages = db.ProductImages.Add(productImages);
+            ProductRating productRating = new ProductRating()
+            {
+                avgRating = 0,
+                numOfRating = 0,
+                productID = productImages.ProductID
+            };
+            db.ProductRating.Add(productRating);
             db.SaveChanges();
         }
 
@@ -74,6 +81,18 @@ namespace OnlineStoreRepository.Services
             try
             {
                 Products productToDelete = db.Products.FirstOrDefault(p => p.ProductID == prodID);
+                //ProductImages productImages = db.ProductImages.FirstOrDefault(p => p.ProductID == prodID);
+                //ProductRating productRating = db.ProductRating.FirstOrDefault(p => p.productID == prodID);
+                //List<Rating> rating = productToDelete.Rating.ToList();
+                //foreach(Rating rt in rating)
+                //{
+                //    db.RatingDetails.Remove(rt.RatingDetails.FirstOrDefault());
+                //}
+                //db.Rating.RemoveRange(rating);
+                //db.ProductImages.Remove(productImages);
+                //db.ProductRating.Remove(productRating);
+                //db.Products.Remove(Products productToDelete = db.Products.FirstOrDefault(p => p.ProductID == prodID);
+
                 productToDelete.isDeleted = true;
                 db.SaveChanges();
                 return true;

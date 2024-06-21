@@ -26,5 +26,6 @@ namespace OnlineStoreModel.CustomModels
         public int? ImageID { get; set; }
         public List<CouponModel> CouponModelList { get; set; }
         public int couponApplied { get; set; }
+        public decimal RatingCount { get; set; }
     }
 }

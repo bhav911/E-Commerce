@@ -60,6 +60,35 @@
       <End Role="Products" EntitySet="Products" />
       <End Role="OrderDetails" EntitySet="OrderDetails" />
     </AssociationSet>
+    <EntitySet Name="ADMINS" EntityType="OnlineStoreModel.ADMINS" />
+    <EntitySet Name="Rating" EntityType="OnlineStoreModel.Rating" />
+    <EntitySet Name="RatingDetails" EntityType="OnlineStoreModel.RatingDetails" />
+    <AssociationSet Name="fk_rating_customerID" Association="OnlineStoreModel.fk_rating_customerID">
+      <End Role="Customers" EntitySet="Customers" />
+      <End Role="Rating" EntitySet="Rating" />
+    </AssociationSet>
+    <AssociationSet Name="fk_rating_productID" Association="OnlineStoreModel.fk_rating_productID">
+      <End Role="Products" EntitySet="Products" />
+      <End Role="Rating" EntitySet="Rating" />
+    </AssociationSet>
+    <AssociationSet Name="fk_ratingDetails_ratingID" Association="OnlineStoreModel.fk_ratingDetails_ratingID">
+      <End Role="Rating" EntitySet="Rating" />
+      <End Role="RatingDetails" EntitySet="RatingDetails" />
+    </AssociationSet>
+    <EntitySet Name="ProductRating" EntityType="OnlineStoreModel.ProductRating" />
+    <AssociationSet Name="fk_productRating_productID" Association="OnlineStoreModel.fk_productRating_productID">
+      <End Role="Products" EntitySet="Products" />
+      <End Role="ProductRating" EntitySet="ProductRating" />
+    </AssociationSet>
+    <EntitySet Name="HelpfulReview" EntityType="OnlineStoreModel.HelpfulReview" />
+    <AssociationSet Name="fk_helpfulReview_customerID" Association="OnlineStoreModel.fk_helpfulReview_customerID">
+      <End Role="Customers" EntitySet="Customers" />
+      <End Role="HelpfulReview" EntitySet="HelpfulReview" />
+    </AssociationSet>
+    <AssociationSet Name="fk_helpfulReview_ratingID" Association="OnlineStoreModel.fk_helpfulReview_ratingID">
+      <End Role="Rating" EntitySet="Rating" />
+      <End Role="HelpfulReview" EntitySet="HelpfulReview" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="CART">
     <Key>
@@ -108,6 +137,8 @@
     <NavigationProperty Name="Cities" Relationship="OnlineStoreModel.fk_user_city" FromRole="Customers" ToRole="Cities" />
     <NavigationProperty Name="States" Relationship="OnlineStoreModel.fk_user_state" FromRole="Customers" ToRole="States" />
     <NavigationProperty Name="Orders" Relationship="OnlineStoreModel.fk_orders_customerID" FromRole="Customers" ToRole="Orders" />
+    <NavigationProperty Name="Rating" Relationship="OnlineStoreModel.fk_rating_customerID" FromRole="Customers" ToRole="Rating" />
+    <NavigationProperty Name="HelpfulReview" Relationship="OnlineStoreModel.fk_helpfulReview_customerID" FromRole="Customers" ToRole="HelpfulReview" />
   </EntityType>
   <EntityType Name="Owner">
     <Key>
@@ -161,6 +192,8 @@
     <NavigationProperty Name="Owner" Relationship="OnlineStoreModel.fk_shop_product" FromRole="Products" ToRole="Owner" />
     <NavigationProperty Name="ProductImages" Relationship="OnlineStoreModel.fk_productID" FromRole="Products" ToRole="ProductImages" />
     <NavigationProperty Name="OrderDetails" Relationship="OnlineStoreModel.fk_orderDetail_productID" FromRole="Products" ToRole="OrderDetails" />
+    <NavigationProperty Name="Rating" Relationship="OnlineStoreModel.fk_rating_productID" FromRole="Products" ToRole="Rating" />
+    <NavigationProperty Name="ProductRating" Relationship="OnlineStoreModel.fk_productRating_productID" FromRole="Products" ToRole="ProductRating" />
   </EntityType>
   <EntityType Name="States">
     <Key>
@@ -336,6 +369,131 @@
       </Principal>
       <Dependent Role="OrderDetails">
         <PropertyRef Name="ProductID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="ADMINS">
+    <Key>
+      <PropertyRef Name="adminID" />
+    </Key>
+    <Property Name="adminID" Type="Int32" Nullable="false" />
+    <Property Name="email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="password" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="Rating">
+    <Key>
+      <PropertyRef Name="ratingID" />
+    </Key>
+    <Property Name="ratingID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="productID" Type="Int32" Nullable="false" />
+    <Property Name="customerID" Type="Int32" Nullable="false" />
+    <Property Name="havePurchased" Type="Boolean" />
+    <NavigationProperty Name="Customers" Relationship="OnlineStoreModel.fk_rating_customerID" FromRole="Rating" ToRole="Customers" />
+    <NavigationProperty Name="Products" Relationship="OnlineStoreModel.fk_rating_productID" FromRole="Rating" ToRole="Products" />
+    <NavigationProperty Name="RatingDetails" Relationship="OnlineStoreModel.fk_ratingDetails_ratingID" FromRole="Rating" ToRole="RatingDetails" />
+    <NavigationProperty Name="HelpfulReview" Relationship="OnlineStoreModel.fk_helpfulReview_ratingID" FromRole="Rating" ToRole="HelpfulReview" />
+    <Property Name="reviewDate" Type="DateTime" Precision="0" />
+  </EntityType>
+  <EntityType Name="RatingDetails">
+    <Key>
+      <PropertyRef Name="ratingDetailsID" />
+    </Key>
+    <Property Name="ratingDetailsID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ratingID" Type="Int32" />
+    <Property Name="review" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="ratingNumber" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+    <NavigationProperty Name="Rating" Relationship="OnlineStoreModel.fk_ratingDetails_ratingID" FromRole="RatingDetails" ToRole="Rating" />
+    <Property Name="helpfulCount" Type="Int32" />
+  </EntityType>
+  <Association Name="fk_rating_customerID">
+    <End Type="OnlineStoreModel.Customers" Role="Customers" Multiplicity="1" />
+    <End Type="OnlineStoreModel.Rating" Role="Rating" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customers">
+        <PropertyRef Name="CustomerID" />
+      </Principal>
+      <Dependent Role="Rating">
+        <PropertyRef Name="customerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_rating_productID">
+    <End Type="OnlineStoreModel.Products" Role="Products" Multiplicity="1" />
+    <End Type="OnlineStoreModel.Rating" Role="Rating" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Products">
+        <PropertyRef Name="ProductID" />
+      </Principal>
+      <Dependent Role="Rating">
+        <PropertyRef Name="productID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_ratingDetails_ratingID">
+    <End Type="OnlineStoreModel.Rating" Role="Rating" Multiplicity="0..1" />
+    <End Type="OnlineStoreModel.RatingDetails" Role="RatingDetails" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Rating">
+        <PropertyRef Name="ratingID" />
+      </Principal>
+      <Dependent Role="RatingDetails">
+        <PropertyRef Name="ratingID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="ProductRating">
+    <Key>
+      <PropertyRef Name="productRatingID" />
+    </Key>
+    <Property Name="productRatingID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="productID" Type="Int32" />
+    <Property Name="avgRating" Type="Decimal" Precision="3" Scale="2" />
+    <NavigationProperty Name="Products" Relationship="OnlineStoreModel.fk_productRating_productID" FromRole="ProductRating" ToRole="Products" />
+    <Property Name="numOfRating" Type="Int32" />
+  </EntityType>
+  <Association Name="fk_productRating_productID">
+    <End Type="OnlineStoreModel.Products" Role="Products" Multiplicity="0..1" />
+    <End Type="OnlineStoreModel.ProductRating" Role="ProductRating" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Products">
+        <PropertyRef Name="ProductID" />
+      </Principal>
+      <Dependent Role="ProductRating">
+        <PropertyRef Name="productID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="HelpfulReview">
+    <Key>
+      <PropertyRef Name="helpfulReviewID" />
+    </Key>
+    <Property Name="helpfulReviewID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ratingID" Type="Int32" Nullable="false" />
+    <Property Name="customerID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Customers" Relationship="OnlineStoreModel.fk_helpfulReview_customerID" FromRole="HelpfulReview" ToRole="Customers" />
+    <NavigationProperty Name="Rating" Relationship="OnlineStoreModel.fk_helpfulReview_ratingID" FromRole="HelpfulReview" ToRole="Rating" />
+  </EntityType>
+  <Association Name="fk_helpfulReview_customerID">
+    <End Type="OnlineStoreModel.Customers" Role="Customers" Multiplicity="1" />
+    <End Type="OnlineStoreModel.HelpfulReview" Role="HelpfulReview" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customers">
+        <PropertyRef Name="CustomerID" />
+      </Principal>
+      <Dependent Role="HelpfulReview">
+        <PropertyRef Name="customerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_helpfulReview_ratingID">
+    <End Type="OnlineStoreModel.Rating" Role="Rating" Multiplicity="1" />
+    <End Type="OnlineStoreModel.HelpfulReview" Role="HelpfulReview" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Rating">
+        <PropertyRef Name="ratingID" />
+      </Principal>
+      <Dependent Role="HelpfulReview">
+        <PropertyRef Name="ratingID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

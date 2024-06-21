@@ -1,5 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="OnlineStoreModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="ADMINS">
+    <Key>
+      <PropertyRef Name="adminID" />
+    </Key>
+    <Property Name="adminID" Type="int" Nullable="false" />
+    <Property Name="email" Type="varchar" MaxLength="100" />
+    <Property Name="password" Type="varchar" MaxLength="30" />
+  </EntityType>
   <EntityType Name="CART">
     <Key>
       <PropertyRef Name="CartID" />
@@ -39,6 +47,14 @@
     <Property Name="gender" Type="char" MaxLength="1" Nullable="false" />
     <Property Name="StateID" Type="int" />
     <Property Name="CityID" Type="int" />
+  </EntityType>
+  <EntityType Name="HelpfulReview">
+    <Key>
+      <PropertyRef Name="helpfulReviewID" />
+    </Key>
+    <Property Name="helpfulReviewID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ratingID" Type="int" Nullable="false" />
+    <Property Name="customerID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="OrderDetails">
     <Key>
@@ -91,6 +107,15 @@
     <Property Name="ProductID" Type="int" />
     <Property Name="uniqueImageName" Type="varchar" MaxLength="300" />
   </EntityType>
+  <EntityType Name="ProductRating">
+    <Key>
+      <PropertyRef Name="productRatingID" />
+    </Key>
+    <Property Name="productRatingID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="productID" Type="int" />
+    <Property Name="avgRating" Type="decimal" Precision="3" Scale="2" />
+    <Property Name="numOfRating" Type="int" />
+  </EntityType>
   <EntityType Name="Products">
     <Key>
       <PropertyRef Name="ProductID" />
@@ -103,6 +128,26 @@
     <Property Name="Availability" Type="bit" />
     <Property Name="isDeleted" Type="bit" />
   </EntityType>
+  <EntityType Name="Rating">
+    <Key>
+      <PropertyRef Name="ratingID" />
+    </Key>
+    <Property Name="ratingID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="productID" Type="int" Nullable="false" />
+    <Property Name="customerID" Type="int" Nullable="false" />
+    <Property Name="havePurchased" Type="bit" />
+    <Property Name="reviewDate" Type="date" />
+  </EntityType>
+  <EntityType Name="RatingDetails">
+    <Key>
+      <PropertyRef Name="ratingDetailsID" />
+    </Key>
+    <Property Name="ratingDetailsID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ratingID" Type="int" />
+    <Property Name="review" Type="text" />
+    <Property Name="ratingNumber" Type="char" MaxLength="1" Nullable="false" />
+    <Property Name="helpfulCount" Type="int" />
+  </EntityType>
   <EntityType Name="States">
     <Key>
       <PropertyRef Name="StateID" />
@@ -110,6 +155,30 @@
     <Property Name="StateID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="StateName" Type="varchar" MaxLength="50" Nullable="false" />
   </EntityType>
+  <Association Name="fk_helpfulReview_customerID">
+    <End Role="Customers" Type="Self.Customers" Multiplicity="1" />
+    <End Role="HelpfulReview" Type="Self.HelpfulReview" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customers">
+        <PropertyRef Name="CustomerID" />
+      </Principal>
+      <Dependent Role="HelpfulReview">
+        <PropertyRef Name="customerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_helpfulReview_ratingID">
+    <End Role="Rating" Type="Self.Rating" Multiplicity="1" />
+    <End Role="HelpfulReview" Type="Self.HelpfulReview" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Rating">
+        <PropertyRef Name="ratingID" />
+      </Principal>
+      <Dependent Role="HelpfulReview">
+        <PropertyRef Name="ratingID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="fk_orderDetail_orderID">
     <End Role="Orders" Type="Self.Orders" Multiplicity="1" />
     <End Role="OrderDetails" Type="Self.OrderDetails" Multiplicity="*" />
@@ -179,6 +248,54 @@
       </Principal>
       <Dependent Role="CART">
         <PropertyRef Name="ProductID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_productRating_productID">
+    <End Role="Products" Type="Self.Products" Multiplicity="0..1" />
+    <End Role="ProductRating" Type="Self.ProductRating" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Products">
+        <PropertyRef Name="ProductID" />
+      </Principal>
+      <Dependent Role="ProductRating">
+        <PropertyRef Name="productID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_rating_customerID">
+    <End Role="Customers" Type="Self.Customers" Multiplicity="1" />
+    <End Role="Rating" Type="Self.Rating" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customers">
+        <PropertyRef Name="CustomerID" />
+      </Principal>
+      <Dependent Role="Rating">
+        <PropertyRef Name="customerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_rating_productID">
+    <End Role="Products" Type="Self.Products" Multiplicity="1" />
+    <End Role="Rating" Type="Self.Rating" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Products">
+        <PropertyRef Name="ProductID" />
+      </Principal>
+      <Dependent Role="Rating">
+        <PropertyRef Name="productID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_ratingDetails_ratingID">
+    <End Role="Rating" Type="Self.Rating" Multiplicity="0..1" />
+    <End Role="RatingDetails" Type="Self.RatingDetails" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Rating">
+        <PropertyRef Name="ratingID" />
+      </Principal>
+      <Dependent Role="RatingDetails">
+        <PropertyRef Name="ratingID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -255,17 +372,30 @@
     </ReferentialConstraint>
   </Association>
   <EntityContainer Name="OnlineStoreModelStoreContainer">
+    <EntitySet Name="ADMINS" EntityType="Self.ADMINS" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="CART" EntityType="Self.CART" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Cities" EntityType="Self.Cities" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Coupons" EntityType="Self.Coupons" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Customers" EntityType="Self.Customers" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="HelpfulReview" EntityType="Self.HelpfulReview" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="OrderDetails" EntityType="Self.OrderDetails" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Owner" EntityType="Self.Owner" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="OwnerKYC" EntityType="Self.OwnerKYC" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ProductImages" EntityType="Self.ProductImages" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ProductRating" EntityType="Self.ProductRating" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Rating" EntityType="Self.Rating" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="RatingDetails" EntityType="Self.RatingDetails" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="States" EntityType="Self.States" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="fk_helpfulReview_customerID" Association="Self.fk_helpfulReview_customerID">
+      <End Role="Customers" EntitySet="Customers" />
+      <End Role="HelpfulReview" EntitySet="HelpfulReview" />
+    </AssociationSet>
+    <AssociationSet Name="fk_helpfulReview_ratingID" Association="Self.fk_helpfulReview_ratingID">
+      <End Role="Rating" EntitySet="Rating" />
+      <End Role="HelpfulReview" EntitySet="HelpfulReview" />
+    </AssociationSet>
     <AssociationSet Name="fk_orderDetail_orderID" Association="Self.fk_orderDetail_orderID">
       <End Role="Orders" EntitySet="Orders" />
       <End Role="OrderDetails" EntitySet="OrderDetails" />
@@ -289,6 +419,22 @@
     <AssociationSet Name="fk_productID_cart" Association="Self.fk_productID_cart">
       <End Role="Products" EntitySet="Products" />
       <End Role="CART" EntitySet="CART" />
+    </AssociationSet>
+    <AssociationSet Name="fk_productRating_productID" Association="Self.fk_productRating_productID">
+      <End Role="Products" EntitySet="Products" />
+      <End Role="ProductRating" EntitySet="ProductRating" />
+    </AssociationSet>
+    <AssociationSet Name="fk_rating_customerID" Association="Self.fk_rating_customerID">
+      <End Role="Customers" EntitySet="Customers" />
+      <End Role="Rating" EntitySet="Rating" />
+    </AssociationSet>
+    <AssociationSet Name="fk_rating_productID" Association="Self.fk_rating_productID">
+      <End Role="Products" EntitySet="Products" />
+      <End Role="Rating" EntitySet="Rating" />
+    </AssociationSet>
+    <AssociationSet Name="fk_ratingDetails_ratingID" Association="Self.fk_ratingDetails_ratingID">
+      <End Role="Rating" EntitySet="Rating" />
+      <End Role="RatingDetails" EntitySet="RatingDetails" />
     </AssociationSet>
     <AssociationSet Name="fk_shop_city" Association="Self.fk_shop_city">
       <End Role="Cities" EntitySet="Cities" />

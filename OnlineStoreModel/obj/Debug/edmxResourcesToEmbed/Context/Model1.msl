@@ -122,5 +122,55 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="ADMINS">
+      <EntityTypeMapping TypeName="OnlineStoreModel.ADMINS">
+        <MappingFragment StoreEntitySet="ADMINS">
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="adminID" ColumnName="adminID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Rating">
+      <EntityTypeMapping TypeName="OnlineStoreModel.Rating">
+        <MappingFragment StoreEntitySet="Rating">
+          <ScalarProperty Name="reviewDate" ColumnName="reviewDate" />
+          <ScalarProperty Name="havePurchased" ColumnName="havePurchased" />
+          <ScalarProperty Name="customerID" ColumnName="customerID" />
+          <ScalarProperty Name="productID" ColumnName="productID" />
+          <ScalarProperty Name="ratingID" ColumnName="ratingID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RatingDetails">
+      <EntityTypeMapping TypeName="OnlineStoreModel.RatingDetails">
+        <MappingFragment StoreEntitySet="RatingDetails">
+          <ScalarProperty Name="helpfulCount" ColumnName="helpfulCount" />
+          <ScalarProperty Name="ratingNumber" ColumnName="ratingNumber" />
+          <ScalarProperty Name="review" ColumnName="review" />
+          <ScalarProperty Name="ratingID" ColumnName="ratingID" />
+          <ScalarProperty Name="ratingDetailsID" ColumnName="ratingDetailsID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProductRating">
+      <EntityTypeMapping TypeName="OnlineStoreModel.ProductRating">
+        <MappingFragment StoreEntitySet="ProductRating">
+          <ScalarProperty Name="numOfRating" ColumnName="numOfRating" />
+          <ScalarProperty Name="avgRating" ColumnName="avgRating" />
+          <ScalarProperty Name="productID" ColumnName="productID" />
+          <ScalarProperty Name="productRatingID" ColumnName="productRatingID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HelpfulReview">
+      <EntityTypeMapping TypeName="OnlineStoreModel.HelpfulReview">
+        <MappingFragment StoreEntitySet="HelpfulReview">
+          <ScalarProperty Name="customerID" ColumnName="customerID" />
+          <ScalarProperty Name="ratingID" ColumnName="ratingID" />
+          <ScalarProperty Name="helpfulReviewID" ColumnName="helpfulReviewID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="ff05f88ae44344bea79847492e7b58cf" Name="Diagram1" ZoomLevel="89">
+      <Diagram DiagramId="ff05f88ae44344bea79847492e7b58cf" Name="Diagram1" ZoomLevel="106">
         <EntityTypeShape EntityType="OnlineStoreModel.CART" Width="1.5" PointX="8.25" PointY="11.125" />
         <EntityTypeShape EntityType="OnlineStoreModel.Cities" Width="1.5" PointX="0.75" PointY="8" />
         <EntityTypeShape EntityType="OnlineStoreModel.Coupons" Width="1.5" PointX="10.25" PointY="4.125" />
@@ -28,6 +28,17 @@
         <AssociationConnector Association="OnlineStoreModel.fk_orders_customerID" />
         <AssociationConnector Association="OnlineStoreModel.fk_orderDetail_orderID" />
         <AssociationConnector Association="OnlineStoreModel.fk_orderDetail_productID" />
+        <EntityTypeShape EntityType="OnlineStoreModel.ADMINS" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="OnlineStoreModel.Rating" Width="1.5" PointX="11.25" PointY="7.125" />
+        <EntityTypeShape EntityType="OnlineStoreModel.RatingDetails" Width="1.5" PointX="13.5" PointY="7.375" />
+        <AssociationConnector Association="OnlineStoreModel.fk_rating_customerID" />
+        <AssociationConnector Association="OnlineStoreModel.fk_rating_productID" />
+        <AssociationConnector Association="OnlineStoreModel.fk_ratingDetails_ratingID" />
+        <EntityTypeShape EntityType="OnlineStoreModel.ProductRating" Width="1.5" PointX="7.5" PointY="14.875" />
+        <AssociationConnector Association="OnlineStoreModel.fk_productRating_productID" />
+        <EntityTypeShape EntityType="OnlineStoreModel.HelpfulReview" Width="1.5" PointX="13.5" PointY="11" />
+        <AssociationConnector Association="OnlineStoreModel.fk_helpfulReview_customerID" />
+        <AssociationConnector Association="OnlineStoreModel.fk_helpfulReview_ratingID" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

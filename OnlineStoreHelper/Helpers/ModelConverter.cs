@@ -82,10 +82,11 @@ namespace OnlineStoreHelper.Helpers
                 ProductModel newproduct = new ProductModel()
                 {
                     Availability = (bool)product.Availability,
-                    ProductDescription  = product.ProductDescription,
+                    ProductDescription = product.ProductDescription,
                     ProductID = product.ProductID,
                     ProductName = product.ProductName,
-                    ProductPrice = (decimal)product.ProductPrice                    
+                    ProductPrice = (decimal)product.ProductPrice,
+                    RatingCount = (decimal)product.ProductRating.FirstOrDefault().avgRating
                 };
                 string imagePaths = product.ProductImages.FirstOrDefault().uniqueImageName;
                 if(imagePaths != null)
@@ -220,6 +221,51 @@ namespace OnlineStoreHelper.Helpers
             }
 
             return couponModelList;
+        }
+
+        public static ProductDetailsModel ConvertProductToProductDetailsModel(Products product)
+        {
+            ProductDetailsModel productDetailsModel = new ProductDetailsModel()
+            {
+                ProductID = product.ProductID,
+                Availability = (bool)product.Availability,
+                ProductDescription = product.ProductDescription,
+                ProductName = product.ProductName,
+                ProductPrice = (decimal)product.ProductPrice,
+                RatingNumber = (decimal)product.ProductRating.FirstOrDefault().avgRating
+            };
+            string imagePaths = product.ProductImages.FirstOrDefault().uniqueImageName;
+            if (imagePaths != null)
+            {
+                productDetailsModel.ImagePaths = imagePaths.Split(',');
+            }
+
+            return productDetailsModel;
+        }
+
+        public static List<RatingModel> ConvertRatingToRatingModel(List<Rating> ratingList)
+        {
+            List<RatingModel> ratingModelList = new List<RatingModel>();
+            foreach(Rating rating in ratingList)
+            {
+                RatingModel ratingModel = new RatingModel()
+                {
+                    CustomerName  = rating.Customers.username,
+                    CustomerID = rating.customerID,
+                    HavePurchased = rating.havePurchased,
+                    HelpfulCount = rating.RatingDetails.FirstOrDefault().helpfulCount,
+                    RatingID = rating.ratingID,
+                    RatingNumber = rating.RatingDetails.FirstOrDefault().ratingNumber,
+                    Review = rating.RatingDetails.FirstOrDefault().review,
+                    ReviewDate = (DateTime)rating.reviewDate
+                };
+
+                ratingModel.helpfulReviewsCustomerID = rating.HelpfulReview.Select(r => r.customerID).ToList();
+
+                ratingModelList.Add(ratingModel);
+            }
+
+            return ratingModelList;
         }
     }
 }

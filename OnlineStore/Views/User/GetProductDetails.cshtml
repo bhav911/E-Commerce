@@ -1,0 +1,383 @@
+﻿@model OnlineStoreModel.CustomModels.ProductDetailsModel
+@{ Layout = "~/Views/Shared/_Layout.cshtml"; }
+
+<div>
+    @{
+        DateTime today = DateTime.Today;
+        string firstImage = "";
+        if (Model.ImagePaths != null)
+        {
+            firstImage = Model.ImagePaths[0];
+        }
+        <div class="card mb-4 border-black">
+            <h5 class="card-header bg-primary-subtle fw-bold text-primary">@Model.ProductName</h5>
+            <div class="card-body row  position-relative">
+                <div class="col-5 text-center ">
+                    <div id="carousel-@Model.ProductID" class="carousel slide carousel-dark" data-bs-ride="carousel">
+                        <div class="carousel-inner d-flex align-items-center " style="width:100%; height:400px">
+                            @{ if (Model.ImagePaths != null)
+                                {
+                                    foreach (var img in Model.ImagePaths)
+                                    {
+                                        <div class="carousel-item @(img.Equals(firstImage) ? "active" : "") text-center">
+                                            <img src="~/Content/ProductImages/@img" class="d-block mx-auto p-5 w-75">
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <div class="mx-auto">
+                                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlomRxuD2hXxPAPem4LggnMmje2M5z_ZNvRg&s">
+                                    </div>
+                                }
+                            }
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carousel-@Model.ProductID" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carousel-@Model.ProductID" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-7">
+                    <div class="border-start border-primary-subtle border-3 d-flex justify-content-between gap-5">
+                        <div class="ps-2">
+                            <h5 class="card-title pe-5">@Model.ProductDescription</h5>
+                            @{
+                                if (Model.RatingNumber != 0)
+                                {
+                                    decimal rating = Math.Floor(Convert.ToDecimal(Model.RatingNumber));
+                                    for (int i = 1; i <= rating; i++)
+                                    {
+                                        <i class="fa-solid fa-star fa-xl" style="color: #FFD43B;"></i>
+                                    }
+                                    for (int i = 5; i > rating; i--)
+                                    {
+                                        <i class="fa-regular fa-star fa-xl" style="color: #FFD43B;"></i>
+                                    }
+                                    <span class="card-text text-secondary fw-bold mb-0">(@Model.RatingNumber)</span>
+                                }
+                                if (Model.Availability)
+                                {
+                                    <p class="card-text text-success fw-bold">Available</p>
+                                }
+                                else
+                                {
+                                    <p class="card-text text-danger mb-0">Not Available</p>
+                                }
+                            }
+                        </div>
+                        <div>
+                            <h1 class="text-primary fw-bold">@Model.ProductPrice<small>₹</small></h1>
+                        </div>
+                    </div>
+                    <div class="text-end bottom-0 position-absolute end-0">
+                        @{
+                            if (Model.Availability)
+                            {
+                                <button class="btn btn-primary addToCart" prod-id="@Model.ProductID" id="addToCart">Add to cart</button>
+                                @Html.ActionLink("Buy", "BuyProduct", "User", new { @productID = Model.ProductID }, new { @class = "btn btn-success" })
+                            }
+                            else
+                            {
+                                <button class="btn btn-primary" disabled>Add to cart</button>
+                                <button class="btn btn-success" disabled>Buy</button>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="mx-4 mb-4">
+                <p class="fw-bold fs-4">Ratings</p>
+                <div class="p-4 border rounded-4 mb-4">
+                    <form method="post" action="/User/AddReview">
+                        <div id="star-holder" class="d-flex gap-2 mb-3" style="cursor:pointer;">
+                            <div class="star-btn"><i class="fa-regular fa-star fa-xl" style="color: #FFD43B;"></i></div>
+                            <div class="star-btn"><i class="fa-regular fa-star fa-xl" style="color: #FFD43B;"></i></div>
+                            <div class="star-btn"><i class="fa-regular fa-star fa-xl" style="color: #FFD43B;"></i></div>
+                            <div class="star-btn"><i class="fa-regular fa-star fa-xl" style="color: #FFD43B;"></i></div>
+                            <div class="star-btn"><i class="fa-regular fa-star fa-xl" style="color: #FFD43B;"></i></div>
+                        </div>
+                        <input hidden name="RatingNumber" type="number" id="RatingNumber" />
+                        <input hidden name="ProductID" type="number" id="RatingNumber" value="@Model.ProductID" />
+                        <textarea name="review" class="form-control" placeholder="Write a review"></textarea>
+                        <div class="mt-3">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+                </div>
+                <div id="review-holder">
+                    @{
+                        foreach (var review in Model.PublicRatings)
+                        {
+                            <div class="card mb-4 border-black px-4 pt-3 review-card">
+                                <div class="d-flex justify-content-between">
+                                    <div class="d-flex gap-1">
+                                        <div>
+                                            <i class="fa-regular fa-user border rounded-circle p-1 border-dark"></i>
+                                        </div>
+                                        <div>
+                                            <span class="fw-bold text-primary d-block ms-1">@review.CustomerName</span>
+                                            @{
+                                                if ((bool)review.HavePurchased)
+                                                {
+                                                    <small class="text-secondary"><i>Verfied Buyer</i></small>
+                                                }
+                                            }
+                                        </div>
+                                        <div>
+                                            @{
+                                                DateTime reviewDate = review.ReviewDate;
+                                                int days = today.Subtract(reviewDate).Days;
+                                                int months = days / 30;
+                                                int year = months / 12;
+                                                if (days < 30)
+                                                {
+                                                    <small>Recently</small>
+                                                }
+                                                else if (months < 12)
+                                                {
+                                                    <small>@months months ago</small>
+                                                }
+                                                else
+                                                {
+                                                    <small>@year years ago</small>
+                                                }
+                                            }
+                                        </div>
+                                    </div>
+                                    <div>
+                                        @{
+                                            int rating = Convert.ToInt32(review.RatingNumber);
+                                            for (int i = 1; i <= rating; i++)
+                                            {
+                                                <i class="fa-solid fa-star fa-xl" style="color: #FFD43B;"></i>
+                                            }
+                                            for (int i = 5; i > rating; i--)
+                                            {
+                                                <i class="fa-regular fa-star fa-xl" style="color: #FFD43B;"></i>
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                                <div class="ms-4 mt-2">
+                                    <p class="mb-0 text-secondary">@review.Review</p>
+                                </div>
+                                <div class="my-3 ms-4">
+                                    @{
+                                        if (review.helpfulReviewsCustomerID.Contains(Model.CustomerID))
+                                        {
+                                            <i class="fa-solid fa-thumbs-up me-2" rating="@review.RatingID" style="cursor:pointer;" liked=true></i><span>@review.HelpfulCount</span>
+                                        }
+                                        else
+                                        {
+                                            <i class="fa-regular fa-thumbs-up me-2" rating="@review.RatingID" style="cursor:pointer;" liked=false></i><span>@review.HelpfulCount</span>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+            <div class="text-center mb-4">
+                <button class="btn btn-secondary" id="LoadReviews">Show More</button>
+            </div>
+            <script>
+                let product = @Model.ProductID;
+                let customerID = @Model.CustomerID;
+                let reachedLimit = false;
+
+                $('#LoadReviews').on('click', function () {
+                    if (reachedLimit) {
+                        let allReview = $('.review-card');
+                        if ($('#LoadReviews').text() == "Hide Reviews") {
+                            $.each(allReview, (ind, ele) => {
+                                if (ind < 3) {
+                                    return;
+                                }
+                                $(ele).hide();
+                            })
+                            $('#LoadReviews').text("Show More");
+                        }
+                        else {
+                            $.each(allReview, (ind, ele) => {
+                                if (ind < 3) {
+                                    return;
+                                }
+                                $(ele).show();
+                            })
+                            $('#LoadReviews').text("Hide Reviews");
+                        }
+                        return;
+                    }
+                    let cardBatch = Math.ceil($('.review-card').length / 3);
+                    $.ajax({
+                        url: `/User/LoadMoreReviews?productID=${product}&reviewNumber=${cardBatch + 1}`,
+                        method: "GET",
+                        dataType: "json",
+                        success: function (response) {
+                            if (response.length < 3) {
+                                let LoadBtn = $('#LoadReviews');
+                                $(LoadBtn).text("Hide Reviews");
+                                reachedLimit = true;
+                            }
+                            let parent = $('#review-holder');
+                            $.each(response, (ind, ele) => {
+                                let div1 = $('<div>').addClass('card mb-4 border-black px-4 pt-3 review-card');
+                                let div2a = $('<div>').addClass('d-flex justify-content-between');
+                                let div3a = $('<div>').addClass('d-flex gap-1');
+                                let div4a = $('<div>').append($('<i>').addClass("fa-regular fa-user border rounded-circle p-1 border-dark"));
+                                let div4bspan = $('<span>').addClass("fw-bold text-primary d-block ms-1").text(`${ele.CustomerName}`)
+                                let div4b = $('<div>').append(div4bspan);
+                                if (ele.HavePurchased) {
+                                    $(div4bspan).append($('<small>').addClass("text-secondary").append($('<i>').text('Verfied Buyer')))
+                                }
+                                var milliseconds = parseInt(ele.ReviewDate.replace(/\/Date\((\d+)\)\//, '$1'), 10);
+                                let message = messageCalculater(new Date(milliseconds))
+                                let div4c = $('<div>').append($('<small>').text(message));
+                                $(div3a).append(div4a)
+                                $(div3a).append(div4b)
+                                $(div3a).append(div4c)
+                                let div3b = $('<div>');
+                                let rating = parseInt(ele.RatingNumber)
+                                for (let i = 1; i <= rating; i++)
+                                {
+                                    $(div3b).append('<i class= "fa-solid fa-star fa-xl" style = "color: #FFD43B;" ></i >');
+                                }
+                                for (let i = 5; i > rating; i--)
+                                {
+                                    $(div3b).append('<i class= "fa-regular fa-star fa-xl" style = "color: #FFD43B;" ></i >');
+                                }
+                                $(div2a).append(div3a);
+                                $(div2a).append(div3b);
+
+                                let div2b = $('<div>').addClass("ms-4 mt-2");
+                                let div2bp = $('<p>').addClass("mb-0 text-secondary").text(ele.Review);
+                                $(div2b).append(div2bp);
+
+                                let div2c = $('<div>').addClass("my-3 ms-4");
+                                let liked = false;
+                                $.each(ele.helpfulReviewsCustomerID, (ind, ele) => {
+                                    if (liked) return;
+                                    if (ele == customerID) {
+                                        liked = true;
+                                    }
+                                })
+
+                                if (liked)
+                                {
+                                    let div2ci = $('<i>').addClass("fa-solid fa-thumbs-up me-2").attr({ "rating": ele.RatingID, "liked": true }).css("cursor", "pointer")
+                                    $(div2c).append(div2ci);
+                                }
+                                else
+                                {
+                                    let div2ci = $('<i>').addClass("fa-regular fa-thumbs-up me-2").attr({ "rating": ele.RatingID, "liked": false }).css("cursor", "pointer")
+                                    $(div2c).append(div2ci);
+                                }
+                                let div2cspan = $("<span>").text(ele.HelpfulCount)
+                                $(div2c).append(div2cspan);
+                                $(div1).append(div2a)
+                                $(div1).append(div2b)
+                                $(div1).append(div2c)
+                                $(parent).append(div1);
+                            })
+
+                        },
+                        error: function (error, a, b, c) {
+                        }
+                    })
+
+                })
+
+
+                function messageCalculater(reviewDate) {
+
+                    const today = new Date();
+                    const diffTime = Math.abs(today - reviewDate);
+                    const days = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                    const months = Math.floor(days / 30);
+                    const years = Math.floor(months / 12);
+                    let message;
+                    if (days < 30) {
+                        message = 'Recently';
+                    } else if (months < 12) {
+                        message = `${months} months ago`;
+                    } else {
+                        message = `${years} years ago`;
+                    }
+                    return message;
+                }
+
+                $('#review-holder').on('click', function (event) {
+                    let element = event.target;
+                    if (!$(element).hasClass('fa-thumbs-up')){
+                        return;
+                    }
+                    let count = $(element).next();
+                    let ratingID = $(element).attr('rating');
+                    let liked = $(element).attr('liked');
+                    $.ajax({
+                        url: "/User/ToggleHelpful?ratingID=" + ratingID,
+                        method: "GET",
+                        dataType: "json",
+                        success: function (response) {
+                            if (liked == "true") {
+                                $(count).text(parseInt($(count).text()) - 1);
+                                $(element).attr('liked', "false");
+                                $(element).toggleClass("fa-regular fa-solid");
+                            }
+                            else {
+                                $(count).text(parseInt($(count).text()) + 1);
+                                $(element).attr('liked', "true");
+                                $(element).toggleClass("fa-regular fa-solid");
+                            }
+                        },
+                        error: function (err) {
+                        }
+                    })
+                })
+
+                $('.addToCart').on('click', function () {
+                    let prodID = $(this).attr('prod-id');
+                    $.ajax({
+                        url: "/User/AddProductToCart?productID=" + prodID,
+                        type: "POST",
+                        dataType: "json",
+                        success: function (response) {
+
+                            var toast = new bootstrap.Toast($('#liveToast'));
+                            toast.show();
+                        },
+                        error: function (err) {
+
+                        }
+                    })
+                })
+
+                $('.star-btn').on('click', function (event) {
+                    let parent = $('#star-holder');
+                    $.each($(parent).children(), function (ind, ele) {
+                        $($(ele).find('i')[0]).removeClass('fa-solid')
+                    });
+
+                    let flag = false;
+
+                    $.each($(parent).children(), function (ind, ele) {
+                        if (flag)
+                            return;
+                        if ($(ele).find('i')[0] == event.target) {
+                            $('#RatingNumber').val(ind + 1);
+                            flag = true;
+                        }
+                        $($(ele).find('i')[0]).addClass('fa-solid')
+                    });
+                })
+
+            </script>
+        </div>
+    }
+</div>

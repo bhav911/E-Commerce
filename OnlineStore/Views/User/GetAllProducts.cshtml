@@ -55,6 +55,21 @@
                         <div class="ps-2">
                             <h5 class="card-title pe-5">@product.ProductDescription</h5>
                             @{
+                                if (product.RatingCount != 0)
+                                {
+                                    int rating = Convert.ToInt32(product.RatingCount);
+                                    for (int i = 1; i <= rating; i++)
+                                    {
+                                        <i class="fa-solid fa-star fa-xl" style="color: #FFD43B;"></i>
+                                    }
+                                    for (int i = 5; i > rating; i--)
+                                    {
+                                        <i class="fa-regular fa-star fa-xl" style="color: #FFD43B;"></i>
+                                    }
+                                    <span class="card-text text-secondary fw-bold mb-0">(@product.RatingCount)</span>
+                                }
+                            }
+                            @{
                                 if (product.Availability)
                                 {
                                     <p class="card-text text-success fw-bold">Available</p>
@@ -73,11 +88,13 @@
                         @{
                             if (product.Availability)
                             {
+                                @Html.ActionLink("Details", "GetProductDetails", "User", new { @productID = product.ProductID }, new { @class = "btn btn-secondary" })
                                 <button class="btn btn-primary addToCart" prod-id="@product.ProductID" id="addToCart">Add to cart</button>
                                 @Html.ActionLink("Buy", "BuyProduct", "User", new { @productID = product.ProductID }, new { @class = "btn btn-success" })
                             }
                             else
                             {
+                                <button class="btn btn-secondary" disabled>Details</button>
                                 <button class="btn btn-primary" disabled>Add to cart</button>
                                 <button class="btn btn-success" disabled>Buy</button>
                             }

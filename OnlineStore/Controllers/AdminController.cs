@@ -11,6 +11,7 @@ using System.Web.Mvc;
 
 namespace OnlineStore.Controllers
 {
+    [CustomAuthorizeHelper]
     public class AdminController : Controller
     {
         private readonly CouponService _coupon = new CouponService();
@@ -40,6 +41,7 @@ namespace OnlineStore.Controllers
             return Json(couponModelList, JsonRequestBehavior.AllowGet);
         }
 
+        [NonAction]
         public List<CouponModel> FetchCoupons()
         {
             List<Coupons> couponList = _coupon.GetCoupons();

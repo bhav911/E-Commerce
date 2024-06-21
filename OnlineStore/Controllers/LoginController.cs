@@ -11,6 +11,7 @@ namespace OnlineStore.Controllers
     public class LoginController : Controller
     {
         private readonly OwnerService _owner = new OwnerService();
+        private readonly AdminServices _admin = new AdminServices();
         private readonly UserService _user = new UserService();
         private readonly StateCityService _stateCity = new StateCityService();
         public ActionResult SignIn()
@@ -50,6 +51,17 @@ namespace OnlineStore.Controllers
                         UserSession.Username = user.username;
                         UserSession.UserRole = credential.Role;
                         return RedirectToAction("ShopList", "User");
+                    }
+                }
+                else if (credential.Role == "Admin")
+                {
+                    ADMINS admin = _admin.AuthenticateAdmin(credential);
+                    if (admin != null)
+                    {
+                        TempData["Role"] = "Admin";
+                        UserSession.UserID = admin.adminID;
+                        UserSession.Username = admin.email;
+                        return RedirectToAction("Coupons", "Admin");
                     }
                 }
             }

@@ -23,6 +23,7 @@ namespace OnlineStore.Controllers
         private readonly OrderService _order = new OrderService();
         private readonly CartService _cart = new CartService();
         private readonly CouponService _coupon = new CouponService();
+        private readonly RatingServices _rating = new RatingServices();
         public ActionResult ShopList()
         {
             List<Owner> shopList = _owner.GetAllShops();
@@ -67,7 +68,7 @@ namespace OnlineStore.Controllers
         public ActionResult ViewCart()
         {
             List<CART> cartList = _cart.GetCart(UserSession.UserID);
-            List<CartModel> cartModelList = ModelConverter.ConvertCartListToCartListModel(cartList); 
+            List<CartModel> cartModelList = ModelConverter.ConvertCartListToCartListModel(cartList);
             return View(cartModelList);
         }
 
@@ -81,7 +82,7 @@ namespace OnlineStore.Controllers
         {
             _cart.DecrementQuantity(cartID);
             return Json(true, JsonRequestBehavior.AllowGet);
-        }        
+        }
 
         public ActionResult GetOrderDetails()
         {
@@ -102,7 +103,7 @@ namespace OnlineStore.Controllers
         private decimal CalculateTotalPrice(List<CartModel> orderDetailModelList)
         {
             decimal total = 0;
-            foreach(var item in orderDetailModelList)
+            foreach (var item in orderDetailModelList)
             {
                 total += item.ProductQuantity * item.ProductPrice;
             }
@@ -120,7 +121,7 @@ namespace OnlineStore.Controllers
         [HttpPost]
         public ActionResult Checkout(int couponApplied = -1)
         {
-                _cart.ShiftFromCartToOrders(UserSession.UserID, couponApplied);
+            _cart.ShiftFromCartToOrders(UserSession.UserID, couponApplied);
             return RedirectToAction("ShopList");
         }
 
@@ -128,6 +129,42 @@ namespace OnlineStore.Controllers
         {
             ViewBag.role = "Customer";
             return View();
+        }
+
+        public ActionResult GetProductDetails(int productID)
+        {
+            Products product = _product.GetProduct(productID);
+            ProductDetailsModel productDetailsModel = ModelConverter.ConvertProductToProductDetailsModel(product);
+            productDetailsModel.CustomerID = UserSession.UserID;
+            List<Rating> rating = GetUserReviews(productID, 1);
+            productDetailsModel.PublicRatings = ModelConverter.ConvertRatingToRatingModel(rating);
+            return View(productDetailsModel);
+        }
+
+        public JsonResult LoadMoreReviews(int productID, int reviewNumber)
+        {
+            List<Rating> rating = GetUserReviews(productID, reviewNumber);
+            List<RatingModel> PublicRatings = ModelConverter.ConvertRatingToRatingModel(rating);
+            return Json(PublicRatings, JsonRequestBehavior.AllowGet);
+        }
+
+        public List<Rating> GetUserReviews(int productID, int reviewNumber)
+        {
+            List<Rating> rating = _rating.GetAllRatings(productID, reviewNumber);
+            return rating;
+        }
+
+        public ActionResult AddReview(NewReviewModel newReview)
+        {
+            newReview.CustomerID = UserSession.UserID;
+            _rating.AddRating(newReview);
+            return RedirectToAction("GetProductDetails", new { productID = newReview.ProductID });
+        }
+
+        public JsonResult ToggleHelpful(int ratingID)
+        {
+            bool status = _rating.ToggleHelpful(ratingID, UserSession.UserID);
+            return Json(status, JsonRequestBehavior.AllowGet);
         }
 
     }
