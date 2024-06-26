@@ -22,6 +22,14 @@
           <Property Name="ProductID" Type="int" Nullable="false" />
           <Property Name="Quantity" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="categoryID" />
+          </Key>
+          <Property Name="categoryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="description" Type="varchar(max)" />
+        </EntityType>
         <EntityType Name="Cities">
           <Key>
             <PropertyRef Name="CityID" />
@@ -132,6 +140,7 @@
           <Property Name="OwnerID" Type="int" />
           <Property Name="Availability" Type="bit" />
           <Property Name="isDeleted" Type="bit" />
+          <Property Name="subCategoryID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Rating">
           <Key>
@@ -149,7 +158,7 @@
           </Key>
           <Property Name="ratingDetailsID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ratingID" Type="int" />
-          <Property Name="review" Type="text" />
+          <Property Name="review" Type="nvarchar(max)" />
           <Property Name="ratingNumber" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="helpfulCount" Type="int" />
         </EntityType>
@@ -159,6 +168,16 @@
           </Key>
           <Property Name="StateID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="StateName" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SubCategory">
+          <Key>
+            <PropertyRef Name="subCategoryID" />
+          </Key>
+          <Property Name="subCategoryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="categoryID" Type="int" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="description" Type="varchar(max)" />
+          <Property Name="productCount" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="fk_helpfulReview_customerID">
           <End Role="Customers" Type="Self.Customers" Multiplicity="1" />
@@ -268,6 +287,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_products_subCategory">
+          <End Role="SubCategory" Type="Self.SubCategory" Multiplicity="1" />
+          <End Role="Products" Type="Self.Products" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubCategory">
+              <PropertyRef Name="subCategoryID" />
+            </Principal>
+            <Dependent Role="Products">
+              <PropertyRef Name="subCategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_rating_customerID">
           <End Role="Customers" Type="Self.Customers" Multiplicity="1" />
           <End Role="Rating" Type="Self.Rating" Multiplicity="*" />
@@ -340,6 +371,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_subCategory_category">
+          <End Role="Category" Type="Self.Category" Multiplicity="1" />
+          <End Role="SubCategory" Type="Self.SubCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="categoryID" />
+            </Principal>
+            <Dependent Role="SubCategory">
+              <PropertyRef Name="categoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_user_city">
           <End Role="Cities" Type="Self.Cities" Multiplicity="0..1" />
           <End Role="Customers" Type="Self.Customers" Multiplicity="*" />
@@ -379,6 +422,7 @@
         <EntityContainer Name="OnlineStoreModelStoreContainer">
           <EntitySet Name="ADMINS" EntityType="Self.ADMINS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CART" EntityType="Self.CART" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Cities" EntityType="Self.Cities" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Coupons" EntityType="Self.Coupons" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Customers" EntityType="Self.Customers" Schema="dbo" store:Type="Tables" />
@@ -393,6 +437,7 @@
           <EntitySet Name="Rating" EntityType="Self.Rating" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RatingDetails" EntityType="Self.RatingDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="States" EntityType="Self.States" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SubCategory" EntityType="Self.SubCategory" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="fk_helpfulReview_customerID" Association="Self.fk_helpfulReview_customerID">
             <End Role="Customers" EntitySet="Customers" />
             <End Role="HelpfulReview" EntitySet="HelpfulReview" />
@@ -429,6 +474,10 @@
             <End Role="Products" EntitySet="Products" />
             <End Role="ProductRating" EntitySet="ProductRating" />
           </AssociationSet>
+          <AssociationSet Name="fk_products_subCategory" Association="Self.fk_products_subCategory">
+            <End Role="SubCategory" EntitySet="SubCategory" />
+            <End Role="Products" EntitySet="Products" />
+          </AssociationSet>
           <AssociationSet Name="fk_rating_customerID" Association="Self.fk_rating_customerID">
             <End Role="Customers" EntitySet="Customers" />
             <End Role="Rating" EntitySet="Rating" />
@@ -452,6 +501,10 @@
           <AssociationSet Name="fk_shop_state" Association="Self.fk_shop_state">
             <End Role="States" EntitySet="States" />
             <End Role="Owner" EntitySet="Owner" />
+          </AssociationSet>
+          <AssociationSet Name="fk_subCategory_category" Association="Self.fk_subCategory_category">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="SubCategory" EntitySet="SubCategory" />
           </AssociationSet>
           <AssociationSet Name="fk_user_city" Association="Self.fk_user_city">
             <End Role="Cities" EntitySet="Cities" />
@@ -559,6 +612,16 @@
             <End Role="Rating" EntitySet="Rating" />
             <End Role="HelpfulReview" EntitySet="HelpfulReview" />
           </AssociationSet>
+          <EntitySet Name="Category" EntityType="OnlineStoreModel.Category" />
+          <EntitySet Name="SubCategory" EntityType="OnlineStoreModel.SubCategory" />
+          <AssociationSet Name="fk_subCategory_category" Association="OnlineStoreModel.fk_subCategory_category">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="SubCategory" EntitySet="SubCategory" />
+          </AssociationSet>
+          <AssociationSet Name="fk_products_subCategory" Association="OnlineStoreModel.fk_products_subCategory">
+            <End Role="SubCategory" EntitySet="SubCategory" />
+            <End Role="Products" EntitySet="Products" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="CART">
           <Key>
@@ -664,6 +727,8 @@
           <NavigationProperty Name="OrderDetails" Relationship="OnlineStoreModel.fk_orderDetail_productID" FromRole="Products" ToRole="OrderDetails" />
           <NavigationProperty Name="Rating" Relationship="OnlineStoreModel.fk_rating_productID" FromRole="Products" ToRole="Rating" />
           <NavigationProperty Name="ProductRating" Relationship="OnlineStoreModel.fk_productRating_productID" FromRole="Products" ToRole="ProductRating" />
+          <Property Name="subCategoryID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="SubCategory" Relationship="OnlineStoreModel.fk_products_subCategory" FromRole="Products" ToRole="SubCategory" />
         </EntityType>
         <EntityType Name="States">
           <Key>
@@ -870,7 +935,7 @@
           </Key>
           <Property Name="ratingDetailsID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ratingID" Type="Int32" />
-          <Property Name="review" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="review" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ratingNumber" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
           <NavigationProperty Name="Rating" Relationship="OnlineStoreModel.fk_ratingDetails_ratingID" FromRole="RatingDetails" ToRole="Rating" />
           <Property Name="helpfulCount" Type="Int32" />
@@ -967,6 +1032,51 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="categoryID" />
+          </Key>
+          <Property Name="categoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="SubCategory" Relationship="OnlineStoreModel.fk_subCategory_category" FromRole="Category" ToRole="SubCategory" />
+        </EntityType>
+        <EntityType Name="SubCategory">
+          <Key>
+            <PropertyRef Name="subCategoryID" />
+          </Key>
+          <Property Name="subCategoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="categoryID" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="productCount" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Category" Relationship="OnlineStoreModel.fk_subCategory_category" FromRole="SubCategory" ToRole="Category" />
+          <NavigationProperty Name="Products" Relationship="OnlineStoreModel.fk_products_subCategory" FromRole="SubCategory" ToRole="Products" />
+        </EntityType>
+        <Association Name="fk_subCategory_category">
+          <End Type="OnlineStoreModel.Category" Role="Category" Multiplicity="1" />
+          <End Type="OnlineStoreModel.SubCategory" Role="SubCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="categoryID" />
+            </Principal>
+            <Dependent Role="SubCategory">
+              <PropertyRef Name="categoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_products_subCategory">
+          <End Type="OnlineStoreModel.SubCategory" Role="SubCategory" Multiplicity="1" />
+          <End Type="OnlineStoreModel.Products" Role="Products" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubCategory">
+              <PropertyRef Name="subCategoryID" />
+            </Principal>
+            <Dependent Role="Products">
+              <PropertyRef Name="subCategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1054,6 +1164,7 @@
           <EntitySetMapping Name="Products">
             <EntityTypeMapping TypeName="OnlineStoreModel.Products">
               <MappingFragment StoreEntitySet="Products">
+                <ScalarProperty Name="subCategoryID" ColumnName="subCategoryID" />
                 <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
                 <ScalarProperty Name="Availability" ColumnName="Availability" />
                 <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
@@ -1141,6 +1252,26 @@
                 <ScalarProperty Name="customerID" ColumnName="customerID" />
                 <ScalarProperty Name="ratingID" ColumnName="ratingID" />
                 <ScalarProperty Name="helpfulReviewID" ColumnName="helpfulReviewID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Category">
+            <EntityTypeMapping TypeName="OnlineStoreModel.Category">
+              <MappingFragment StoreEntitySet="Category">
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="categoryID" ColumnName="categoryID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SubCategory">
+            <EntityTypeMapping TypeName="OnlineStoreModel.SubCategory">
+              <MappingFragment StoreEntitySet="SubCategory">
+                <ScalarProperty Name="productCount" ColumnName="productCount" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="categoryID" ColumnName="categoryID" />
+                <ScalarProperty Name="subCategoryID" ColumnName="subCategoryID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

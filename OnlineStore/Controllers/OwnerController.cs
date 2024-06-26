@@ -18,6 +18,7 @@ namespace OnlineStore.Controllers
     {
         private readonly ProductService _product = new ProductService();
         private readonly OwnerService _owner = new OwnerService();
+        private readonly CategoryServices _category = new CategoryServices();
 
         public ActionResult Dashboard()
         {
@@ -144,6 +145,21 @@ namespace OnlineStore.Controllers
             }
             return RedirectToAction("UploadDocuments");
         }
+
+        public JsonResult GetCategory()
+        {
+            List<Category> categoryList = _category.GetAllCategories();
+            List<CategoryModel> categoryModelList = ModelConverter.ConvertCategoryListToCategoryModelList(categoryList);
+            return Json(categoryModelList, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetSubCategories(int categoryID)
+        {
+            List<SubCategory> subCategoryList = _category.GetSubCategory(categoryID);
+            List<SubCategoryModel> subCategoryModelList = ModelConverter.ConvertSubCategoryListToSubCategoryModelList(subCategoryList);
+            return Json(subCategoryModelList, JsonRequestBehavior.AllowGet);
+        }
+
 
     }
 }

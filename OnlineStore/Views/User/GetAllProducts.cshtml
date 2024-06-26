@@ -54,31 +54,31 @@
                     <div class="border-start border-primary-subtle border-3 d-flex justify-content-between gap-5">
                         <div class="ps-2">
                             <h5 class="card-title pe-5">@product.ProductDescription</h5>
-                            @{
-                                if (product.RatingCount != 0)
+                            @{ if (product.RatingCount != 0)
                                 {
-                                    int rating = Convert.ToInt32(product.RatingCount);
+                                    decimal rating = Convert.ToDecimal(@product.RatingCount);
                                     for (int i = 1; i <= rating; i++)
                                     {
                                         <i class="fa-solid fa-star fa-xl" style="color: #FFD43B;"></i>
+                                    }
+                                    decimal precision = rating - Convert.ToInt32(rating);
+                                    if(precision != 0) {
+                                        <i class="fa-solid fa-star-half-stroke fa-xl" style="color: #FFD43B;"></i>
+                                        rating++;
                                     }
                                     for (int i = 5; i > rating; i--)
                                     {
                                         <i class="fa-regular fa-star fa-xl" style="color: #FFD43B;"></i>
                                     }
                                     <span class="card-text text-secondary fw-bold mb-0">(@product.RatingCount)</span>
-                                }
+                                } 
                             }
-                            @{
-                                if (product.Availability)
-                                {
-                                    <p class="card-text text-success fw-bold">Available</p>
-                                }
-                                else
-                                {
-                                    <p class="card-text text-danger mb-0">Not Available</p>
-                                }
-                            }
+                            @{ if (product.Availability)
+                                                {
+                                <p class="card-text text-success fw-bold">Available</p> }
+                                                else
+                                                {
+                                <p class="card-text text-danger mb-0">Not Available</p> } }
                         </div>
                         <div>
                             <h1 class="text-primary fw-bold">@product.ProductPrice<small>₹</small></h1>

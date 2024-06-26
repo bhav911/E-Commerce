@@ -79,7 +79,7 @@ namespace OnlineStore.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (newUser.Role == "Admin")
+                if (newUser.Role == "Owner")
                 {
                     Owner owner = ModelConverter.ConvertNewOwnerToOwner(newUser);
                     _owner.RegisterOwner(owner);

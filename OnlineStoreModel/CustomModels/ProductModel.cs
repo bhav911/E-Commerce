@@ -27,5 +27,13 @@ namespace OnlineStoreModel.CustomModels
         public List<CouponModel> CouponModelList { get; set; }
         public int couponApplied { get; set; }
         public decimal RatingCount { get; set; }
+
+        [Required]
+        public int CategoryID { get; set; }
+
+        [Required]
+        public int SubCategoryID{ get; set; }
+        public string Category { get; set; }
+        public string SubCategory { get; set; }
     }
 }

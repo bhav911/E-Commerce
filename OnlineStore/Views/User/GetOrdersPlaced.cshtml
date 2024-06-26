@@ -5,12 +5,13 @@
 }
 
 <div>
-    <h3 class="mb-5 fw-bold text-center">Order Details</h3>
-    <table class="table table-borderless">
-    </table>
-
-    @foreach (var order in Model)
-    {
+    <div>
+        <h3 class="fw-bold fs-1 text-primary text-center mb-5">Order Details</h3>
+    </div>
+    @{ if (Model != null && Model.Count() > 0)
+                    {
+                        foreach (var order in Model)
+                        {
         <div class="container-fluid my-5">
             <div class="row justify-content-center">
                 <div class="col-12">
@@ -32,36 +33,31 @@
                             </div>
                             @foreach (var item in order.orderDetails)
                             {
-                                <div class="row">
-                                    <div class="col-3">
-                                        <p>@item.ProductName</p>
-                                    </div>
-                                    <div class="col-3">
-                                        <p>@item.ProductPrice</p>
-                                    </div>
-                                    <div class="col-3">
-                                        <p>@item.ProductQuantity</p>
-                                    </div>
-                                    <div class="col-3">
-                                        <p>@(@item.ProductPrice * @item.ProductQuantity)</p>
-                                    </div>
-                                </div>
-                            }
+        <div class="row">
+            <div class="col-3">
+                <p>@item.ProductName</p>
+            </div>
+            <div class="col-3">
+                <p>@item.ProductPrice</p>
+            </div>
+            <div class="col-3">
+                <p>@item.ProductQuantity</p>
+            </div>
+            <div class="col-3">
+                <p>@(@item.ProductPrice * @item.ProductQuantity)</p>
+            </div>
+        </div>}
                             <div class="row fw-bold">
                                 <div class="col-9"></div>
                                 <div class="col-3">
                                     <div>
-                                        @{
-                                            if (order.Discount == 0)
-                                            {
-                                                <p class="mb-0 fs-5">Total :<span class="ms-2 text-success">@order.TotalPrice₹ </span></p>
-                                            }
-                                            else
-                                            {
-                                                <p class="mb-0 fs-5">Total :<span class="text-danger text-decoration-line-through"> @order.SubTotal₹ </span><span class="ms-2 text-success">@order.TotalPrice₹ </span></p>
-                                                <p class="mb-0"><span>Discount : @(Convert.ToInt32(@order.Discount))% off</span></p>
-                                            }
-                                        }
+                                        @{ if (order.Discount == 0)
+                                                                {
+                                            <p class="mb-0 fs-5">Total :<span class="ms-2 text-success">@order.TotalPrice₹ </span></p> }
+                                                                else
+                                                                {
+                                            <p class="mb-0 fs-5">Total :<span class="text-danger text-decoration-line-through"> @order.SubTotal₹ </span><span class="ms-2 text-success">@order.TotalPrice₹ </span></p>
+                                                                    <p class="mb-0"><span>Discount : @(Convert.ToInt32(@order.Discount))% off</span></p> } }
                                     </div>
                                 </div>
                             </div>
@@ -70,6 +66,16 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> }
+                    }
+                    else
+                    {
+        <div class="d-flex flex-column align-items-center ">
+            <div>
+                <img class="" src="https://img.freepik.com/premium-vector/nothing-here-flat-illustration_418302-77.jpg" />
+            </div>
+            <p class="fw-bold text-center fs-4">No orders made yet...</p>
+        </div> }
     }
+
 </div>

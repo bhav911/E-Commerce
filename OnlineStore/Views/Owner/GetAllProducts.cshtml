@@ -13,17 +13,23 @@
             <th>
                 Product
             </th>
-            <th>
+            <th class="w-50">
                 Description
             </th>
             <th>
                 Price
             </th>
             <th>
+                Category
+            </th>
+            <th>
+                Sub-Category
+            </th>
+            <th>
                 Available
             </th>
             <th>
-            Action
+                Action
             </th>
         </tr>
     
@@ -37,6 +43,12 @@
                 </td>
                 <td>
                     @item.ProductPrice
+                </td>
+                <td>
+                    @item.Category
+                </td>
+                <td>
+                    @item.SubCategory
                 </td>
                 @{
                     if (item.Availability)

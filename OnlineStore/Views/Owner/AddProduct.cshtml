@@ -24,6 +24,20 @@
                 </div>
             </div>
         </div>
+        <div class="row mb-3">
+            <div class="col-6">
+                <select id="category-holder" class="form-select p-3" name="CategoryID" onchange="changeSubCategory()">
+                    <option value="">Select Category</option>
+                </select>
+                @Html.ValidationMessageFor(m => m.CategoryID, null, new { @class = "text-danger" })
+            </div>
+            <div class="col-6">
+                <select class="form-select p-3" id="subCategory-holder" name="SubCategoryID">
+                    <option value="">Select Sub-Category</option>
+                </select>
+                @Html.ValidationMessageFor(m => m.SubCategoryID, null, new { @class = "text-danger" })
+            </div>
+        </div>
         <div class="row">
             <div class="col-9">
                 <div class="form-floating mb-3">
@@ -127,4 +141,48 @@
         let parent = $(this).parent();
         $(parent).remove();
     })
+
+
+
+    $(document).ready(function () {
+        $.ajax({
+            url: "/Owner/GetCategory",
+            type: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                $.each(response, (ind, ele) => {
+                    $('#category-holder').append(`
+                        <option value="${ele.CategoryID}">${ele.Name}</option>
+                    `)
+                })
+            },
+            error: function (xhr, status, error) {
+
+            }
+        });
+    });
+
+    function changeSubCategory() {
+        debugger
+        let categoryID = $('#category-holder').val();
+        $.ajax({
+            url: "/Owner/GetSubCategories?categoryID=" + categoryID,
+            type: "GET",
+            dataType: "json",
+            success: function (response) {
+                debugger
+                $('#subCategory-holder').empty();
+                $('#subCategory-holder').append("<option value='NIL'>Select Sub-Category</option>");
+
+                $.each(response, (ind, ele) => {
+                    $('#subCategory-holder').append(`
+                        <option value="${ele.SubCategoryID}">${ele.Name}</option>
+                    `)
+                })
+            },
+            error: function (xhr, status, error) {
+
+            }
+        })
+    }
 </script>

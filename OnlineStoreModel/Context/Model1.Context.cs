@@ -64,6 +64,10 @@ public partial class OnlineStoreEntities : DbContext
 
     public virtual DbSet<HelpfulReview> HelpfulReview { get; set; }
 
+    public virtual DbSet<Category> Category { get; set; }
+
+    public virtual DbSet<SubCategory> SubCategory { get; set; }
+
 }
 
 }

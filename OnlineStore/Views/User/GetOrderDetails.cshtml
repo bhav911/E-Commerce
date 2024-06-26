@@ -10,13 +10,13 @@
         <h3 class="mb-5 fw-bold text-center">Order Details</h3>
         <div>
             <select name="couponApplied" class="form-select" id="CouponHolder">
-                <option>Apply Coupon</option>
+                <option value="-1">Apply Coupon</option>
                 @{
                     foreach (var coupon in Model.CouponModelList)
                     {
                         if (coupon.MinimunPurchase < Model.TotalPrice)
                         {
-                            <option value="@coupon.CouponID">@coupon.CouponName</option>
+                            <option value="@coupon.CouponID" per="@coupon.CouponDiscount">@coupon.CouponName</option>
                         }
                     }
                 }
@@ -44,11 +44,17 @@
             </tbody>
             <tfoot>
                 @{
+                    <tr class="table-success d-none" id="discount-row">
+                        <td></td>
+                        <td></td>
+                        <td class="fw-bold">Discount:</td>
+                        <td id="discount-holder">NA</td>
+                    </tr>
                     <tr class="table-secondary">
                         <td></td>
                         <td></td>
                         <td class="fw-bold">Total:</td>
-                        <td>@Model.TotalPrice</td>
+                        <td id="final-price">@Model.TotalPrice</td>
                     </tr>
                 }
             </tfoot>
@@ -59,3 +65,21 @@
         </div>
     </form>
 </div>
+
+
+<script>
+    $('#CouponHolder').on('change', function (event) {
+        let OriginalPrice = parseFloat(@Model.TotalPrice);
+        debugger
+        if ($(event.target).val() == -1) {
+            $('#discount-row').addClass('d-none');
+            $('#final-price').text(parseFloat(OriginalPrice));
+            return;
+        }
+        let discount = parseInt($("#CouponHolder :selected").attr('per'));
+        $('#discount-holder').text(`${discount}%`)
+        let total = $('#final-price');
+        $(total).text(OriginalPrice - (OriginalPrice * (discount / 100)));
+        $('#discount-row').removeClass('d-none');
+    })
+</script>

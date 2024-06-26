@@ -40,6 +40,7 @@ namespace OnlineStoreRepository.Services
             product.ProductDescription = newProductInfo.ProductDescription;
             product.ProductPrice = newProductInfo.ProductPrice;
             product.Availability = newProductInfo.Availability;
+            product.subCategoryID = newProductInfo.subCategoryID;
 
             Dictionary<string, object> kvp = new Dictionary<string, object>();
             if(imageFileToDelete != null)
@@ -101,6 +102,12 @@ namespace OnlineStoreRepository.Services
             {
                 return false;
             }
+        }
+
+        public List<Products> GetProductsOf(int subCategoryID)
+        {
+            List<Products> productList = db.Products.Where(q => q.subCategoryID == subCategoryID).ToList();
+            return productList;
         }
     }
 }

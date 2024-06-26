@@ -49,14 +49,19 @@
                             @{
                                 if (Model.RatingNumber != 0)
                                 {
-                                    decimal rating = Math.Floor(Convert.ToDecimal(Model.RatingNumber));
+                                    decimal rating = Convert.ToDecimal(Model.RatingNumber);
                                     for (int i = 1; i <= rating; i++)
                                     {
-                                        <i class="fa-solid fa-star fa-xl" style="color: #FFD43B;"></i>
+                                        <i class="fa-solid fa-star fa-lg" style="color: #FFD43B;"></i>
+                                    }
+                                    decimal precision = rating - Convert.ToInt32(rating);
+                                    if(precision != 0) {
+                                        <i class="fa-solid fa-star-half-stroke fa-lg" style="color: #FFD43B;"></i>
+                                        rating++;
                                     }
                                     for (int i = 5; i > rating; i--)
                                     {
-                                        <i class="fa-regular fa-star fa-xl" style="color: #FFD43B;"></i>
+                                        <i class="fa-regular fa-star fa-lg" style="color: #FFD43B;"></i>
                                     }
                                     <span class="card-text text-secondary fw-bold mb-0">(@Model.RatingNumber)</span>
                                 }
@@ -90,24 +95,49 @@
                     </div>
                 </div>
             </div>
+
+            @*Reviews*@
             <div class="mx-4 mb-4">
                 <p class="fw-bold fs-4">Ratings</p>
                 <div class="p-4 border rounded-4 mb-4">
-                    <form method="post" action="/User/AddReview">
-                        <div id="star-holder" class="d-flex gap-2 mb-3" style="cursor:pointer;">
-                            <div class="star-btn"><i class="fa-regular fa-star fa-xl" style="color: #FFD43B;"></i></div>
-                            <div class="star-btn"><i class="fa-regular fa-star fa-xl" style="color: #FFD43B;"></i></div>
-                            <div class="star-btn"><i class="fa-regular fa-star fa-xl" style="color: #FFD43B;"></i></div>
-                            <div class="star-btn"><i class="fa-regular fa-star fa-xl" style="color: #FFD43B;"></i></div>
-                            <div class="star-btn"><i class="fa-regular fa-star fa-xl" style="color: #FFD43B;"></i></div>
-                        </div>
-                        <input hidden name="RatingNumber" type="number" id="RatingNumber" />
-                        <input hidden name="ProductID" type="number" id="RatingNumber" value="@Model.ProductID" />
-                        <textarea name="review" class="form-control" placeholder="Write a review"></textarea>
-                        <div class="mt-3">
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                        </div>
-                    </form>
+                    <div id="star-holder" class="d-flex gap-2 mb-3" style="cursor:pointer;">
+                        @{ 
+                            for(int i = 1; i <= 5; i++) { 
+                                <div class="star-btn"><i class="fa-regular fa-star fa-lg" style="color: #FFD43B;"></i></div>
+                            }
+                        }
+                    </div>
+                    <input hidden name="RatingNumber" type="number" id="RatingNumber" />
+                    <input hidden name="ProductID" type="number" id="RatingNumber" value="@Model.ProductID" />
+                    <textarea name="review" class="form-control" id="RatingReview" placeholder="Write a review"></textarea>
+                    <div class="mt-3">
+                        <button id="SubmitBtn" class="btn btn-primary">Submit</button>
+                    </div>
+                </div>
+                <div class="text-end py-3" id="star-filter">
+                    <button class="btn btn-sm btn-outline-warning border-warning" star="5">
+                        <span class=" fw-bold fs-5">5</span>
+                        <i class="fa-solid fa-star fa-lg"></i>
+                    </button>
+                    <button class="btn btn-sm btn-outline-warning border-warning" star="4">
+                        <span class=" fw-bold fs-5">4</span>
+                        <i class="fa-solid fa-star fa-lg"></i>
+                    </button>
+                    <button class="btn btn-sm btn-outline-warning border-warning" star="3">
+                        <span class=" fw-bold fs-5">3</span>
+                        <i class="fa-solid fa-star fa-lg"></i>
+                    </button>
+                    <button class="btn btn-sm btn-outline-warning border-warning" star="2">
+                        <span class=" fw-bold fs-5">2</span>
+                        <i class="fa-solid fa-star fa-lg"></i>
+                    </button>
+                    <button class="btn btn-sm btn-outline-warning border-warning" star="1">
+                        <span class=" fw-bold fs-5">1</span>
+                        <i class="fa-solid fa-star fa-lg"></i>
+                    </button>
+                    <button class="btn btn-sm btn-outline-warning border-warning" star="-1">
+                        <span class=" fw-bold fs-5">All</span>
+                    </button>
                 </div>
                 <div id="review-holder">
                     @{
@@ -154,11 +184,11 @@
                                             int rating = Convert.ToInt32(review.RatingNumber);
                                             for (int i = 1; i <= rating; i++)
                                             {
-                                                <i class="fa-solid fa-star fa-xl" style="color: #FFD43B;"></i>
+                                                <i class="fa-solid fa-star fa-lg" style="color: #FFD43B;"></i>
                                             }
                                             for (int i = 5; i > rating; i--)
                                             {
-                                                <i class="fa-regular fa-star fa-xl" style="color: #FFD43B;"></i>
+                                                <i class="fa-regular fa-star fa-lg" style="color: #FFD43B;"></i>
                                             }
                                         }
                                     </div>
@@ -190,6 +220,106 @@
                 let product = @Model.ProductID;
                 let customerID = @Model.CustomerID;
                 let reachedLimit = false;
+                let filterApplied = -1;
+
+                $('#star-filter').on('click', function (event) {
+                    let target = event.target;
+                    if (!$(target).closest('button').hasClass("border-warning"))
+                        return;
+                    let star = $(target).closest('button').attr('star');
+                    filterApplied = star;
+                    $.ajax({
+                        url: `/User/GetFilteredReview?star=${star}&productID=${parseInt(product)}`,
+                        method: "GET",
+                        dataType: "json",
+                        contentType:"json",
+                        success: function (response) {
+                            let LoadBtn = $('#LoadReviews');
+                            $(LoadBtn).text("Show More");
+                            reachedLimit = false;
+
+                            $('#review-holder').empty();
+                            $.each(response, (ind, ele) => {
+                                AppendReview(ele);
+                            })
+                        },
+                        error: function (err) {
+                            debugger
+                        }
+                    });
+                });
+
+
+                $('#SubmitBtn').on('click', function () {
+                    let rating = $('#RatingNumber').val();
+                    let review = $('#RatingReview').val();
+                    let newReview = {
+                        "Review": review,
+                        "RatingNumber": rating,
+                        "ProductID": product,
+                        "CustomerID" : null
+                    }
+                    $.ajax({
+                        url: "/User/AddReview",
+                        type: "POST",
+                        dataType: "json",
+                        data: newReview,
+                        success: function (ele) {
+                            $('#RatingNumber').val("");
+                            $('#RatingReview').val("");
+                            $('#RatingReview').text("");
+                            let star_icons = $('.star-btn i.fa-star');
+                            $.each(star_icons, function (ind, ele) {
+                                debugger
+                                $(ele).addClass("fa-regular").removeClass("fa-solid")
+                            })
+                            let parent = $('#review-holder');
+                            let div1 = $('<div>').addClass('card mb-4 border-black px-4 pt-3 review-card');
+                            let div2a = $('<div>').addClass('d-flex justify-content-between');
+                            let div3a = $('<div>').addClass('d-flex gap-1');
+                            let div4a = $('<div>').append($('<i>').addClass("fa-regular fa-user border rounded-circle p-1 border-dark"));
+                            let div4bspan = $('<span>').addClass("fw-bold text-primary d-block ms-1").text(`${ele.CustomerName}`)
+                            let div4b = $('<div>').append(div4bspan);
+                            if (ele.HavePurchased) {
+                                $(div4b).append($('<small>').addClass("text-secondary").append($('<i>').text('Verfied Buyer')))
+                            }
+                            let div4c = $('<div>').append($('<small>').text("Recently"));
+                            $(div3a).append(div4a)
+                            $(div3a).append(div4b)
+                            $(div3a).append(div4c)
+                            let div3b = $('<div>');
+                            let rating = parseInt(ele.RatingNumber)
+                            for (let i = 1; i <= rating; i++) {
+                                $(div3b).append('<i class= "fa-solid fa-star fa-lg" style = "color: #FFD43B;" ></i >');
+                            }
+                            for (let i = 5; i > rating; i--) {
+                                $(div3b).append('<i class= "fa-regular fa-star fa-lg" style = "color: #FFD43B;" ></i >');
+                            }
+                            $(div2a).append(div3a);
+                            $(div2a).append(div3b);
+
+                            let div2b = $('<div>').addClass("ms-4 mt-2");
+                            let div2bp = $('<p>').addClass("mb-0 text-secondary").text(ele.Review);
+                            $(div2b).append(div2bp);
+
+                            let div2c = $('<div>').addClass("my-3 ms-4");
+                            let div2ci = $('<i>').addClass("fa-regular fa-thumbs-up me-2").attr({ "rating": ele.RatingID, "liked": false }).css("cursor", "pointer")
+                            $(div2c).append(div2ci);
+
+                            let div2cspan = $("<span>").text("0")
+                            $(div2c).append(div2cspan);
+                            $(div1).append(div2a)
+                            $(div1).append(div2b)
+                            $(div1).append(div2c)
+                            $(parent).prepend(div1);
+                        },
+                        error: function (error) {
+                            debugger
+
+                        }
+                    })
+                })
+
 
                 $('#LoadReviews').on('click', function () {
                     if (reachedLimit) {
@@ -215,6 +345,26 @@
                         return;
                     }
                     let cardBatch = Math.ceil($('.review-card').length / 3);
+                    if (filterApplied != -1) {
+                        $.ajax({
+                            url: `/User/GetFilteredReview?star=${filterApplied}&productID=${parseInt(product)}&reviewNumber=${cardBatch + 1}`,
+                            method: "GET",
+                            dataType: "json",
+                            success: function (response) {
+                                if (response.length < 3) {
+                                    let LoadBtn = $('#LoadReviews');
+                                    $(LoadBtn).text("Hide Reviews");
+                                    reachedLimit = true;
+                                }
+                                $.each(response, (ind, ele) => {
+                                    AppendReview(ele);
+                                })
+                            },
+                            error: function (error, a, b, c) {
+                            }
+                        })
+                        return;
+                    }
                     $.ajax({
                         url: `/User/LoadMoreReviews?productID=${product}&reviewNumber=${cardBatch + 1}`,
                         method: "GET",
@@ -225,65 +375,8 @@
                                 $(LoadBtn).text("Hide Reviews");
                                 reachedLimit = true;
                             }
-                            let parent = $('#review-holder');
                             $.each(response, (ind, ele) => {
-                                let div1 = $('<div>').addClass('card mb-4 border-black px-4 pt-3 review-card');
-                                let div2a = $('<div>').addClass('d-flex justify-content-between');
-                                let div3a = $('<div>').addClass('d-flex gap-1');
-                                let div4a = $('<div>').append($('<i>').addClass("fa-regular fa-user border rounded-circle p-1 border-dark"));
-                                let div4bspan = $('<span>').addClass("fw-bold text-primary d-block ms-1").text(`${ele.CustomerName}`)
-                                let div4b = $('<div>').append(div4bspan);
-                                if (ele.HavePurchased) {
-                                    $(div4bspan).append($('<small>').addClass("text-secondary").append($('<i>').text('Verfied Buyer')))
-                                }
-                                var milliseconds = parseInt(ele.ReviewDate.replace(/\/Date\((\d+)\)\//, '$1'), 10);
-                                let message = messageCalculater(new Date(milliseconds))
-                                let div4c = $('<div>').append($('<small>').text(message));
-                                $(div3a).append(div4a)
-                                $(div3a).append(div4b)
-                                $(div3a).append(div4c)
-                                let div3b = $('<div>');
-                                let rating = parseInt(ele.RatingNumber)
-                                for (let i = 1; i <= rating; i++)
-                                {
-                                    $(div3b).append('<i class= "fa-solid fa-star fa-xl" style = "color: #FFD43B;" ></i >');
-                                }
-                                for (let i = 5; i > rating; i--)
-                                {
-                                    $(div3b).append('<i class= "fa-regular fa-star fa-xl" style = "color: #FFD43B;" ></i >');
-                                }
-                                $(div2a).append(div3a);
-                                $(div2a).append(div3b);
-
-                                let div2b = $('<div>').addClass("ms-4 mt-2");
-                                let div2bp = $('<p>').addClass("mb-0 text-secondary").text(ele.Review);
-                                $(div2b).append(div2bp);
-
-                                let div2c = $('<div>').addClass("my-3 ms-4");
-                                let liked = false;
-                                $.each(ele.helpfulReviewsCustomerID, (ind, ele) => {
-                                    if (liked) return;
-                                    if (ele == customerID) {
-                                        liked = true;
-                                    }
-                                })
-
-                                if (liked)
-                                {
-                                    let div2ci = $('<i>').addClass("fa-solid fa-thumbs-up me-2").attr({ "rating": ele.RatingID, "liked": true }).css("cursor", "pointer")
-                                    $(div2c).append(div2ci);
-                                }
-                                else
-                                {
-                                    let div2ci = $('<i>').addClass("fa-regular fa-thumbs-up me-2").attr({ "rating": ele.RatingID, "liked": false }).css("cursor", "pointer")
-                                    $(div2c).append(div2ci);
-                                }
-                                let div2cspan = $("<span>").text(ele.HelpfulCount)
-                                $(div2c).append(div2cspan);
-                                $(div1).append(div2a)
-                                $(div1).append(div2b)
-                                $(div1).append(div2c)
-                                $(parent).append(div1);
+                                AppendReview(ele);
                             })
 
                         },
@@ -292,6 +385,63 @@
                     })
 
                 })
+
+                function AppendReview(ele) {
+                    let parent = $('#review-holder');
+                    let div1 = $('<div>').addClass('card mb-4 border-black px-4 pt-3 review-card');
+                    let div2a = $('<div>').addClass('d-flex justify-content-between');
+                    let div3a = $('<div>').addClass('d-flex gap-1');
+                    let div4a = $('<div>').append($('<i>').addClass("fa-regular fa-user border rounded-circle p-1 border-dark"));
+                    let div4bspan = $('<span>').addClass("fw-bold text-primary d-block ms-1").text(`${ele.CustomerName}`)
+                    let div4b = $('<div>').append(div4bspan);
+                    if (ele.HavePurchased) {
+                        $(div4b).append($('<small>').addClass("text-secondary").append($('<i>').text('Verfied Buyer')))
+                    }
+                    var milliseconds = parseInt(ele.ReviewDate.replace(/\/Date\((\d+)\)\//, '$1'), 10);
+                    let message = messageCalculater(new Date(milliseconds))
+                    let div4c = $('<div>').append($('<small>').text(message));
+                    $(div3a).append(div4a)
+                    $(div3a).append(div4b)
+                    $(div3a).append(div4c)
+                    let div3b = $('<div>');
+                    let rating = parseInt(ele.RatingNumber)
+                    for (let i = 1; i <= rating; i++) {
+                        $(div3b).append('<i class= "fa-solid fa-star fa-lg" style = "color: #FFD43B;" ></i >');
+                    }
+                    for (let i = 5; i > rating; i--) {
+                        $(div3b).append('<i class= "fa-regular fa-star fa-lg" style = "color: #FFD43B;" ></i >');
+                    }
+                    $(div2a).append(div3a);
+                    $(div2a).append(div3b);
+
+                    let div2b = $('<div>').addClass("ms-4 mt-2");
+                    let div2bp = $('<p>').addClass("mb-0 text-secondary").text(ele.Review);
+                    $(div2b).append(div2bp);
+
+                    let div2c = $('<div>').addClass("my-3 ms-4");
+                    let liked = false;
+                    $.each(ele.helpfulReviewsCustomerID, (ind, ele) => {
+                        if (liked) return;
+                        if (ele == customerID) {
+                            liked = true;
+                        }
+                    })
+
+                    if (liked) {
+                        let div2ci = $('<i>').addClass("fa-solid fa-thumbs-up me-2").attr({ "rating": ele.RatingID, "liked": true }).css("cursor", "pointer")
+                        $(div2c).append(div2ci);
+                    }
+                    else {
+                        let div2ci = $('<i>').addClass("fa-regular fa-thumbs-up me-2").attr({ "rating": ele.RatingID, "liked": false }).css("cursor", "pointer")
+                        $(div2c).append(div2ci);
+                    }
+                    let div2cspan = $("<span>").text(ele.HelpfulCount)
+                    $(div2c).append(div2cspan);
+                    $(div1).append(div2a)
+                    $(div1).append(div2b)
+                    $(div1).append(div2c)
+                    $(parent).append(div1);
+                }
 
 
                 function messageCalculater(reviewDate) {

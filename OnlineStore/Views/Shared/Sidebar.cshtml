@@ -1,4 +1,4 @@
-﻿<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+﻿<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar" style="position:fixed; left:0">
 
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
@@ -32,14 +32,26 @@
             if (TempData.ContainsKey("Role") && TempData.Peek("Role").Equals("Customer"))
             {
                 <li class="nav-item active">
+                    <a class="nav-link" href="/User/Home">
+                        <i class="fa-solid fa-house"></i>
+                        <span>Home</span>
+                    </a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/User/Category">
+                        <i class="fa-solid fa-list"></i>
+                        <span>Category</span>
+                    </a>
+                </li>
+                <li class="nav-item active">
                     <a class="nav-link" href="/User/ShopList">
-                        <i class="fas fa-fw fa-bolt"></i>
+                        <i class="fa-solid fa-shop"></i>
                         <span>All Shops</span>
                     </a>
                 </li>
                 <li class="nav-item active">
                     <a class="nav-link" href="/User/ViewCart">
-                        <i class="fas fa-fw fa-pen"></i>
+                        <i class="fa-solid fa-cart-shopping"></i>
                         <span>Your Cart</span>
                     </a>
                 </li>

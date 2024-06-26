@@ -89,6 +89,16 @@
       <End Role="Rating" EntitySet="Rating" />
       <End Role="HelpfulReview" EntitySet="HelpfulReview" />
     </AssociationSet>
+    <EntitySet Name="Category" EntityType="OnlineStoreModel.Category" />
+    <EntitySet Name="SubCategory" EntityType="OnlineStoreModel.SubCategory" />
+    <AssociationSet Name="fk_subCategory_category" Association="OnlineStoreModel.fk_subCategory_category">
+      <End Role="Category" EntitySet="Category" />
+      <End Role="SubCategory" EntitySet="SubCategory" />
+    </AssociationSet>
+    <AssociationSet Name="fk_products_subCategory" Association="OnlineStoreModel.fk_products_subCategory">
+      <End Role="SubCategory" EntitySet="SubCategory" />
+      <End Role="Products" EntitySet="Products" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="CART">
     <Key>
@@ -194,6 +204,8 @@
     <NavigationProperty Name="OrderDetails" Relationship="OnlineStoreModel.fk_orderDetail_productID" FromRole="Products" ToRole="OrderDetails" />
     <NavigationProperty Name="Rating" Relationship="OnlineStoreModel.fk_rating_productID" FromRole="Products" ToRole="Rating" />
     <NavigationProperty Name="ProductRating" Relationship="OnlineStoreModel.fk_productRating_productID" FromRole="Products" ToRole="ProductRating" />
+    <Property Name="subCategoryID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="SubCategory" Relationship="OnlineStoreModel.fk_products_subCategory" FromRole="Products" ToRole="SubCategory" />
   </EntityType>
   <EntityType Name="States">
     <Key>
@@ -400,7 +412,7 @@
     </Key>
     <Property Name="ratingDetailsID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="ratingID" Type="Int32" />
-    <Property Name="review" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="review" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="ratingNumber" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
     <NavigationProperty Name="Rating" Relationship="OnlineStoreModel.fk_ratingDetails_ratingID" FromRole="RatingDetails" ToRole="Rating" />
     <Property Name="helpfulCount" Type="Int32" />
@@ -494,6 +506,51 @@
       </Principal>
       <Dependent Role="HelpfulReview">
         <PropertyRef Name="ratingID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="categoryID" />
+    </Key>
+    <Property Name="categoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="SubCategory" Relationship="OnlineStoreModel.fk_subCategory_category" FromRole="Category" ToRole="SubCategory" />
+  </EntityType>
+  <EntityType Name="SubCategory">
+    <Key>
+      <PropertyRef Name="subCategoryID" />
+    </Key>
+    <Property Name="subCategoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="categoryID" Type="Int32" Nullable="false" />
+    <Property Name="name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="productCount" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Category" Relationship="OnlineStoreModel.fk_subCategory_category" FromRole="SubCategory" ToRole="Category" />
+    <NavigationProperty Name="Products" Relationship="OnlineStoreModel.fk_products_subCategory" FromRole="SubCategory" ToRole="Products" />
+  </EntityType>
+  <Association Name="fk_subCategory_category">
+    <End Type="OnlineStoreModel.Category" Role="Category" Multiplicity="1" />
+    <End Type="OnlineStoreModel.SubCategory" Role="SubCategory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="categoryID" />
+      </Principal>
+      <Dependent Role="SubCategory">
+        <PropertyRef Name="categoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_products_subCategory">
+    <End Type="OnlineStoreModel.SubCategory" Role="SubCategory" Multiplicity="1" />
+    <End Type="OnlineStoreModel.Products" Role="Products" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SubCategory">
+        <PropertyRef Name="subCategoryID" />
+      </Principal>
+      <Dependent Role="Products">
+        <PropertyRef Name="subCategoryID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

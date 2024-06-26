@@ -49,7 +49,8 @@ namespace OnlineStoreHelper.Helpers
                 ProductPrice = productModel.ProductPrice,
                 OwnerID = shopID,
                 Availability = productModel.Availability,
-                isDeleted = false
+                isDeleted = false,
+                subCategoryID = productModel.SubCategoryID
             };
             return product;
         }
@@ -64,7 +65,9 @@ namespace OnlineStoreHelper.Helpers
                 Availability = (bool)product.Availability,
                 ProductID = product.ProductID,
                 OwnerID = (int)product.OwnerID,
-                ImageID = product.ProductImages.FirstOrDefault().ImageID
+                ImageID = product.ProductImages.FirstOrDefault().ImageID,
+                SubCategory = product.SubCategory.name,
+                Category = product.SubCategory.Category.name
             };
             string paths = product.ProductImages.FirstOrDefault().uniqueImageName;
             if(paths != null && paths.Length > 0)
@@ -86,7 +89,9 @@ namespace OnlineStoreHelper.Helpers
                     ProductID = product.ProductID,
                     ProductName = product.ProductName,
                     ProductPrice = (decimal)product.ProductPrice,
-                    RatingCount = (decimal)product.ProductRating.FirstOrDefault().avgRating
+                    RatingCount = (decimal)product.ProductRating.FirstOrDefault().avgRating,
+                    Category = product.SubCategory.Category.name,
+                    SubCategory = product.SubCategory.name
                 };
                 string imagePaths = product.ProductImages.FirstOrDefault().uniqueImageName;
                 if(imagePaths != null)
@@ -171,6 +176,44 @@ namespace OnlineStoreHelper.Helpers
             return orderModelList.OrderByDescending(q => q.OrderID).ToList();
         }
 
+        public static List<SubCategoryModel> ConvertSubCategoryListToSubCategoryModelList(List<SubCategory> subCategoryList)
+        {
+            List<SubCategoryModel> subCategoryModelList = new List<SubCategoryModel>();
+            foreach(SubCategory subCategory in subCategoryList)
+            {
+                SubCategoryModel subCategoryModel = new SubCategoryModel()
+                {
+                    CategoryID = subCategory.categoryID,
+                    Name = subCategory.name,
+                    SubCategoryID = subCategory.subCategoryID,
+                    Description = subCategory.description,
+                    ProductCount = subCategory.productCount
+                };
+
+                subCategoryModelList.Add(subCategoryModel);
+            }
+
+            return subCategoryModelList;
+        }
+
+        public static List<CategoryModel> ConvertCategoryListToCategoryModelList(List<Category> categoryList)
+        {
+            List<CategoryModel> categoryModelList = new List<CategoryModel>();
+            foreach (Category category in categoryList)
+            {
+                CategoryModel categoryModel = new CategoryModel()
+                {
+                    CategoryID = category.categoryID,
+                    Name = category.name,
+                    Description = category.description
+                };
+
+                categoryModelList.Add(categoryModel);
+            }
+
+            return categoryModelList;
+        }
+
         public static List<OrdersReceivedModel> ConvertOrdersReceivedToOrdersrecievedModel(List<OrderDetails> ordersRecieved)
         {
             List<OrdersReceivedModel> ordersReceivedModel = new List<OrdersReceivedModel>();
@@ -248,6 +291,8 @@ namespace OnlineStoreHelper.Helpers
             List<RatingModel> ratingModelList = new List<RatingModel>();
             foreach(Rating rating in ratingList)
             {
+                if (rating.RatingDetails.FirstOrDefault().review == null)
+                    continue;
                 RatingModel ratingModel = new RatingModel()
                 {
                     CustomerName  = rating.Customers.username,
@@ -266,6 +311,51 @@ namespace OnlineStoreHelper.Helpers
             }
 
             return ratingModelList;
+        }
+
+        public static RatingModel ConvertRatingToRatingModelSingle(Rating rating)
+        {
+            RatingModel ratingModel = new RatingModel()
+            {
+                CustomerName = rating.Customers.username,
+                CustomerID = rating.customerID,
+                HavePurchased = rating.havePurchased,
+                RatingID = rating.ratingID,
+                RatingNumber = rating.RatingDetails.FirstOrDefault().ratingNumber,
+                Review = rating.RatingDetails.FirstOrDefault().review,
+            };
+
+            return ratingModel;
+        }
+
+        public static List<CategoryModel> ConvertCategoryListToCategorySelectionModelList(List<Category> categoryList)
+        {
+            List<CategoryModel> categoryModelList = new List<CategoryModel>();
+
+            foreach(Category category in categoryList)
+            {
+                CategoryModel categoryModel = new CategoryModel()
+                {
+                    CategoryID = category.categoryID,
+                    Name = category.name,
+                    subCategoryList = new List<SubCategoryModel>()
+                };
+
+                List<SubCategory> subCategoryList = category.SubCategory.ToList();
+                foreach(SubCategory subCategory in subCategoryList)
+                {
+                    SubCategoryModel subCategoryModel = new SubCategoryModel()
+                    {
+                        SubCategoryID = subCategory.subCategoryID,
+                        Name = subCategory.name
+                    };
+                    categoryModel.subCategoryList.Add(subCategoryModel);
+                }
+
+                categoryModelList.Add(categoryModel);
+            }
+
+            return categoryModelList;
         }
     }
 }

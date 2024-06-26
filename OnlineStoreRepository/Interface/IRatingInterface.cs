@@ -10,7 +10,7 @@ namespace OnlineStoreRepository.Interface
 {
     public interface IRatingInterface
     {
-        bool AddRating(NewReviewModel productRating);
+        Rating AddRating(NewReviewModel productRating);
         bool MarkHelpful(int ratingID);
         bool DeleteRating(int ratingID);
         Rating GetRating(int ratingID);

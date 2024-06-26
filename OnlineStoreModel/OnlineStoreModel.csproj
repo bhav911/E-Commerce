@@ -81,6 +81,9 @@
     <Compile Include="Context\CART.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Context\Category.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Context\Cities.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -138,10 +141,14 @@
     <Compile Include="Context\States.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Context\SubCategory.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="CustomModels\AdminModel.cs" />
     <Compile Include="CustomModels\BuyProductModel.cs" />
     <Compile Include="CustomModels\CartCouponModel.cs" />
     <Compile Include="CustomModels\CartModel.cs" />
+    <Compile Include="CustomModels\CategoryModel.cs" />
     <Compile Include="CustomModels\CityModel.cs" />
     <Compile Include="CustomModels\CouponModel.cs" />
     <Compile Include="CustomModels\DocumentModel.cs" />
@@ -157,6 +164,7 @@
     <Compile Include="CustomModels\ProductModel.cs" />
     <Compile Include="CustomModels\RatingModel.cs" />
     <Compile Include="CustomModels\StateModel.cs" />
+    <Compile Include="CustomModels\SubCategoryModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

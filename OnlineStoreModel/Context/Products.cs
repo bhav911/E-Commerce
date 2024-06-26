@@ -49,6 +49,8 @@ public partial class Products
 
     public Nullable<bool> isDeleted { get; set; }
 
+    public int subCategoryID { get; set; }
+
 
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -72,6 +74,8 @@ public partial class Products
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
     public virtual ICollection<ProductRating> ProductRating { get; set; }
+
+    public virtual SubCategory SubCategory { get; set; }
 
 }
 

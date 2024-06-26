@@ -24,6 +24,8 @@ namespace OnlineStore.Controllers
         private readonly CartService _cart = new CartService();
         private readonly CouponService _coupon = new CouponService();
         private readonly RatingServices _rating = new RatingServices();
+        private readonly CategoryServices _category = new CategoryServices();
+
         public ActionResult ShopList()
         {
             List<Owner> shopList = _owner.GetAllShops();
@@ -93,7 +95,7 @@ namespace OnlineStore.Controllers
             CartCouponModel cartCouponModel = new CartCouponModel()
             {
                 CartModelList = orderDetailModelList,
-                CouponModelList = couponModelList
+                CouponModelList = couponModelList.Where(q => q.CouponExpiry >= DateTime.Today && q.Active).ToList()
             };
             cartCouponModel.TotalPrice = CalculateTotalPrice(orderDetailModelList);
             return View(cartCouponModel);
@@ -154,17 +156,54 @@ namespace OnlineStore.Controllers
             return rating;
         }
 
-        public ActionResult AddReview(NewReviewModel newReview)
+        [HttpPost]
+        public JsonResult AddReview(NewReviewModel newReview)
         {
+            if (newReview.RatingNumber == null)
+                return Json(false, JsonRequestBehavior.AllowGet);
             newReview.CustomerID = UserSession.UserID;
-            _rating.AddRating(newReview);
-            return RedirectToAction("GetProductDetails", new { productID = newReview.ProductID });
+            Rating rating = _rating.AddRating(newReview);
+            RatingModel ratingModel = ModelConverter.ConvertRatingToRatingModelSingle(rating);
+            return Json(ratingModel, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult ToggleHelpful(int ratingID)
         {
             bool status = _rating.ToggleHelpful(ratingID, UserSession.UserID);
             return Json(status, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetFilteredReview(string star, int productID, int reviewNumber= 1)
+        {
+            List<Rating> rating;
+            List<RatingModel> PublicRatings;
+            if (star == "-1")
+            {
+                rating = GetUserReviews(productID, 1);
+                PublicRatings = ModelConverter.ConvertRatingToRatingModel(rating);
+                return Json(PublicRatings, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                rating = _rating.GetFilteredUserReviews(productID, reviewNumber, star);
+                PublicRatings = ModelConverter.ConvertRatingToRatingModel(rating);
+            }
+
+            return Json(PublicRatings, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult Category()
+        {
+            List<Category> categoryList = _category.GetAllCategories();
+            List<CategoryModel> categoryModelList = ModelConverter.ConvertCategoryListToCategorySelectionModelList(categoryList);
+            return View(categoryModelList);
+        }
+
+        public ActionResult GetProductsOf(int categoryID)
+        {
+            List<Products> productList = _product.GetProductsOf(categoryID);
+            List<ProductModel> productModelList = ModelConverter.ConvertProductListToProductModelList(productList);
+            return View("GetAllProducts", productModelList);
         }
 
     }

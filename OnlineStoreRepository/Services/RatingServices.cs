@@ -12,7 +12,7 @@ namespace OnlineStoreRepository.Services
     public class RatingServices : IRatingInterface
     {
         private readonly OnlineStoreEntities db = new OnlineStoreEntities();
-        public bool AddRating(NewReviewModel productRating)
+        public Rating AddRating(NewReviewModel productRating)
         {
             try
             {
@@ -29,6 +29,7 @@ namespace OnlineStoreRepository.Services
                     havePurchased = false,
                     reviewDate = DateTime.Today
                 };
+                rating.Customers = db.Customers.FirstOrDefault(q => q.CustomerID == productRating.CustomerID);
                 List<Orders> orderList = db.Orders.Where(q => q.CustomerID == productRating.CustomerID).ToList();
                 foreach (Orders order in orderList)
                 {
@@ -50,11 +51,11 @@ namespace OnlineStoreRepository.Services
                 };
                 ratingDetails = db.RatingDetails.Add(ratingDetails);
                 db.SaveChanges();
-                return true;
+                return rating;
             }
             catch (Exception)
             {
-                return false;
+                return null;
                 throw;
             }
         }
@@ -134,6 +135,13 @@ namespace OnlineStoreRepository.Services
                 return false;
                 throw;
             }
+        }
+
+        public List<Rating> GetFilteredUserReviews(int productID, int reviewNumber, string star)
+        {
+            int max = 3;
+            List<Rating> ratingList = db.Rating.Where(q => q.productID == productID && q.RatingDetails.FirstOrDefault().ratingNumber == star).OrderBy(m => m.ratingID).Skip((reviewNumber - 1) * max).Take(max).ToList();
+            return ratingList;
         }
     }
 }

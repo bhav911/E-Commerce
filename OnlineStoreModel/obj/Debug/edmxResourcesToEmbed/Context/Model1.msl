@@ -82,6 +82,7 @@
     <EntitySetMapping Name="Products">
       <EntityTypeMapping TypeName="OnlineStoreModel.Products">
         <MappingFragment StoreEntitySet="Products">
+          <ScalarProperty Name="subCategoryID" ColumnName="subCategoryID" />
           <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
           <ScalarProperty Name="Availability" ColumnName="Availability" />
           <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
@@ -169,6 +170,26 @@
           <ScalarProperty Name="customerID" ColumnName="customerID" />
           <ScalarProperty Name="ratingID" ColumnName="ratingID" />
           <ScalarProperty Name="helpfulReviewID" ColumnName="helpfulReviewID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Category">
+      <EntityTypeMapping TypeName="OnlineStoreModel.Category">
+        <MappingFragment StoreEntitySet="Category">
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="categoryID" ColumnName="categoryID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SubCategory">
+      <EntityTypeMapping TypeName="OnlineStoreModel.SubCategory">
+        <MappingFragment StoreEntitySet="SubCategory">
+          <ScalarProperty Name="productCount" ColumnName="productCount" />
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="categoryID" ColumnName="categoryID" />
+          <ScalarProperty Name="subCategoryID" ColumnName="subCategoryID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
