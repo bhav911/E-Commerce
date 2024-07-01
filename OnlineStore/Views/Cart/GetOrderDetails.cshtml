@@ -1,0 +1,85 @@
+﻿@model OnlineStoreModel.CustomModels.CartCouponModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div>
+    <form method="GET" action="/Cart/Checkout">
+        <h3 class="mb-5 fw-bold text-center">Order Details</h3>
+        <div>
+            <select name="couponApplied" class="form-select" id="CouponHolder">
+                <option value="-1">Apply Coupon</option>
+                @{
+                    foreach (var coupon in Model.CouponModelList)
+                    {
+                        if (coupon.MinimunPurchase < Model.TotalPrice)
+                        {
+                            <option value="@coupon.CouponID" per="@coupon.CouponDiscount">@coupon.CouponName</option>
+                        }
+                    }
+                }
+            </select>
+        </div>
+        <table class="table table-borderless">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Unit Price</th>
+                    <th>Quantity</th>
+                    <th>Total Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.CartModelList)
+                {
+                    <tr>
+                        <td>@item.ProductName</td>
+                        <td>@item.ProductPrice</td>
+                        <td>@item.ProductQuantity</td>
+                        <td>@(@item.ProductPrice * @item.ProductQuantity)</td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                @{
+                    <tr class="table-success d-none" id="discount-row">
+                        <td></td>
+                        <td></td>
+                        <td class="fw-bold">Discount:</td>
+                        <td id="discount-holder">NA</td>
+                    </tr>
+                    <tr class="table-secondary">
+                        <td></td>
+                        <td></td>
+                        <td class="fw-bold">Total:</td>
+                        <td id="final-price">@Model.TotalPrice</td>
+                    </tr>
+                }
+            </tfoot>
+        </table>
+
+        <div class="d-flex justify-content-center">
+            <button type="submit" class="btn btn-success">Checkout</button>
+        </div>
+    </form>
+</div>
+
+
+<script>
+    $('#CouponHolder').on('change', function (event) {
+        let OriginalPrice = parseFloat(@Model.TotalPrice);
+        debugger
+        if ($(event.target).val() == -1) {
+            $('#discount-row').addClass('d-none');
+            $('#final-price').text(parseFloat(OriginalPrice));
+            return;
+        }
+        let discount = parseInt($("#CouponHolder :selected").attr('per'));
+        $('#discount-holder').text(`${discount}%`)
+        let total = $('#final-price');
+        $(total).text(OriginalPrice - (OriginalPrice * (discount / 100)));
+        $('#discount-row').removeClass('d-none');
+    })
+</script>

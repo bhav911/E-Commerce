@@ -1,0 +1,105 @@
+﻿@model List<OnlineStoreModel.CustomModels.CartItemModel>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+    function IncrementQuantity(ele, cartID) {
+        $.ajax({
+            url: "/Cart/IncrementQuantity?cartID=" + cartID,
+            type: "GET",
+            dataType: "json",
+            success: function (res) {
+                let tar = $(ele).closest('tr').find('.quantity')[0];
+                $(tar).text(parseInt($(tar).text()) + 1);
+            },
+            error: function (err) {
+
+            }
+        })
+    }
+    function DecrementQuantity(ele, cartID) {
+        let element = $(ele).closest('tr').find('.quantity')[0];
+        let quantity = parseInt($(element).text());
+        $.ajax({
+            url: "/Cart/DecrementQuantity?cartID=" + cartID,
+            type: "GET",
+            dataType: "json",
+            success: function (res) {
+                if (quantity == 1) {
+                    let ele = $('<a>').attr('href', '/Cart/ViewCart');
+                    $('body').prepend(ele); 
+                    ele[0].click();
+                    return;
+                }
+                let tar = $(ele).closest('tr').find('.quantity')[0];
+                $(tar).text(parseInt($(tar).text()) - 1);
+            },
+            error: function (err) {
+
+            }
+        })
+    }
+</script>
+
+
+<div>
+    <div>
+        <h3 class="fw-bold fs-1 text-primary text-center mb-5">Your Cart</h3>
+    </div>
+    <div id="holder">
+        @{
+            if (Model != null && Model.Count > 0)
+            {
+                <table class="table table-borderless">
+                    <tr>
+                        <th>
+                            Product
+                        </th>
+                        <th>
+                            Quantity
+                        </th>
+                        <th>
+                            Unit Price
+                        </th>
+                        <th></th>
+                    </tr>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ProductName)
+                            </td>                                  
+                            <td class="quantity">                  
+                                @Html.DisplayFor(modelItem => item.ProductQuantity)
+                            </td>                                  
+                            <td>                                   
+                                @Html.DisplayFor(modelItem => item.ProductPrice)
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-success btn-sm" onclick="IncrementQuantity(this, @item.CartItemID)">+</button>
+                                <button type="button" class="btn btn-danger btn-sm" onclick="DecrementQuantity(this, @item.CartItemID)">-</button>
+                            </td>
+                        </tr>
+                    }
+                </table>
+                <div class="text-center mt-5">
+                    <form method="GET" action="/Cart/GetOrderDetails">
+                        <button class="btn btn-primary" type="submit">Proceed To Checkout</button>
+                    </form>
+                </div>
+            }
+            else
+            {
+                <div class="d-flex flex-column align-items-center ">
+                    <div>
+                        <img class="" src="https://img.freepik.com/premium-vector/nothing-here-flat-illustration_418302-77.jpg" />
+                    </div>
+                    <p class="fw-bold text-center fs-4">Your cart is empty...</p>
+                </div>
+            }
+        }
+    </div>
+</div>

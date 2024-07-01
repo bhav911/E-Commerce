@@ -1,0 +1,71 @@
+﻿@model OnlineStoreModel.CustomModels.HomePageModel
+
+@{
+    Layout = "~/Views/Shared/_HomeLayout.cshtml";
+}
+
+<style>
+    .cat-img {
+        height: 130px;
+        width: 130px;
+    }
+
+    a {
+        text-decoration: none !important;
+    }
+
+    .gap-3:hover {
+        .cat-img
+
+    {
+        transform: scale(1.1);
+        transition-duration: 0.6s;
+    }
+
+    .text-dark {
+        color: blue !important
+    }
+    }
+</style>
+
+<div class="d-flex justify-content-between">
+    @{
+        int counter = 0;
+        foreach (var category in Model.CategoryList)
+        {
+            <a href="/Product/GetProductsOfCategory?categoryID=@category.CategoryID">
+                <div class="d-flex flex-column align-items-center gap-3">
+                    <img class="rounded-circle cat-img border border-secondary border-2" src="~/Content/Category/@Model.ImagePath[counter++]" />
+                    <span class="text-dark fw-bold">@category.Name</span>
+                </div>
+            </a>
+        }
+    }
+</div>
+
+@section featuring{
+    <div class="container-fluid">
+
+        @{
+            foreach (var category in Model.CategoryList)
+            {
+                <div class="mb-5 border rounded-5 " style="box-shadow: 0px 10px 34px -15px rgba(0, 0, 0, 0.24);">
+                    <p class="fs-3 text-black mb-3 bg-primary-subtle rounded-top-5 px-5 py-2">@category.Name</p>
+                    <div class="d-flex gap-5 flex-wrap px-5 pb-5 pt-3">
+                        @foreach (var subCategory in category.SubCategoryList)
+                        {
+                            <div>
+                                <a href="/Product/GetProductsOfSubCategory?subCategoryID=@subCategory.SubCategoryID">
+                                    <div class="d-flex flex-column align-items-center gap-3">
+                                        <img class="rounded-5 cat-img border border-2" src="~/Content/Electronics/@subCategory.ImagePath" />
+                                        <span class="text-dark fw-bold" style="width:80px">@subCategory.Name</span>
+                                    </div>
+                                </a>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        }
+    </div>
+}

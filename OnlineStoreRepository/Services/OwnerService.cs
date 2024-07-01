@@ -14,7 +14,12 @@ namespace OnlineStoreRepository.Services
         private readonly OnlineStoreEntities db = new OnlineStoreEntities();
         public void RegisterOwner(Owner owner)
         {
-            db.Owner.Add(owner);
+            owner = db.Owner.Add(owner);
+            OwnerKYC ownerkyc = new OwnerKYC()
+            {
+                OwnerID = owner.OwnerID
+            };
+            db.OwnerKYC.Add(ownerkyc);
             db.SaveChanges();
         }
         public Owner AuthenticateOwner(LoginModel credentials)
@@ -27,6 +32,13 @@ namespace OnlineStoreRepository.Services
             List<Owner> allShops = db.Owner.ToList();
             return allShops;
         }
+
+        public Owner DoesOwnerExist(string email)
+        {
+            Owner owner = db.Owner.FirstOrDefault(q => q.email == email);
+            return owner;
+        }
+
         public List<OrderDetails> GetReceivedOrders(int ownerID)
         {
             List<OrderDetails> orderList = db.OrderDetails.Where(q => q.Products.OwnerID == ownerID).ToList();
@@ -36,13 +48,6 @@ namespace OnlineStoreRepository.Services
         {
             Owner owner = db.Owner.FirstOrDefault(u => u.OwnerID == userID);
             OwnerKYC ownerkyc = owner.OwnerKYC.FirstOrDefault();
-            if(ownerkyc == null)
-            {
-                ownerkyc = new OwnerKYC()
-                {
-                    OwnerID = userID
-                };
-            }
             if(docs[0] != null)
                 ownerkyc.panCard = docs[0];
             if (docs[1] != null)
@@ -58,11 +63,38 @@ namespace OnlineStoreRepository.Services
         {
             OwnerKYC ownerKyc = db.OwnerKYC.FirstOrDefault(u => u.OwnerID == userID);
             DocumentModel docs = new DocumentModel();
-            docs.DocPaths[0] = ownerKyc.panCard;
-            docs.DocPaths[1] = ownerKyc.aadharCard;
-            docs.DocPaths[2] = ownerKyc.passpostImage;
-            docs.DocPaths[3] = ownerKyc.shopImage;
+            docs.DocPaths[0] = ownerKyc.panCard?? null;
+            docs.DocPaths[1] = ownerKyc.aadharCard?? null;
+            docs.DocPaths[2] = ownerKyc.passpostImage?? null;
+            docs.DocPaths[3] = ownerKyc.shopImage?? null;
             return docs;
+        }
+
+        public Owner GetOwner(int ownerID)
+        {
+            Owner owner = db.Owner.FirstOrDefault(q => q.OwnerID == ownerID);
+            return owner;
+        }
+
+        public bool UpdateProfile(OwnerModel ownerModel)
+        {
+            try
+            {
+                Owner owner = db.Owner.FirstOrDefault(q => q.OwnerID == ownerModel.OwnerID);
+                owner.shopname = ownerModel.Shopname;
+                owner.CityID = ownerModel.CityID;
+                owner.StateID = ownerModel.StateID;
+                owner.email = ownerModel.Email;
+                owner.Description = ownerModel.Description;
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+                throw;
+            }
+
         }
     }
 }

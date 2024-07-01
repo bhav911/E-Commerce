@@ -128,9 +128,9 @@
                 </select>
                 @Html.ValidationMessageFor(m => m.CityID, null, new { @class = "text-danger" })
             </div>
-            @if (Model != null && Model.Role != "Owner")
+            @if (Model == null || Model.Role == "Customer")
             {
-                <div class="col-4" id="hideGender">
+                <div class="col-4 @(Model==null?"d-none":"")" id="hideGender">
                     <select class="form-select p-3" name="gender" id="gender">
                         <option selected>Male</option>
                         <option>Female</option>

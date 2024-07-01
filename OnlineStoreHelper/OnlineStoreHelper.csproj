@@ -73,12 +73,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\CustomAdminAuthentucateHelperAttribute.cs" />
+    <Compile Include="Helpers\FutureDateBlocker.cs" />
+    <Compile Include="Helpers\ModelConverter\AdminConverter.cs" />
+    <Compile Include="Helpers\ModelConverter\CartConverter.cs" />
+    <Compile Include="Helpers\ModelConverter\CategoryConverter.cs" />
+    <Compile Include="Helpers\ModelConverter\CouponConverter.cs" />
     <Compile Include="Helpers\CustomAuthorizeHelperAttribute.cs" />
     <Compile Include="Helpers\CustomOwnerAuthentucateHelperAttribute.cs" />
     <Compile Include="Helpers\CustomUserAuthenticateHelperAttribute.cs" />
     <Compile Include="Helpers\EncryptionDecryptionHelper.cs" />
-    <Compile Include="Helpers\ModelConverter.cs" />
+    <Compile Include="Helpers\ModelConverter\OrderConverter.cs" />
+    <Compile Include="Helpers\ModelConverter\OwnerConverter.cs" />
+    <Compile Include="Helpers\ModelConverter\ProductConverter.cs" />
+    <Compile Include="Helpers\ModelConverter\RatingConverter.cs" />
     <Compile Include="Helpers\SqlSPHelper.cs" />
+    <Compile Include="Helpers\ModelConverter\CustomerConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sessions\UserSession.cs" />
   </ItemGroup>

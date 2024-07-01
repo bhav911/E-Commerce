@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OnlineStore.Sessions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +20,9 @@ namespace OnlineStoreHelper.Helpers
         {
             filterContext.Result = new RedirectToRouteResult(
                 new System.Web.Routing.RouteValueDictionary {
-                    {"controller","User"},
+                    {"controller",UserSession.UserRole},
                     {"action","Unauthorize"},
-                    {"role","Customer"}
+                    {"role",UserSession.UserRole}
                 }
             );
         }

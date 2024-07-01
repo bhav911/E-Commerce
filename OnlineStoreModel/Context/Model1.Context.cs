@@ -32,8 +32,6 @@ public partial class OnlineStoreEntities : DbContext
     }
 
 
-    public virtual DbSet<CART> CART { get; set; }
-
     public virtual DbSet<Cities> Cities { get; set; }
 
     public virtual DbSet<Coupons> Coupons { get; set; }
@@ -67,6 +65,12 @@ public partial class OnlineStoreEntities : DbContext
     public virtual DbSet<Category> Category { get; set; }
 
     public virtual DbSet<SubCategory> SubCategory { get; set; }
+
+    public virtual DbSet<SubCategoryImage> SubCategoryImage { get; set; }
+
+    public virtual DbSet<Cart> Cart { get; set; }
+
+    public virtual DbSet<CartItems> CartItems { get; set; }
 
 }
 

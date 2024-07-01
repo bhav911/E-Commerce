@@ -12,60 +12,72 @@ namespace OnlineStoreRepository.Services
     public class CartService : ICartInterface
     {
         private readonly OnlineStoreEntities db = new OnlineStoreEntities();
-        public void AddToCart(OrderModel cartOrder)
+        public Cart AddToCart(OrderModel cartOrder)
         {
-            CART cart = db.CART.Where(c => c.CustomerID == cartOrder.CustomerID && c.ProductID == cartOrder.ProductID).FirstOrDefault();
-            if(cart == null)
+            Cart cart = db.Cart.FirstOrDefault(c => c.CustomerID == cartOrder.CustomerID);
+            cart.ItemCount++;
+            CartItems cartItem = cart.CartItems.FirstOrDefault(q => q.ProductID == cartOrder.ProductID);
+            if(cartItem == null)
             {
-                CART newItem = new CART()
+                CartItems newItem = new CartItems()
                 {
                     ProductID = cartOrder.ProductID,
-                    Quantity = cartOrder.Quantity,
-                    CustomerID = cartOrder.CustomerID
+                    Quantity = 1,
+                    CartID = cart.CartID
                 };
-                db.CART.Add(newItem);
+                db.CartItems.Add(newItem);
             }
             else
             {
-                cart.Quantity++;
+                cartItem.Quantity++;
             }
             db.SaveChanges();
+            return cart;
         }
-        public List<CART> GetCart(int userID)
+        public List<CartItems> GetCart(int CustomerID)
         {
-            List<CART> cartList = db.CART.Where(c => c.CustomerID == userID).ToList();
+            Cart cart = db.Cart.FirstOrDefault(q => q.CustomerID == CustomerID);
+            if (cart.ItemCount == 0)
+                return new List<CartItems>();
+            List <CartItems> cartList = cart.CartItems.ToList();
             return cartList;
         }
-        public void IncrementQuantity(int CartID)
+        public CartItems IncrementQuantity(int CartItemID)
         {
-            CART cart = db.CART.Where(c => c.CartID == CartID).FirstOrDefault();
-            cart.Quantity++;
+            CartItems cartItem = db.CartItems.FirstOrDefault(c => c.CartItemID == CartItemID);
+            cartItem.Quantity++;
             db.SaveChanges();
+            return cartItem;
         }
-        public void DecrementQuantity(int CartID)
+        public CartItems DecrementQuantity(int CartItemID)
         {
-            CART cart = db.CART.Where(c => c.CartID == CartID).FirstOrDefault();
-            if(cart.Quantity > 0)
+            CartItems cartItem = db.CartItems.FirstOrDefault(c => c.CartItemID == CartItemID); 
+            if (cartItem.Quantity > 0)
             {
-                cart.Quantity--;
-                if(cart.Quantity == 0)
+                cartItem.Quantity--;
+                if(cartItem.Quantity == 0)
                 {
-                    db.CART.Remove(cart);
+                    cartItem.Cart.ItemCount--;
+                    db.CartItems.Remove(cartItem);
                 }
                 db.SaveChanges();
             }
+            return cartItem;
         }
-        public List<CART> GetOrderDetail(int userID)
+        public List<CartItems> GetOrderDetail(int CustomerID)
         {
-            List<CART> cartList = db.CART.Where(c => c.CustomerID == userID).ToList();
-            return cartList;
+            Cart cart = db.Cart.FirstOrDefault(q => q.CustomerID == CustomerID);
+            List<CartItems> cartItemList = cart.CartItems.ToList();
+            return cartItemList;
         }
-        public void ShiftFromCartToOrders(int userID, int couponApplied)
+        public Orders ShiftFromCartToOrders(int CustomerID, int couponApplied)
         {
-            List<CART> cartList = db.CART.Where(c => c.CustomerID == userID).ToList();
+            Cart cart = db.Cart.FirstOrDefault(q => q.CustomerID == CustomerID);
+            cart.ItemCount = 0;
+            List<CartItems> cartItemList = cart.CartItems.ToList();
             decimal subTotal = 0;
             List<OrderDetails> orderDetailList = new List<OrderDetails>();
-            foreach (CART item in cartList)
+            foreach (CartItems item in cartItemList)
             {
                 subTotal += (decimal)(item.Quantity * item.Products.ProductPrice);
                 OrderDetails orderDetails = new OrderDetails()
@@ -78,9 +90,10 @@ namespace OnlineStoreRepository.Services
             }
             Orders order = new Orders()
             {
-                CustomerID = userID,
+                CustomerID = CustomerID,
                 Discount = couponApplied == -1 ? 0 : db.Coupons.FirstOrDefault(q => q.CouponID == couponApplied).CouponDiscount,
-                SubTotal = subTotal
+                SubTotal = subTotal,
+                OrderDate = DateTime.Now
             };
             order.TotalPrice = (decimal)(order.SubTotal - (order.SubTotal * (order.Discount / 100)));
 
@@ -92,11 +105,12 @@ namespace OnlineStoreRepository.Services
             }
             db.OrderDetails.AddRange(orderDetailList);
             db.SaveChanges();            
-            foreach (CART item in cartList)
+            foreach (CartItems item in cartItemList)
             {
-                db.CART.Remove(item);
+                db.CartItems.Remove(item);
             }
             db.SaveChanges();
+            return addedOrder;
         }
     }
 }

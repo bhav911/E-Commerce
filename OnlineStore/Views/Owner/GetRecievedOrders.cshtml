@@ -12,6 +12,7 @@
                 <th>Product</th>
                 <th>Quantity</th>
                 <th>Order Placer</th>
+                <th>Order Date</th>
                 <th>Status</th>
             </tr>
         </thead>
@@ -21,7 +22,8 @@
                 <tr>
                     <td>@item.ProductName</td>
                     <td>@item.ProductQuantity</td>
-                    <td>@item.Email</td>
+                    <td>@item.UserEmail</td>
+                    <td>@item.OrderDate</td>
                     <td>
                         <button class="btn btn-primary">Delivered</button>
                     </td>

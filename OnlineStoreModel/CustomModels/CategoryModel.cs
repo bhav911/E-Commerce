@@ -11,6 +11,6 @@ namespace OnlineStoreModel.CustomModels
         public int CategoryID { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public List<SubCategoryModel> subCategoryList { get; set; }
+        public List<SubCategoryModel> SubCategoryList { get; set; }
     }
 }

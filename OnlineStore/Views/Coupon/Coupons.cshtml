@@ -1,0 +1,67 @@
+﻿@model List<OnlineStoreModel.CustomModels.CouponModel>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Coupon</th>
+                <th>Discount</th>
+                <th>Expiry</th>
+                <th>Minimum Purchase</th>
+                <th>Active</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                foreach (var coupon in Model)
+                {
+                    <tr>
+                        <td>@coupon.CouponName</td>
+                        <td>@coupon.CouponDiscount</td>
+                        <td>@coupon.CouponExpiry</td>
+                        <td>@coupon.MinimunPurchase</td>
+                        <td>
+                            @{
+                                if (coupon.Active)
+                                {
+                                    <input type="checkbox" cid="@coupon.CouponID" checked class="form-check couponActive" />
+                                }
+                                else
+                                {
+                                    <input type="checkbox" cid="@coupon.CouponID" class="form-check couponActive" />
+                                }
+                            }
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
+
+<script>
+
+    $('.couponActive').on('click', function () {
+        debugger
+        let couponId = $(this).attr('cid');
+        let curstatus = $(this).prop("checked");
+        $.ajax({
+            url: "/Coupon/ModifyCouponAvailability?couponID=" + couponId,
+            type: "GET",
+            success: function (response) {
+                $(this).prop('checked', !curstatus)
+            },
+            error: function (error) {
+
+            }
+        })
+    })
+
+
+
+</script>

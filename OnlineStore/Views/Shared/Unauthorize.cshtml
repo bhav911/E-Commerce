@@ -12,11 +12,11 @@
     @{
         if (ViewBag.role == "Customer")
         {
-            @Html.ActionLink("Back to Home", "ShopList", "User", null, new { @class = "btn btn-secondary" })
+            @Html.ActionLink("Back to Home", "Home", "Customer", null, new { @class = "btn btn-secondary" })
         }
         else
         {
-            @Html.ActionLink("Back to Home", "GetAllProducts", "Owner", null, new { @class = "btn btn-secondary" })
+            @Html.ActionLink("Back to Home", "GetMyProducts", "Product", null, new { @class = "btn btn-secondary" })
         }
     }
 </div>

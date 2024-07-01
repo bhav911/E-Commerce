@@ -18,8 +18,9 @@ namespace OnlineStoreRepository.Services
             Orders order = new Orders()
             {
                 CustomerID = orderModel.CustomerID,
-                Discount = orderModel.couponApplied == -1 ? 0 : db.Coupons.FirstOrDefault(q => q.CouponID == orderModel.couponApplied).CouponDiscount,
-                SubTotal = productPrice * orderModel.Quantity
+                Discount = orderModel.CouponApplied == -1 ? 0 : db.Coupons.FirstOrDefault(q => q.CouponID == orderModel.CouponApplied).CouponDiscount,
+                SubTotal = productPrice * orderModel.Quantity,
+                OrderDate = DateTime.Now
             };
             order.TotalPrice = (decimal)(order.SubTotal - (order.SubTotal * (order.Discount / 100)));
             Orders addedOrder = db.Orders.Add(order);

@@ -1,19 +1,17 @@
-﻿using OnlineStore.Sessions;
+﻿using Newtonsoft.Json;
+using OnlineStore.Sessions;
 using OnlineStoreHelper.Helpers;
 using OnlineStoreModel.Context;
 using OnlineStoreModel.CustomModels;
 using OnlineStoreRepository.Services;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace OnlineStore.Controllers
 {
     public class LoginController : Controller
     {
-        private readonly OwnerService _owner = new OwnerService();
-        private readonly AdminServices _admin = new AdminServices();
-        private readonly UserService _user = new UserService();
-        private readonly StateCityService _stateCity = new StateCityService();
         public ActionResult SignIn()
         {
             Session.Clear();
@@ -21,7 +19,7 @@ namespace OnlineStore.Controllers
         }
 
         [HttpPost]
-        public ActionResult SignIn(LoginModel credential)
+        public async Task<ActionResult> SignIn(LoginModel credential)
         {
             if (ModelState.IsValid)
             {
@@ -31,40 +29,48 @@ namespace OnlineStore.Controllers
 
                 if (credential.Role == "Owner")
                 {
-                    Owner owner = _owner.AuthenticateOwner(credential);
+                    string response = await WebApiHelper.WebApiHelper.HttpPostResponseRequest($"api/OwnerApi/AuthenticateOwner", JsonConvert.SerializeObject(credential));
+                    Owner owner = JsonConvert.DeserializeObject<Owner>(response);
                     if (owner != null)
                     {
                         TempData["Role"] = "Owner";
                         UserSession.UserID = owner.OwnerID;
                         UserSession.Username = owner.shopname;
                         UserSession.UserRole = credential.Role;
-                        return RedirectToAction("GetAllProducts", "Owner");
+                        TempData["success"] = "Logged In Successfully";
+                        return RedirectToAction("GetMyProducts", "Product");
                     }
                 }
                 else if(credential.Role == "Customer")
                 {
-                    Customers user = _user.AuthenticateUser(credential);
-                    if (user != null)
+                    string response = await WebApiHelper.WebApiHelper.HttpPostResponseRequest($"api/CustomerApi/AuthenticateCustomer", JsonConvert.SerializeObject(credential));
+                    Customers customer = JsonConvert.DeserializeObject<Customers>(response);
+                    if (customer != null)
                     {
                         TempData["Role"] = "Customer";
-                        UserSession.UserID = user.CustomerID;
-                        UserSession.Username = user.username;
+                        UserSession.UserID = customer.CustomerID;
+                        UserSession.Username = customer.username;
                         UserSession.UserRole = credential.Role;
-                        return RedirectToAction("ShopList", "User");
+                        TempData["success"] = "Logged In Successfully";
+                        return RedirectToAction("Home", "Customer");
                     }
                 }
                 else if (credential.Role == "Admin")
                 {
-                    ADMINS admin = _admin.AuthenticateAdmin(credential);
+                    string response = await WebApiHelper.WebApiHelper.HttpPostResponseRequest($"api/AdminApi/AuthenticateAdmin", JsonConvert.SerializeObject(credential));
+                    ADMINS admin = JsonConvert.DeserializeObject<ADMINS>(response);
                     if (admin != null)
                     {
                         TempData["Role"] = "Admin";
                         UserSession.UserID = admin.adminID;
                         UserSession.Username = admin.email;
-                        return RedirectToAction("Coupons", "Admin");
+                        UserSession.UserRole = credential.Role;
+                        TempData["success"] = "Logged In Successfully";
+                        return RedirectToAction("Coupons", "Coupon");
                     }
                 }
             }
+            TempData["error"] = "Invalid Credentials";
 
             return View(credential);
         }
@@ -75,23 +81,41 @@ namespace OnlineStore.Controllers
         }
 
         [HttpPost]
-        public ActionResult SignUp(NewRegistration newUser)
+        public async Task<ActionResult> SignUp(NewRegistration newUser)
         {
             if (ModelState.IsValid)
             {
+                string response;
+                bool status;
                 if (newUser.Role == "Owner")
                 {
-                    Owner owner = ModelConverter.ConvertNewOwnerToOwner(newUser);
-                    _owner.RegisterOwner(owner);
-                    return RedirectToAction("SignIn");
+                    response = await WebApiHelper.WebApiHelper.HttpGetResponseRequest($"api/OwnerApi/DoesOwnerExist?email={newUser.Email}");
+                    status = JsonConvert.DeserializeObject<bool>(response);
+                    if (!status)
+                    {
+                        response = await WebApiHelper.WebApiHelper.HttpPostResponseRequest($"api/OwnerApi/RegisterOwner", JsonConvert.SerializeObject(newUser));
+                        status = JsonConvert.DeserializeObject<bool>(response);
+                        TempData["success"] = "Registered Successfully";
+                        return RedirectToAction("SignIn");
+                    }
+                    TempData["error"] = "Entered email is already registered to another account";
+                    return View(newUser);
                 }
                 else if (newUser.Role == "Customer")
                 {
-                    Customers user = ModelConverter.ConvertNewUserToUser(newUser);
-                    _user.RegisterUser(user);
-                    return RedirectToAction("SignIn");
+                    response = await WebApiHelper.WebApiHelper.HttpGetResponseRequest($"api/CustomerApi/DoesCustomerExist?email={newUser.Email}");
+                    status = JsonConvert.DeserializeObject<bool>(response);
+                    if (!status)
+                    {
+                        response = await WebApiHelper.WebApiHelper.HttpPostResponseRequest($"api/CustomerApi/RegisterCustomer", JsonConvert.SerializeObject(newUser));
+                        TempData["success"] = "Registered Successfully";
+                        return RedirectToAction("SignIn");
+                    }
+                    TempData["error"] = "Entered email is already registered to another account";
+                    return View(newUser);
                 }
             }
+            TempData["error"] = "Please enter valid data";
             return View(newUser);
         }
 
@@ -101,16 +125,26 @@ namespace OnlineStore.Controllers
             return RedirectToAction("SignIn");
         }
 
-        public JsonResult  GetStates()
+        public async Task<JsonResult>  GetStates()
         {
-            List<StateModel> listOfState = _stateCity.GetStates();
+            string response = await WebApiHelper.WebApiHelper.HttpGetResponseRequest($"api/LocationApi/GetStates");
+            List<StateModel> listOfState = JsonConvert.DeserializeObject<List<StateModel>>(response);
             return Json(listOfState, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult GetCities(int stateID)
+        public async Task<JsonResult> GetCities(int stateID)
         {
-            List<CityModel> listOfCities = _stateCity.GetCities(stateID);
+            string response = await WebApiHelper.WebApiHelper.HttpGetResponseRequest($"api/LocationApi/GetCities?stateID={stateID}");
+            List<CityModel> listOfCities = JsonConvert.DeserializeObject<List<CityModel>>(response);
             return Json(listOfCities, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult Error()
+        {
+            if(UserSession.UserID == 0)
+            {
+                return RedirectToAction("SignIn");
+            }
+            return View();
         }
     }
 }

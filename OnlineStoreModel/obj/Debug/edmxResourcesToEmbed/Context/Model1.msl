@@ -1,16 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="OnlineStoreModelStoreContainer" CdmEntityContainer="OnlineStoreEntities">
-    <EntitySetMapping Name="CART">
-      <EntityTypeMapping TypeName="OnlineStoreModel.CART">
-        <MappingFragment StoreEntitySet="CART">
-          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
-          <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
-          <ScalarProperty Name="CartID" ColumnName="CartID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Cities">
       <EntityTypeMapping TypeName="OnlineStoreModel.Cities">
         <MappingFragment StoreEntitySet="Cities">
@@ -115,6 +105,7 @@
     <EntitySetMapping Name="Orders">
       <EntityTypeMapping TypeName="OnlineStoreModel.Orders">
         <MappingFragment StoreEntitySet="Orders">
+          <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
           <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
           <ScalarProperty Name="Discount" ColumnName="Discount" />
           <ScalarProperty Name="SubTotal" ColumnName="SubTotal" />
@@ -190,6 +181,34 @@
           <ScalarProperty Name="name" ColumnName="name" />
           <ScalarProperty Name="categoryID" ColumnName="categoryID" />
           <ScalarProperty Name="subCategoryID" ColumnName="subCategoryID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SubCategoryImage">
+      <EntityTypeMapping TypeName="OnlineStoreModel.SubCategoryImage">
+        <MappingFragment StoreEntitySet="SubCategoryImage">
+          <ScalarProperty Name="fileName" ColumnName="fileName" />
+          <ScalarProperty Name="subCategoryID" ColumnName="subCategoryID" />
+          <ScalarProperty Name="subCategoryImageID" ColumnName="subCategoryImageID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Cart">
+      <EntityTypeMapping TypeName="OnlineStoreModel.Cart">
+        <MappingFragment StoreEntitySet="Cart">
+          <ScalarProperty Name="ItemCount" ColumnName="ItemCount" />
+          <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+          <ScalarProperty Name="CartID" ColumnName="CartID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CartItems">
+      <EntityTypeMapping TypeName="OnlineStoreModel.CartItems">
+        <MappingFragment StoreEntitySet="CartItems">
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+          <ScalarProperty Name="CartID" ColumnName="CartID" />
+          <ScalarProperty Name="CartItemID" ColumnName="CartItemID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

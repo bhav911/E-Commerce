@@ -1,0 +1,45 @@
+﻿@model OnlineStoreModel.CustomModels.CustomerModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <div class="d-flex flex-column gap-4">
+        <div class="border border-black p-5">
+            <h3 class="mb-4">Your Details:</h3>
+            <div>
+                <p>Userame: <span class="fw-bold">@Model.Username</span></p>
+                <hr />
+            </div>
+            <div>
+                <p>Email: <span class="fw-bold">@Model.Email</span></p>
+                <hr />
+            </div>
+            <div>
+                <p>Gender: <span class="fw-bold">@(Model.Gender == "M" ? "Male" : (Model.Gender == "F" ? "Female" : "Other"))</span></p>
+                <hr />
+            </div>
+            <div>
+                <p>Address: <span class="fw-bold">@Model.CityName, @Model.StateName</span></p>
+                <hr />
+            </div>
+            <div>
+                <p>Password: <span class="fw-bold">@Model.Password</span></p>
+                <hr />
+            </div>
+        </div>
+    </div>
+    <div class="d-flex justify-content-center gap-2 mt-5">
+        <form action="/Customer/EditDetails" method="post">
+            <input hidden name="Username" value="@Model.Username"/>
+            <input hidden name="Password" value="@Model.Password"/>
+            <input hidden name="Gender" value="@Model.Gender"/>
+            <input hidden name="Email" value="@Model.Email"/>
+            <input hidden name="StateName" value="@Model.StateName"/>
+            <input hidden name="CityName" value="@Model.CityName"/>
+            <input hidden name="CityID" value="@Model.CityID"/>
+            <input hidden name="StateID" value="@Model.StateID"/>
+            <button class="btn btn-primary" type="submit">Edit</button>
+        </form>
+        @Html.ActionLink("Home", "Home", null, new { @class = "btn btn-secondary" })
+    </div>

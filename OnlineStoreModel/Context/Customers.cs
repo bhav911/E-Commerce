@@ -22,13 +22,13 @@ public partial class Customers
     public Customers()
     {
 
-        this.CART = new HashSet<CART>();
-
         this.Orders = new HashSet<Orders>();
 
         this.Rating = new HashSet<Rating>();
 
         this.HelpfulReview = new HashSet<HelpfulReview>();
+
+        this.Cart = new HashSet<Cart>();
 
     }
 
@@ -49,10 +49,6 @@ public partial class Customers
 
 
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-
-    public virtual ICollection<CART> CART { get; set; }
-
     public virtual Cities Cities { get; set; }
 
     public virtual States States { get; set; }
@@ -68,6 +64,10 @@ public partial class Customers
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
     public virtual ICollection<HelpfulReview> HelpfulReview { get; set; }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<Cart> Cart { get; set; }
 
 }
 

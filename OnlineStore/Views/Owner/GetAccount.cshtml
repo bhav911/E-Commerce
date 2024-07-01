@@ -1,0 +1,45 @@
+﻿@model OnlineStoreModel.CustomModels.OwnerModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <div class="d-flex flex-column gap-4">
+        <div class="border border-black p-5">
+            <h3 class="mb-4">Your Details:</h3>
+            <div>
+                <p>Shop name: <span class="fw-bold">@Model.Shopname</span></p>
+                <hr />
+            </div>
+            <div>
+                <p>Description: <span class="fw-bold">@Model.Description</span></p>
+                <hr />
+            </div>
+            <div>
+                <p>Email: <span class="fw-bold">@Model.Email</span></p>
+                <hr />
+            </div>
+            <div>
+                <p>Address: <span class="fw-bold">@Model.City, @Model.State</span></p>
+                <hr />
+            </div>
+            <div>
+                <p>Password: <span class="fw-bold">@Model.Password</span></p>
+                <hr />
+            </div>
+        </div>
+    </div>
+    <div class="d-flex justify-content-center gap-2 mt-5">
+        <form action="/Owner/EditDetails" method="post">
+            <input hidden name="Shopname" value="@Model.Shopname"/>
+            <input hidden name="Password" value="@Model.Password"/>
+            <input hidden name="Email" value="@Model.Email"/>
+            <input hidden name="Description" value="@Model.Description"/>
+            <input hidden name="StateName" value="@Model.State"/>
+            <input hidden name="CityName" value="@Model.City"/>
+            <input hidden name="CityID" value="@Model.CityID"/>
+            <input hidden name="StateID" value="@Model.StateID"/>
+            <button class="btn btn-primary" type="submit">Edit</button>
+        </form>
+        @Html.ActionLink("Home", "Dashboard", null, new { @class = "btn btn-secondary" })
+    </div>

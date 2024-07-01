@@ -1,4 +1,5 @@
 ﻿using OnlineStoreModel.Context;
+using OnlineStoreModel.CustomModels;
 using OnlineStoreRepository.Interface;
 using QuizComputation_490.Common;
 using System;
@@ -33,8 +34,9 @@ namespace OnlineStoreRepository.Services
             db.SaveChanges();
         }
 
-        public void EditProduct(Products newProductInfo, string aggregatedImagePathToAdd, string[] imageFileToDelete, int imgID)
+        public void EditProduct(EditProductModel editProductModel)
         {
+            Products newProductInfo = editProductModel.Product;
             Products product = db.Products.Where(p => p.ProductID == newProductInfo.ProductID).FirstOrDefault();
             product.ProductName = newProductInfo.ProductName;
             product.ProductDescription = newProductInfo.ProductDescription;
@@ -43,23 +45,23 @@ namespace OnlineStoreRepository.Services
             product.subCategoryID = newProductInfo.subCategoryID;
 
             Dictionary<string, object> kvp = new Dictionary<string, object>();
-            if(imageFileToDelete != null)
+            if(editProductModel.ImageFileToDelete != null)
             {
-                foreach (string fileName in imageFileToDelete)
+                foreach (string fileName in editProductModel.ImageFileToDelete)
                 {
                     kvp.Clear();
-                    kvp.Add("@imageID", imgID);
+                    kvp.Add("@imageID", editProductModel.ImgID);
                     kvp.Add("@imageName", fileName);
                     kvp.Add("@imageLen", fileName.Length);
                     SqlSPHelper.SqlSPConnector("DeleteImagePath", kvp);
                 }
             }
 
-            if(aggregatedImagePathToAdd.Length > 0)
+            if(editProductModel.AggregatedImagePathToAdd.Length > 0)
             {
                 kvp.Clear();
-                kvp.Add("@imageID", imgID);
-                kvp.Add("@imageName", aggregatedImagePathToAdd);
+                kvp.Add("@imageID", editProductModel.ImgID);
+                kvp.Add("@imageName", editProductModel.AggregatedImagePathToAdd);
                 DataTable result = SqlSPHelper.SqlSPConnector("UpdateFilePath", kvp);
             }
             db.SaveChanges();
@@ -71,9 +73,9 @@ namespace OnlineStoreRepository.Services
             return product;
         }
 
-        public List<Products> GetAllProducts(int shopID)
+        public List<Products> GetAllProducts(int OwnerID)
         {
-            List<Products> productList = db.Products.Where(s => s.OwnerID == shopID && (bool)!s.isDeleted).ToList();
+            List<Products> productList = db.Products.Where(s => s.OwnerID == OwnerID && (bool)!s.isDeleted).ToList();
             return productList;
         }
 
@@ -104,9 +106,15 @@ namespace OnlineStoreRepository.Services
             }
         }
 
-        public List<Products> GetProductsOf(int subCategoryID)
+        public List<Products> GetProductsOfSubCategory(int subCategoryID)
         {
-            List<Products> productList = db.Products.Where(q => q.subCategoryID == subCategoryID).ToList();
+            List<Products> productList = db.Products.Where(q => q.subCategoryID == subCategoryID && !(bool)q.isDeleted).ToList();
+            return productList;
+        }
+
+        public List<Products> GetProductsOfCategory(int categoryID)
+        {
+            List<Products> productList = db.Products.Where(q => q.SubCategory.categoryID == categoryID && !(bool)q.isDeleted).ToList();
             return productList;
         }
     }

@@ -24,6 +24,8 @@ public partial class SubCategory
 
         this.Products = new HashSet<Products>();
 
+        this.SubCategoryImage = new HashSet<SubCategoryImage>();
+
     }
 
 
@@ -44,6 +46,10 @@ public partial class SubCategory
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
     public virtual ICollection<Products> Products { get; set; }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<SubCategoryImage> SubCategoryImage { get; set; }
 
 }
 

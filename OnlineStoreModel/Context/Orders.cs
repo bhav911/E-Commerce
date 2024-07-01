@@ -37,6 +37,8 @@ public partial class Orders
 
     public decimal TotalPrice { get; set; }
 
+    public Nullable<System.DateTime> OrderDate { get; set; }
+
 
 
     public virtual Customers Customers { get; set; }

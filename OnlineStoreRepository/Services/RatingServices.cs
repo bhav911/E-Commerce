@@ -12,28 +12,28 @@ namespace OnlineStoreRepository.Services
     public class RatingServices : IRatingInterface
     {
         private readonly OnlineStoreEntities db = new OnlineStoreEntities();
-        public Rating AddRating(NewReviewModel productRating)
+        public Rating AddRating(NewReviewModel newproductRating) 
         {
             try
             {
-                ProductRating productRatings = db.ProductRating.FirstOrDefault(q => q.productID == productRating.ProductID);
-                decimal newAvg = (decimal)(((productRatings.avgRating * productRatings.numOfRating) + Convert.ToInt32(productRating.RatingNumber)) / (productRatings.numOfRating + 1));
+                ProductRating productRatings = db.ProductRating.FirstOrDefault(q => q.productID == newproductRating.ProductID);
+                decimal newAvg = (decimal)(((productRatings.avgRating * productRatings.numOfRating) + Convert.ToInt32(newproductRating.RatingNumber)) / (productRatings.numOfRating + 1));
                 productRatings.avgRating = newAvg;
                 productRatings.numOfRating++;
                 db.SaveChanges();
 
                 Rating rating = new Rating()
                 {
-                    customerID = productRating.CustomerID,
-                    productID = productRating.ProductID,
+                    customerID = newproductRating.CustomerID,
+                    productID = newproductRating.ProductID,
                     havePurchased = false,
                     reviewDate = DateTime.Today
                 };
-                rating.Customers = db.Customers.FirstOrDefault(q => q.CustomerID == productRating.CustomerID);
-                List<Orders> orderList = db.Orders.Where(q => q.CustomerID == productRating.CustomerID).ToList();
+                rating.Customers = db.Customers.FirstOrDefault(q => q.CustomerID == newproductRating.CustomerID);
+                List<Orders> orderList = db.Orders.Where(q => q.CustomerID == newproductRating.CustomerID).ToList();
                 foreach (Orders order in orderList)
                 {
-                    if (order.OrderDetails.FirstOrDefault(q => q.ProductID == productRating.ProductID) != null)
+                    if (order.OrderDetails.FirstOrDefault(q => q.ProductID == newproductRating.ProductID) != null)
                     {
                         rating.havePurchased = true;
                         break;
@@ -46,8 +46,8 @@ namespace OnlineStoreRepository.Services
                 {
                     helpfulCount = 0,
                     ratingID = rating.ratingID,
-                    ratingNumber = productRating.RatingNumber,
-                    review = productRating.Review
+                    ratingNumber = newproductRating.RatingNumber,
+                    review = newproductRating.Review
                 };
                 ratingDetails = db.RatingDetails.Add(ratingDetails);
                 db.SaveChanges();
@@ -137,10 +137,10 @@ namespace OnlineStoreRepository.Services
             }
         }
 
-        public List<Rating> GetFilteredUserReviews(int productID, int reviewNumber, string star)
+        public List<Rating> GetFilteredUserReviews(FilteredReviewModel filteredReviewModel)
         {
             int max = 3;
-            List<Rating> ratingList = db.Rating.Where(q => q.productID == productID && q.RatingDetails.FirstOrDefault().ratingNumber == star).OrderBy(m => m.ratingID).Skip((reviewNumber - 1) * max).Take(max).ToList();
+            List<Rating> ratingList = db.Rating.Where(q => q.productID == filteredReviewModel.ProductID && q.RatingDetails.FirstOrDefault().ratingNumber == filteredReviewModel.Star).OrderBy(m => m.ratingID).Skip((filteredReviewModel.ReviewNumber - 1) * max).Take(max).ToList();
             return ratingList;
         }
     }

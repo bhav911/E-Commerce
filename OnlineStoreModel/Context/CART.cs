@@ -15,22 +15,31 @@ namespace OnlineStoreModel.Context
 using System;
     using System.Collections.Generic;
     
-public partial class CART
+public partial class Cart
 {
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+    public Cart()
+    {
+
+        this.CartItems = new HashSet<CartItems>();
+
+    }
+
 
     public int CartID { get; set; }
 
     public int CustomerID { get; set; }
 
-    public int ProductID { get; set; }
-
-    public int Quantity { get; set; }
+    public int ItemCount { get; set; }
 
 
-
-    public virtual Products Products { get; set; }
 
     public virtual Customers Customers { get; set; }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<CartItems> CartItems { get; set; }
 
 }
 

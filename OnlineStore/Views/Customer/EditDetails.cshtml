@@ -1,0 +1,114 @@
+﻿@model OnlineStoreModel.CustomModels.CustomerModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<form method="post" action="/Customer/EditAccount">
+    <div class="d-flex flex-column gap-4">
+        <div class="d-flex justify-content-end">
+            <button class="btn btn-danger" id="delete-profile">Delete Account</button>
+            @Html.ActionLink("Confirm Delete?", "DeleteProfile", "User", new { @userID = Model.CustomerID }, new { @class = "btn btn-dark border border-2 border-danger d-none", @id = "confirm-delete" })
+        </div>
+        <div class="border border-black p-5">
+            <h3 class="mb-4">Your Details:</h3>
+            <div class="form-floating mb-3">
+                @Html.TextBoxFor(q => q.Username, new { @class = "form-control" })
+                @Html.LabelFor(q => q.Username, "Username")
+                @Html.ValidationMessageFor(q => q.Username, null, new { @class = "text-danger" })
+            </div>
+            <div class="form-floating mb-3">
+                @Html.TextBoxFor(q => q.Email, new { @class = "form-control" })
+                @Html.LabelFor(q => q.Email, "Email")
+                @Html.ValidationMessageFor(q => q.Email, null, new { @class = "text-danger" })
+            </div>
+            <div class="form-floating mb-3">
+                @Html.TextBoxFor(q => q.Password, new { @class = "form-control" })
+                @Html.LabelFor(q => q.Password, "Password")
+                @Html.ValidationMessageFor(q => q.Password, null, new { @class = "text-danger" })
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <select class="form-select p-3" name="gender">
+                        <option @(Model.Gender == "M" ? "selected" : "") value="Male">Male</option>
+                        <option @(Model.Gender == "F" ? "selected" : "") value="Female">Female</option>
+                        <option @(Model.Gender == "O" ? "selected" : "") value="Other">Other</option>
+                    </select>
+                    @Html.ValidationMessageFor(m => m.StateID, null, new { @class = "text-danger" })
+                </div>
+                <div class="col-4">
+                    <select id="state-holder" class="form-select p-3" name="StateID" onchange="changeCity()">
+                    </select>
+                    @Html.ValidationMessageFor(m => m.StateID, null, new { @class = "text-danger" })
+                </div>
+                <div class="col-4">
+                    <select class="form-select p-3" id="city-holder" name="CityID">
+                    </select>
+                    @Html.ValidationMessageFor(m => m.CityID, null, new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="text-center mt-5">
+                <button class="btn btn-primary" type="submit">Save</button>
+                <button class="btn btn-secondary" type="button" onclick="history.back()">Back</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            url: "/Login/GetStates",
+            type: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                let options = $($('#state-holder').find('option')[0]).text()
+                $.each(response, (ind, ele) => {
+                    debugger
+                    if (ele.StateName == options) {
+                        $('#state-holder').append(`
+                            <option selected value="${ele.StateID}">${ele.StateName}</option>
+                        `)
+                        return;
+                    }
+                    $('#state-holder').append(`
+                        <option value="${ele.StateID}">${ele.StateName}</option>
+                    `)
+                })
+                changeCity();
+            },
+            error: function (xhr, status, error) {
+
+            }
+        });
+    });
+
+    function changeCity() {
+        debugger
+        let stateID = $('#state-holder').val();
+        $.ajax({
+            url: "/Login/GetCities?stateID=" + stateID,
+            type: "GET",
+            dataType: "json",
+            success: function (response) {
+                let options = $($('#city-holder').find('option')[0]).text()
+                $('#city-holder').empty();
+                $.each(response, (ind, ele) => {
+                    debugger
+                    if (ele.CityName == options) {
+                        $('#city-holder').append(`
+                            <option selected value="${ele.CityID}">${ele.CityName}</option>
+                        `)
+                        return;
+                    }
+                    $('#city-holder').append(`
+                        <option value="${ele.CityID}">${ele.CityName}</option>
+                    `)
+                })
+            },
+            error: function (xhr, status, error) {
+
+            }
+        })
+    }
+</script>

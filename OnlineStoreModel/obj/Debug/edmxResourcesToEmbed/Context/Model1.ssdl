@@ -8,12 +8,20 @@
     <Property Name="email" Type="varchar" MaxLength="100" />
     <Property Name="password" Type="varchar" MaxLength="30" />
   </EntityType>
-  <EntityType Name="CART">
+  <EntityType Name="Cart">
     <Key>
       <PropertyRef Name="CartID" />
     </Key>
     <Property Name="CartID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="CustomerID" Type="int" Nullable="false" />
+    <Property Name="ItemCount" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CartItems">
+    <Key>
+      <PropertyRef Name="CartItemID" />
+    </Key>
+    <Property Name="CartItemID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CartID" Type="int" Nullable="false" />
     <Property Name="ProductID" Type="int" Nullable="false" />
     <Property Name="Quantity" Type="int" Nullable="false" />
   </EntityType>
@@ -83,6 +91,7 @@
     <Property Name="SubTotal" Type="decimal" Precision="9" Scale="2" Nullable="false" />
     <Property Name="Discount" Type="decimal" Precision="5" Scale="2" />
     <Property Name="TotalPrice" Type="decimal" Precision="9" Scale="2" Nullable="false" />
+    <Property Name="OrderDate" Type="datetime" />
   </EntityType>
   <EntityType Name="Owner">
     <Key>
@@ -174,6 +183,50 @@
     <Property Name="description" Type="varchar(max)" />
     <Property Name="productCount" Type="int" Nullable="false" />
   </EntityType>
+  <EntityType Name="SubCategoryImage">
+    <Key>
+      <PropertyRef Name="subCategoryImageID" />
+    </Key>
+    <Property Name="subCategoryImageID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="subCategoryID" Type="int" />
+    <Property Name="fileName" Type="varchar" MaxLength="200" />
+  </EntityType>
+  <Association Name="fk_cart_customer">
+    <End Role="Customers" Type="Self.Customers" Multiplicity="1" />
+    <End Role="Cart" Type="Self.Cart" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customers">
+        <PropertyRef Name="CustomerID" />
+      </Principal>
+      <Dependent Role="Cart">
+        <PropertyRef Name="CustomerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_cartItem_cart">
+    <End Role="Cart" Type="Self.Cart" Multiplicity="1" />
+    <End Role="CartItems" Type="Self.CartItems" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Cart">
+        <PropertyRef Name="CartID" />
+      </Principal>
+      <Dependent Role="CartItems">
+        <PropertyRef Name="CartID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_cartItem_product">
+    <End Role="Products" Type="Self.Products" Multiplicity="1" />
+    <End Role="CartItems" Type="Self.CartItems" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Products">
+        <PropertyRef Name="ProductID" />
+      </Principal>
+      <Dependent Role="CartItems">
+        <PropertyRef Name="ProductID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="fk_helpfulReview_customerID">
     <End Role="Customers" Type="Self.Customers" Multiplicity="1" />
     <End Role="HelpfulReview" Type="Self.HelpfulReview" Multiplicity="*" />
@@ -254,18 +307,6 @@
         <PropertyRef Name="ProductID" />
       </Principal>
       <Dependent Role="ProductImages">
-        <PropertyRef Name="ProductID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="fk_productID_cart">
-    <End Role="Products" Type="Self.Products" Multiplicity="1" />
-    <End Role="CART" Type="Self.CART" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Products">
-        <PropertyRef Name="ProductID" />
-      </Principal>
-      <Dependent Role="CART">
         <PropertyRef Name="ProductID" />
       </Dependent>
     </ReferentialConstraint>
@@ -378,6 +419,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="fk_subCategoryImage_subCategory">
+    <End Role="SubCategory" Type="Self.SubCategory" Multiplicity="0..1" />
+    <End Role="SubCategoryImage" Type="Self.SubCategoryImage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SubCategory">
+        <PropertyRef Name="subCategoryID" />
+      </Principal>
+      <Dependent Role="SubCategoryImage">
+        <PropertyRef Name="subCategoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="fk_user_city">
     <End Role="Cities" Type="Self.Cities" Multiplicity="0..1" />
     <End Role="Customers" Type="Self.Customers" Multiplicity="*" />
@@ -402,21 +455,10 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="fk_userID_cart">
-    <End Role="Customers" Type="Self.Customers" Multiplicity="1" />
-    <End Role="CART" Type="Self.CART" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Customers">
-        <PropertyRef Name="CustomerID" />
-      </Principal>
-      <Dependent Role="CART">
-        <PropertyRef Name="CustomerID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <EntityContainer Name="OnlineStoreModelStoreContainer">
     <EntitySet Name="ADMINS" EntityType="Self.ADMINS" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="CART" EntityType="Self.CART" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Cart" EntityType="Self.Cart" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CartItems" EntityType="Self.CartItems" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Cities" EntityType="Self.Cities" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Coupons" EntityType="Self.Coupons" Schema="dbo" store:Type="Tables" />
@@ -433,6 +475,19 @@
     <EntitySet Name="RatingDetails" EntityType="Self.RatingDetails" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="States" EntityType="Self.States" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="SubCategory" EntityType="Self.SubCategory" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SubCategoryImage" EntityType="Self.SubCategoryImage" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="fk_cart_customer" Association="Self.fk_cart_customer">
+      <End Role="Customers" EntitySet="Customers" />
+      <End Role="Cart" EntitySet="Cart" />
+    </AssociationSet>
+    <AssociationSet Name="fk_cartItem_cart" Association="Self.fk_cartItem_cart">
+      <End Role="Cart" EntitySet="Cart" />
+      <End Role="CartItems" EntitySet="CartItems" />
+    </AssociationSet>
+    <AssociationSet Name="fk_cartItem_product" Association="Self.fk_cartItem_product">
+      <End Role="Products" EntitySet="Products" />
+      <End Role="CartItems" EntitySet="CartItems" />
+    </AssociationSet>
     <AssociationSet Name="fk_helpfulReview_customerID" Association="Self.fk_helpfulReview_customerID">
       <End Role="Customers" EntitySet="Customers" />
       <End Role="HelpfulReview" EntitySet="HelpfulReview" />
@@ -460,10 +515,6 @@
     <AssociationSet Name="fk_productID" Association="Self.fk_productID">
       <End Role="Products" EntitySet="Products" />
       <End Role="ProductImages" EntitySet="ProductImages" />
-    </AssociationSet>
-    <AssociationSet Name="fk_productID_cart" Association="Self.fk_productID_cart">
-      <End Role="Products" EntitySet="Products" />
-      <End Role="CART" EntitySet="CART" />
     </AssociationSet>
     <AssociationSet Name="fk_productRating_productID" Association="Self.fk_productRating_productID">
       <End Role="Products" EntitySet="Products" />
@@ -501,6 +552,10 @@
       <End Role="Category" EntitySet="Category" />
       <End Role="SubCategory" EntitySet="SubCategory" />
     </AssociationSet>
+    <AssociationSet Name="fk_subCategoryImage_subCategory" Association="Self.fk_subCategoryImage_subCategory">
+      <End Role="SubCategory" EntitySet="SubCategory" />
+      <End Role="SubCategoryImage" EntitySet="SubCategoryImage" />
+    </AssociationSet>
     <AssociationSet Name="fk_user_city" Association="Self.fk_user_city">
       <End Role="Cities" EntitySet="Cities" />
       <End Role="Customers" EntitySet="Customers" />
@@ -508,10 +563,6 @@
     <AssociationSet Name="fk_user_state" Association="Self.fk_user_state">
       <End Role="States" EntitySet="States" />
       <End Role="Customers" EntitySet="Customers" />
-    </AssociationSet>
-    <AssociationSet Name="fk_userID_cart" Association="Self.fk_userID_cart">
-      <End Role="Customers" EntitySet="Customers" />
-      <End Role="CART" EntitySet="CART" />
     </AssociationSet>
   </EntityContainer>
 </Schema>

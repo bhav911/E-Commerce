@@ -12,100 +12,104 @@
     <hr class="sidebar-divider my-0">
 
     <!-- Nav Item - Dashboard -->
-    @{ if (TempData.ContainsKey("Role") && TempData.Peek("Role").Equals("Admin"))
-        {
-            <li class="nav-item active">
-                <a class="nav-link" href="/Admin/Coupons">
-                    <i class="fa-solid fa-ticket"></i>
-                    <span>All Coupons</span>
-                </a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="/Admin/AddCoupon">
-                    <i class="fa-solid fa-ticket"></i>
-                    <span>Add Coupon</span>
-                </a>
-            </li>
-        }
-        else
-        {
-            if (TempData.ContainsKey("Role") && TempData.Peek("Role").Equals("Customer"))
-            {
-                <li class="nav-item active">
-                    <a class="nav-link" href="/User/Home">
-                        <i class="fa-solid fa-house"></i>
-                        <span>Home</span>
-                    </a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="/User/Category">
-                        <i class="fa-solid fa-list"></i>
-                        <span>Category</span>
-                    </a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="/User/ShopList">
-                        <i class="fa-solid fa-shop"></i>
-                        <span>All Shops</span>
-                    </a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="/User/ViewCart">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                        <span>Your Cart</span>
-                    </a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="/User/GetOrdersPlaced">
-                        <i class="fas fa-fw fa-book"></i>
-                        <span>Your Orders</span>
-                    </a>
-                </li>                
-            }
-            else if(TempData.ContainsKey("Role") && TempData.Peek("Role").Equals("Owner"))
-            {
-                <li class="nav-item active">
-                    <a class="nav-link" href="/Owner/GetAllProducts">
-                        <i class="fas fa-fw fa-bolt"></i>
-                        <span>Products</span>
-                    </a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="/Owner/AddProduct">
-                        <i class="fas fa-fw fa-box"></i>
-                        <span>Add Product</span>
-                    </a>
-                </li>
+    @{ 
 
-                <li class="nav-item active">
-                    <a class="nav-link" href="/Owner/GetRecievedOrders">
-                        <i class="fas fa-fw fa-book"></i>
-                        <span>Orders Recieved</span>
-                    </a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="/Owner/UploadDocuments">
-                        <i class="fas fa-fw fa-person"></i>
-                        <span>KYC</span>
-                    </a>
-                </li>     
-            }
-            <li class="nav-item active">
-                <a class="nav-link" href="/@(TempData.Peek("Role").Equals("Owner") ? "Owner" : "User")/GetAccount">
-                    <i class="fa-solid fa-sm fa-user"></i>
-                    <span>Account</span>
-                </a>
-            </li>
-
-        }
         if (TempData.ContainsKey("Role"))
         {
-            <li class="nav-item active">
-                <a class="nav-link" href="/Login/SignOut">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                    <span>Logout</span>
-                </a>
-            </li>
+            if (TempData.Peek("Role").Equals("Admin"))
+            {
+                <li class="nav-item active">
+                    <a class="nav-link" href="/Coupon/Coupons">
+                        <i class="fa-solid fa-ticket"></i>
+                        <span>All Coupons</span>
+                    </a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/Coupon/AddCoupon">
+                        <i class="fa-solid fa-ticket"></i>
+                        <span>Add Coupon</span>
+                    </a>
+                </li>
+            }
+            else
+            {
+                if (TempData.ContainsKey("Role") && TempData.Peek("Role").Equals("Customer"))
+                {
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/Customer/Home">
+                            <i class="fa-solid fa-house"></i>
+                            <span>Home</span>
+                        </a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/Category/Category">
+                            <i class="fa-solid fa-list"></i>
+                            <span>Category</span>
+                        </a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/Customer/ShopList">
+                            <i class="fa-solid fa-shop"></i>
+                            <span>All Shops</span>
+                        </a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/Cart/ViewCart">
+                            <i class="fa-solid fa-cart-shopping"></i>
+                            <span>Your Cart</span>
+                        </a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/Order/GetOrdersPlaced">
+                            <i class="fas fa-fw fa-book"></i>
+                            <span>Your Orders</span>
+                        </a>
+                    </li>                
+                }
+                else if (TempData.ContainsKey("Role") && TempData.Peek("Role").Equals("Owner"))
+                {
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/Product/GetMyProducts">
+                            <i class="fas fa-fw fa-bolt"></i>
+                            <span>Products</span>
+                        </a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/Product/AddProduct">
+                            <i class="fas fa-fw fa-box"></i>
+                            <span>Add Product</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/Owner/GetRecievedOrders">
+                            <i class="fas fa-fw fa-book"></i>
+                            <span>Orders Recieved</span>
+                        </a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/Owner/UploadDocuments">
+                            <i class="fas fa-fw fa-person"></i>
+                            <span>KYC</span>
+                        </a>
+                    </li>     
+                }
+                <li class="nav-item active">
+                    <a class="nav-link" href="/@(TempData.Peek("Role").Equals("Owner") ? "Owner" : "Customer")/GetAccount">
+                        <i class="fa-solid fa-sm fa-user"></i>
+                        <span>Account</span>
+                    </a>
+                </li>
+            }
+            if (TempData.ContainsKey("Role"))
+            {
+                <li class="nav-item active">
+                    <a class="nav-link" href="/Login/SignOut">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        <span>Logout</span>
+                    </a>
+                </li>
+            }
         }
     }
 </ul>

@@ -14,13 +14,13 @@ namespace OnlineStoreModel.CustomModels
         public string Role { get; set; }
         public int UserID { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Username is Required")]
         [RegularExpression("^[A-Za-z0-9_ ]*$", ErrorMessage ="Only alphanumeric and '-' are allowed")]
         [MaxLength(length:20, ErrorMessage ="Length must be less than 20 characters")]
         [MinLength(length:8, ErrorMessage ="Length must be greater than 8 characters")]
         public string Username { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Password is Required")]
         [MaxLength(length: 20, ErrorMessage = "Length must be less than 20 characters")]
         [MinLength(length: 8, ErrorMessage = "Length must be greater than 8 characters")]
         public string Password { get; set; }
@@ -29,7 +29,7 @@ namespace OnlineStoreModel.CustomModels
         public string Confirm_password { get; set; }
         public string Description { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Email is Required")]
         [RegularExpression(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", ErrorMessage ="Invalid email format")]
         public string Email { get; set; }
 

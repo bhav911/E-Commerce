@@ -10,7 +10,7 @@ namespace OnlineStoreRepository.Interface
 {
     public interface ICartInterface
     {
-        void AddToCart(OrderModel cartOrder);
-        List<CART> GetCart(int userID);
+        Cart AddToCart(OrderModel cartOrder);
+        List<CartItems> GetCart(int userID);
     }
 }

@@ -10,6 +10,8 @@ namespace OnlineStoreModel.CustomModels
     {
         public string ProductName { get; set; }
         public int ProductQuantity { get; set; }
-        public string Email { get; set; }
+        public string UserEmail { get; set; }
+        public DateTime OrderDate { get; set; }
+
     }
 }

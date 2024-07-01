@@ -22,8 +22,6 @@ public partial class Products
     public Products()
     {
 
-        this.CART = new HashSet<CART>();
-
         this.ProductImages = new HashSet<ProductImages>();
 
         this.OrderDetails = new HashSet<OrderDetails>();
@@ -31,6 +29,8 @@ public partial class Products
         this.Rating = new HashSet<Rating>();
 
         this.ProductRating = new HashSet<ProductRating>();
+
+        this.CartItems = new HashSet<CartItems>();
 
     }
 
@@ -53,10 +53,6 @@ public partial class Products
 
 
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-
-    public virtual ICollection<CART> CART { get; set; }
-
     public virtual Owner Owner { get; set; }
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -76,6 +72,10 @@ public partial class Products
     public virtual ICollection<ProductRating> ProductRating { get; set; }
 
     public virtual SubCategory SubCategory { get; set; }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<CartItems> CartItems { get; set; }
 
 }
 

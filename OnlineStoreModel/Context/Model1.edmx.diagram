@@ -4,8 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="ff05f88ae44344bea79847492e7b58cf" Name="Diagram1" ZoomLevel="112">
-        <EntityTypeShape EntityType="OnlineStoreModel.CART" Width="1.5" PointX="8.25" PointY="11.125" />
+      <Diagram DiagramId="ff05f88ae44344bea79847492e7b58cf" Name="Diagram1" ZoomLevel="82">
         <EntityTypeShape EntityType="OnlineStoreModel.Cities" Width="1.5" PointX="0.75" PointY="8" />
         <EntityTypeShape EntityType="OnlineStoreModel.Coupons" Width="1.5" PointX="10.25" PointY="4.125" />
         <EntityTypeShape EntityType="OnlineStoreModel.Customers" Width="1.5" PointX="6" PointY="7.375" />
@@ -14,8 +13,6 @@
         <EntityTypeShape EntityType="OnlineStoreModel.ProductImages" Width="1.5" PointX="0.75" PointY="11.25" />
         <EntityTypeShape EntityType="OnlineStoreModel.Products" Width="1.5" PointX="5.25" PointY="12" />
         <EntityTypeShape EntityType="OnlineStoreModel.States" Width="1.5" PointX="0.75" PointY="5.125" />
-        <AssociationConnector Association="OnlineStoreModel.fk_productID_cart" />
-        <AssociationConnector Association="OnlineStoreModel.fk_userID_cart" />
         <AssociationConnector Association="OnlineStoreModel.fk_shop_city" />
         <AssociationConnector Association="OnlineStoreModel.fk_user_city" />
         <AssociationConnector Association="OnlineStoreModel.fk_user_state" />
@@ -43,6 +40,13 @@
         <EntityTypeShape EntityType="OnlineStoreModel.SubCategory" Width="1.5" PointX="9.875" PointY="14" />
         <AssociationConnector Association="OnlineStoreModel.fk_subCategory_category" />
         <AssociationConnector Association="OnlineStoreModel.fk_products_subCategory" />
+        <EntityTypeShape EntityType="OnlineStoreModel.SubCategoryImage" Width="1.5" PointX="13" PointY="16.125" />
+        <AssociationConnector Association="OnlineStoreModel.fk_subCategoryImage_subCategory" />
+        <EntityTypeShape EntityType="OnlineStoreModel.Cart" Width="1.5" PointX="8.25" PointY="11.125" />
+        <EntityTypeShape EntityType="OnlineStoreModel.CartItems" Width="1.5" PointX="7.375" PointY="15" />
+        <AssociationConnector Association="OnlineStoreModel.fk_cart_customer" />
+        <AssociationConnector Association="OnlineStoreModel.fk_cartItem_cart" />
+        <AssociationConnector Association="OnlineStoreModel.fk_cartItem_product" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

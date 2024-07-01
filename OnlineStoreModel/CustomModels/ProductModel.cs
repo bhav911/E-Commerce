@@ -21,11 +21,9 @@ namespace OnlineStoreModel.CustomModels
         public decimal ProductPrice { get; set; }
         public int OwnerID { get; set; }
         public bool Availability { get; set; }
-        public List<HttpPostedFileBase> productImages { get; set; }
+        public List<HttpPostedFileBase> ProductImages { get; set; }
         public string[] ImagePaths { get; set; }
         public int? ImageID { get; set; }
-        public List<CouponModel> CouponModelList { get; set; }
-        public int couponApplied { get; set; }
         public decimal RatingCount { get; set; }
 
         [Required]

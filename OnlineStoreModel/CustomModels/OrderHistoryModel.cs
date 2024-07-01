@@ -13,6 +13,6 @@ namespace OnlineStoreModel.CustomModels
         public decimal SubTotal { get; set; }
         public Nullable<decimal> Discount { get; set; }
         public decimal TotalPrice { get; set; }
-        public List<OrderDetailsModel> orderDetails { get; set; }
+        public List<OrderDetailsModel> OrderDetails { get; set; }
     }
 }
