@@ -13,5 +13,12 @@ namespace OnlineStoreRepository.Interface
         void RegisterOwner(Owner owner);
         Owner AuthenticateOwner(LoginModel credentials);
         List<Owner> GetAllShops();
+        Owner DoesOwnerExist(string email);
+        List<OrderDetails> GetReceivedOrders(int ownerID);
+        void SaveDocuments(string[] docs, int userID);
+        DocumentModel GetDocumentPath(int userID);
+        Owner GetOwner(int ownerID);
+        bool UpdateProfile(OwnerModel ownerModel);
+
     }
 }

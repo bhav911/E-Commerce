@@ -1,70 +1,119 @@
 ﻿@model List<OnlineStoreModel.CustomModels.ProductListModel>
 
-@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+@{ Layout = "~/Views/Shared/_Layout.cshtml"; }
 
-    <h4 class="text-center">Your Products</h4>
-    <div class="d-flex justify-content-end">
-        @Html.ActionLink("Add Product","AddProduct", "Product", new { @class="btn btn-sm my-4 btn-primary"})
-    </div>
-    <table class="table">
-        <tr>
-            <th>
-                Product
-            </th>
-            <th class="w-50">
-                Description
-            </th>
-            <th>
-                Price
-            </th>
-            <th>
-                Category
-            </th>
-            <th>
-                Sub-Category
-            </th>
-            <th>
-                Available
-            </th>
-            <th>
-                Action
-            </th>
-        </tr>
-    
-        @foreach (var item in Model) {
-            <tr>            
-                <td>
-                    @item.ProductName
-                </td>
-                <td>
-                    @item.ProductDescription
-                </td>
-                <td>
-                    @item.ProductPrice
-                </td>
-                <td>
-                    @item.Category
-                </td>
-                <td>
-                    @item.SubCategory
-                </td>
-                @{
-                    if (item.Availability)
-                    {
-                        <td>Yes</td>
-                    }
-                    else
-                    {
-                        <td>No</td>
-                    }
-                }
-                <td class="d-flex flex-nowrap gap-2">
-                    @Html.ActionLink("Edit", "EditProduct", new { @productID = item.ProductID }, new { @class = "btn btn-sm btn-primary" })
-                    @Html.ActionLink("Delete", "DeleteProduct", new { @productID = item.ProductID }, new { @class = "btn btn-sm btn-danger" })
-                </td>
-            </tr>
+<style>
+    .box {
+        width: 300px !important;
+        height: 300px !important;
     }
-    
-    </table>
+</style>
+
+<h2 class="text-center">Your Products</h2>
+<div class="d-flex justify-content-end">
+    @Html.ActionLink("Add Product", "AddProduct", "Product", new { @class = "btn btn-sm my-4 btn-primary" })
+</div>
+<div class="row justify-content-around gap-5">
+    @foreach (var item in Model)
+    {
+        string firstImage = "";
+        if (item.ImagePaths != null)
+        {
+            firstImage = item.ImagePaths[0];
+        }
+        <div class="col-5 p-4 border rounded-5 justify-content-between d-flex flex-column gap-3" style="box-shadow: 0px 10px 34px -15px rgba(0, 0, 0, 0.24); background: #fff; border-radius: 5px; ">
+            <div id="carousel-@item.ProductID" class="carousel slide carousel-dark" data-bs-ride="carousel">
+                <div class="carousel-inner d-flex align-items-center " style="width:100%; height:400px">
+                    @{
+                        if (item.ImagePaths != null)
+                        {
+                            foreach (var img in item.ImagePaths)
+                            {
+                                <div class="carousel-item @(img.Equals(firstImage) ? "active" : "") text-center">
+                                    <img src="~/Content/ProductImages/@img" class="d-block mx-auto w-50">
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <div class="mx-auto">
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlomRxuD2hXxPAPem4LggnMmje2M5z_ZNvRg&s">
+                            </div>
+                        }
+                    }
+                </div>
+                <button class="carousel-control-prev visually-hidden" type="button" data-bs-target="#carousel-@item.ProductID" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next visually-hidden" type="button" data-bs-target="#carousel-@item.ProductID" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+                <div class="text-center">
+                    <h4>@item.ProductName</h4>
+                    <p class="text-secondary">@item.ProductDescription</p>
+                </div>
+                @if(item.NumberOfRating > 0)
+                {
+                    <div class="d-flex justify-content-center">
+                        <div>
+                            @{
+                                decimal rating = Convert.ToDecimal(item.RatingCount);
+                                for (int i = 1; i <= rating; i++)
+                                {
+                                    <i class="fa-solid fa-star fa-lg" style="color: #FFD43B;"></i>
+                                }
+                                decimal precision = rating - Convert.ToInt32(rating);
+                                if (precision != 0)
+                                {
+                                    <i class="fa-solid fa-star-half-stroke fa-lg" style="color: #FFD43B;"></i> rating++;
+                                }
+                                for (int i = 5; i > rating; i--)
+                                {
+                                    <i class="fa-regular fa-star fa-lg" style="color: #FFD43B;"></i>
+                                }
+                            }
+                        </div>
+                    <span>(@item.NumberOfRating)</span>
+                </div>
+                }
+            </div>
+            <div class="text-center" prod="@item.ProductID">
+                @Html.ActionLink("Edit", "EditProduct", new {@productID=item.ProductID}, new { @class="btn btn-primary" })
+                @Html.ActionLink("Details", "GetMyProductDetails", new {@productID=item.ProductID}, new { @class="btn btn-secondary" })
+                @if ((bool)item.Availability)
+                {
+                    <button class="btn btn-success IsActive">On Market</button>
+                }
+                else
+                {
+                    <button class="btn btn-secondary IsActive">Off Market</button>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+<script>
+    $('.IsActive').on('click', function (event) {
+        let state = $(event.target).hasClass("btn-success");
+        let productID = $(event.target).closest('div').attr('prod')
+        $.ajax({
+            url: "/Product/ToggleProductActiveness?productID=" + productID,
+            method: "GET",
+            dataType: "text",
+            success: function (response) {
+                if (state) {
+                    $(event.target).removeClass("btn-success").addClass("btn-secondary").text("Off Market")
+                }
+                else {
+                    $(event.target).removeClass("btn-secondary").addClass("btn-success").text("On Market")
+                }
+            },
+            error: function (err) {
+
+            }
+        })
+    })
+</script>

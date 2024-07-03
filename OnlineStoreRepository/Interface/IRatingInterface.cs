@@ -16,5 +16,7 @@ namespace OnlineStoreRepository.Interface
         Rating GetRating(int ratingID);
         List<Rating> GetAllRatings(int productID, int reviewNumber);
         List<Rating> GetRatingsOfCustomer(int customerID);
+        bool ToggleHelpful(int ratingID, int customerID);
+        List<Rating> GetFilteredUserReviews(FilteredReviewModel filteredReviewModel);
     }
 }

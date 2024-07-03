@@ -15,6 +15,14 @@ namespace OnlineStoreAPI.Controllers
     {
         private readonly OwnerService _owner = new OwnerService();
 
+        [HttpGet]
+        [Route("api/OwnerApi/GetDashboard")]
+        public DashboardModel GetDashboard(int ownerID)
+        {
+            DashboardModel dashboardModel = _owner.BuildDashboard(ownerID);
+            return dashboardModel;
+        }
+
         [HttpPost]
         [Route("api/OwnerApi/AuthenticateOwner")]
         public OwnerModel AuthenticateOwner(LoginModel credential)

@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace OnlineStoreHelper.Helpers
 {
-    public class CustomUserAuthenticateHelperAttribute : AuthorizeAttribute
+    public class CustomCustomerAuthenticateHelperAttribute : AuthorizeAttribute
     {
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {

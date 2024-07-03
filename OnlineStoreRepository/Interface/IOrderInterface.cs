@@ -11,5 +11,6 @@ namespace OnlineStoreRepository.Interface
     public interface IOrderInterface
     {
         void AddOrder(OrderModel orderModel);
+        List<Orders> GetOrderDetail(int userID);
     }
 }

@@ -29,7 +29,7 @@ namespace OnlineStore.Controllers
             return Json(subCategoryModelList, JsonRequestBehavior.AllowGet);
         }
         
-        [CustomUserAuthenticateHelper]
+        [CustomCustomerAuthenticateHelper]
         public async Task<ActionResult> Category()
         {
             string response = await WebApiHelper.WebApiHelper.HttpGetResponseRequest($"api/CategoryApi/Category");

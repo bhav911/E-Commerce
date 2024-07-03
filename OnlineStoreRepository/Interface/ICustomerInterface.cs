@@ -12,5 +12,9 @@ namespace OnlineStoreRepository.Interface
     {
         void RegisterCustomer(Customers newUser);
         Customers AuthenticateCustomer(LoginModel credentials);
+        Customers DoesCustomerExist(string email);
+        Customers GetCustomer(int customerID);
+        bool UpdateProfile(CustomerModel customerModel);
+
     }
 }

@@ -18,12 +18,24 @@ namespace OnlineStore.Controllers
     [CustomOwnerAuthentucateHelper]
     public class OwnerController : Controller
     {
-        private readonly OwnerService _owner = new OwnerService();
-
+        DashboardModel dashboardModel;
         public ActionResult Dashboard()
         {
             return View();
-        }                
+        }
+
+        public async Task<JsonResult> GetDashboardData()
+        {
+            string response = await WebApiHelper.WebApiHelper.HttpGetResponseRequest($"api/OwnerApi/GetDashboard?ownerID={UserSession.UserID}");
+            dashboardModel = JsonConvert.DeserializeObject<DashboardModel>(response);
+            return Json(dashboardModel, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult Dashboard(string parameters)
+        {
+            return View(dashboardModel);
+        }
 
         public ActionResult Unauthorize(string role)
         {

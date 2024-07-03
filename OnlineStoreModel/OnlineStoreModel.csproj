@@ -159,6 +159,7 @@
     <Compile Include="CustomModels\AdminModel.cs" />
     <Compile Include="CustomModels\CartModel.cs" />
     <Compile Include="CustomModels\CustomerModel.cs" />
+    <Compile Include="CustomModels\DashboardModel.cs" />
     <Compile Include="CustomModels\EditProductModel.cs" />
     <Compile Include="CustomModels\FilteredReviewModel.cs" />
     <Compile Include="CustomModels\FutureDateBlockerAttribute.cs" />

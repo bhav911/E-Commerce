@@ -96,5 +96,120 @@ namespace OnlineStoreRepository.Services
             }
 
         }
+
+        public DashboardModel BuildDashboard(int ownerID, string startDate = "20.06.2024", string endDate= "3.07.2024")
+        {
+            DashboardModel dashboardModel = new DashboardModel()
+            {
+                OwnerID = ownerID
+            };
+            string[] startDArray = startDate.Split('.');
+            string[] endDArray = endDate.Split('.');
+
+            DateTime startD = new DateTime(Convert.ToInt32(startDArray[2]), Convert.ToInt32(startDArray[1]), Convert.ToInt32(startDArray[0]));
+            DateTime endD = new DateTime(Convert.ToInt32(endDArray[2]), Convert.ToInt32(endDArray[1]), Convert.ToInt32(endDArray[0]));
+            List<OrderDetails> orderDetailList = db.OrderDetails.Where(q => q.Products.OwnerID == ownerID).ToList();
+            GetSales(startD, endD, orderDetailList, dashboardModel);
+            GetRevenue(startD, endD, orderDetailList, dashboardModel);
+            dashboardModel.MostSoldProduct = GetMostSold(ownerID, startD, endD);
+            dashboardModel.MostLikedProduct = GetMostLiked(ownerID, startD, endD);
+            return dashboardModel;
+        }
+
+        private void GetSales(DateTime startD, DateTime endD, List<OrderDetails> orderDetailList, DashboardModel dashboardModel)
+        {
+            List<Sales> salesList = new List<Sales>();
+            int FilteredSales = 0;
+            while (startD < endD)
+            {
+                int saleCount = (int)orderDetailList.Where(q => q.Orders.OrderDate.ToString().Split(' ')[0] == startD.ToString().Split(' ')[0]).Sum(q => q.Quantity);
+                if (saleCount > 0)
+                {
+                    Sales temp = new Sales(startD, saleCount);
+                    FilteredSales += saleCount;
+                    salesList.Add(temp);
+                }
+                startD = startD.AddDays(1);
+            }
+            dashboardModel.FilteredSales = FilteredSales;
+            dashboardModel.Sales = salesList;
+        }
+        private void GetRevenue(DateTime startD, DateTime endD, List<OrderDetails> orderDetailList, DashboardModel dashboardModel)
+        {
+            List<Revenue> revenueList = new List<Revenue>();
+            decimal FilteredRevenue = 0;
+            while (startD < endD)
+            {
+                decimal revenueSum = (decimal)orderDetailList.Where(q => q.Orders.OrderDate.ToString().Split(' ')[0] == startD.ToString().Split(' ')[0]).Sum(q => q.Quantity * q.unitPrice);
+                if (revenueSum > 0)
+                {
+                    Revenue temp = new Revenue(startD, revenueSum);
+                    FilteredRevenue += revenueSum;
+                    revenueList.Add(temp);
+                }
+                startD = startD.AddDays(1);
+            }
+            dashboardModel.FilteredRevenue = FilteredRevenue;
+            dashboardModel.Revenue = revenueList;
+        }
+        private List<MostSold> GetMostSold(int ownerID, DateTime startD, DateTime endD)
+        {
+                var query = from od in db.OrderDetails
+                                        join o in db.Orders on od.OrderID equals o.OrderID
+                                        join p in db.Products on od.ProductID equals p.ProductID
+                                        where p.OwnerID == ownerID && o.OrderDate > startD && o.OrderDate < endD
+                                        group new { od, p } by new { od.ProductID, p.ProductName } into g
+                                        select new
+                                        {
+                                            ProductID = g.Key.ProductID,
+                                            ProductName = g.Key.ProductName,
+                                            Sold = g.Count()
+                                        } into result
+                                        orderby result.Sold descending
+                                        select result;
+            var orderDetailList = query.Take(5).ToList();
+
+
+            List<MostSold> mostSoldList = new List<MostSold>();
+            
+            foreach (var item in orderDetailList)
+            {
+                MostSold temp = new MostSold((int)item.ProductID, item.ProductName, item.Sold);
+                mostSoldList.Add(temp);
+            }
+            
+            return mostSoldList;
+        }
+        private List<MostLiked> GetMostLiked(int ownerID, DateTime startD, DateTime endD)
+        {
+            var query = from od in db.OrderDetails
+                        join p in db.Products on od.ProductID equals p.ProductID into productJoin
+                        from p in productJoin.DefaultIfEmpty()
+                        join pr in db.ProductRating on p.ProductID equals pr.productID into ratingJoin
+                        from pr in ratingJoin.DefaultIfEmpty()
+                        join o in db.Orders on od.OrderID equals o.OrderID
+                        where p.OwnerID == 1
+                        group new { p, pr } by new { p.ProductID, p.ProductName, pr.avgRating } into g
+                        orderby g.Key.avgRating descending
+                        select new
+                        {
+                            ProductID = g.Key.ProductID,
+                            ProductName = g.Key.ProductName,
+                            Rating = g.Key.avgRating
+                        };
+
+            var orderDetailList = query.Take(5).ToList();
+
+
+            List<MostLiked> mostLikedList = new List<MostLiked>();
+
+            foreach (var item in orderDetailList)
+            {
+                MostLiked temp = new MostLiked(item.ProductID, item.ProductName, (decimal)item.Rating);
+                mostLikedList.Add(temp);
+            }
+
+            return mostLikedList;
+        }
     }
 }

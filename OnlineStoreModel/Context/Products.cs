@@ -22,15 +22,15 @@ public partial class Products
     public Products()
     {
 
-        this.ProductImages = new HashSet<ProductImages>();
+        this.CartItems = new HashSet<CartItems>();
 
         this.OrderDetails = new HashSet<OrderDetails>();
 
-        this.Rating = new HashSet<Rating>();
+        this.ProductImages = new HashSet<ProductImages>();
 
         this.ProductRating = new HashSet<ProductRating>();
 
-        this.CartItems = new HashSet<CartItems>();
+        this.Rating = new HashSet<Rating>();
 
     }
 
@@ -51,7 +51,19 @@ public partial class Products
 
     public int subCategoryID { get; set; }
 
+    public int InStock { get; set; }
 
+    public int Interaction { get; set; }
+
+
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<CartItems> CartItems { get; set; }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<OrderDetails> OrderDetails { get; set; }
 
     public virtual Owner Owner { get; set; }
 
@@ -61,21 +73,13 @@ public partial class Products
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
-    public virtual ICollection<OrderDetails> OrderDetails { get; set; }
-
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-
-    public virtual ICollection<Rating> Rating { get; set; }
-
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-
     public virtual ICollection<ProductRating> ProductRating { get; set; }
 
     public virtual SubCategory SubCategory { get; set; }
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
-    public virtual ICollection<CartItems> CartItems { get; set; }
+    public virtual ICollection<Rating> Rating { get; set; }
 
 }
 

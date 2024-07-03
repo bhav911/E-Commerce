@@ -51,11 +51,11 @@ public partial class Owner
 
     public virtual ICollection<OwnerKYC> OwnerKYC { get; set; }
 
+    public virtual States States { get; set; }
+
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
     public virtual ICollection<Products> Products { get; set; }
-
-    public virtual States States { get; set; }
 
 }
 

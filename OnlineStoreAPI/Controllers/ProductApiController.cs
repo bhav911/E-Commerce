@@ -130,5 +130,13 @@ namespace OnlineStoreAPI.Controllers
             List<ProductListModel> productModelList = ProductConverter.ConvertProductListToProductModelList(productList);
             return productModelList;
         }
+
+        [HttpGet]
+        [Route("api/ProductApi/ToggleProductActiveness")]
+        public bool ToggleProductActiveness(int productID)
+        {
+            bool status = _product.ToggleProductActiveness(productID);
+            return status;
+        }
     }
 }

@@ -128,7 +128,7 @@ namespace OnlineStore.Controllers
             return View(productModelList);
         }
 
-        [CustomUserAuthenticateHelper]
+        [CustomCustomerAuthenticateHelper]
         public async Task<ActionResult> GetAllProducts()
         {
             string response = await WebApiHelper.WebApiHelper.HttpGetResponseRequest($"api/ProductApi/GetMyProducts?ownerID={UserSession.UserID}");
@@ -136,7 +136,7 @@ namespace OnlineStore.Controllers
             return View(productModelList);
         }
 
-        [CustomUserAuthenticateHelper]
+        [CustomCustomerAuthenticateHelper]
         public async Task<ActionResult> BuyProduct(int productID)
         {
             string response = await WebApiHelper.WebApiHelper.HttpGetResponseRequest($"api/ProductApi/GetProduct?productID={productID}");
@@ -144,8 +144,6 @@ namespace OnlineStore.Controllers
             return View(productModel);
         }
 
-
-        [CustomUserAuthenticateHelper]
         public async Task<ActionResult> GetProductDetails(int productID)
         {
             string response = await WebApiHelper.WebApiHelper.HttpGetResponseRequest($"api/ProductApi/GetProductDetails?productID={productID}&customerID={UserSession.UserID}");
@@ -153,7 +151,15 @@ namespace OnlineStore.Controllers
             return View(productDetailsModel);
         }
 
-        [CustomUserAuthenticateHelper]
+        [CustomOwnerAuthentucateHelper]
+        public async Task<ActionResult> GetMyProductDetails(int productID)
+        {
+            string response = await WebApiHelper.WebApiHelper.HttpGetResponseRequest($"api/ProductApi/GetProductDetails?productID={productID}&customerID={UserSession.UserID}");
+            ProductDetailsModel productDetailsModel = JsonConvert.DeserializeObject<ProductDetailsModel>(response);
+            return View(productDetailsModel);
+        }
+
+        [CustomCustomerAuthenticateHelper]
         public async Task<ActionResult> GetProductsOfSubCategory(int subCategoryID)
         {
             string response = await WebApiHelper.WebApiHelper.HttpGetResponseRequest($"api/ProductApi/GetProductsOfSubCategory?subCategoryID={subCategoryID}");
@@ -161,12 +167,20 @@ namespace OnlineStore.Controllers
             return View("GetAllProducts", productModelList);
         }
 
-        [CustomUserAuthenticateHelper]
+        [CustomCustomerAuthenticateHelper]
         public async Task<ActionResult> GetProductsOfCategory(int categoryID)
         {
             string response = await WebApiHelper.WebApiHelper.HttpGetResponseRequest($"api/ProductApi/GetProductsOfCategory?categoryID={categoryID}");
             List<ProductListModel> productModelList = JsonConvert.DeserializeObject<List<ProductListModel>>(response);
             return View("GetAllProducts", productModelList);
+        }
+
+        [CustomOwnerAuthentucateHelper]
+        public async Task<JsonResult> ToggleProductActiveness(int productID)
+        {
+            string response = await WebApiHelper.WebApiHelper.HttpGetResponseRequest($"api/ProductApi/ToggleProductActiveness?productID={productID}");
+            bool status = JsonConvert.DeserializeObject<bool>(response);
+            return Json(status, JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -3,6 +3,11 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<div class="position-absolute" style="left:18px; top:10px;">
+    <button class="btn" onclick="history.back()">
+        <i class="fa-solid fa-circle-arrow-left fa-xl" style="color: #4e73df"></i>
+    </button>
+</div>
 
 <div>
     <h3 class="text-center mb-5">Add Product</h3>
@@ -60,12 +65,15 @@
                     @Html.ValidationMessageFor(p => p.ProductDescription, null, new { @class = "text-danger" })
                 </div>
             </div>
-            <div class="col">
-                <div class="form-floating mb-3 border p-3 rounded-3">
-                    <span>Available ? &nbsp;</span>
-                    @Html.CheckBoxFor(p => p.Availability, new { @class = "form-check-input ms-auto" })
+            @if (Model == null)
+            {
+                <div class="col">
+                    <div class="form-floating mb-3 border p-3 rounded-3">
+                        <span>Available ? &nbsp;</span>
+                        @Html.CheckBoxFor(p => p.Availability, new { @class = "form-check-input ms-auto" })
+                    </div>
                 </div>
-            </div>
+            }
             <div id="fileHolder">
 
             </div>
@@ -74,19 +82,15 @@
                     <label class="d-flex flex-column gap-3 justify-content-center align-items-center mt-3 pt-3" style="width:100px;height:100px;" id="add_image_btn"><i class="fa-regular fa-square-plus fa-2xl"></i><span>Add Images</span></label>
                 </div>
                 <div id="image_holder" class="d-flex gap-3 flex-nowrap w-100" style="overflow-x:auto">
-                    @{
-                        if (Model != null && Model.ImagePaths != null)
-                        {
-                            <input hidden name="ImagePaths" id="imagesToDelete" />
-                            foreach (var image in Model.ImagePaths)
-                            {
-                                <div class="p-3 imageDiv position-relative">
-                                    <img src="~/Content/ProductImages/@image" image-name="@image" style="width:100px; height:100px" class="border border-dark rounded-2" />
-                                    <button type="button" class="btn btn-danger position-absolute btn-sm rounded-circle translate-middle-x translate-middle-y end-0 edit-del-btn">&times;</button>
-                                </div>
-                            }
-                        }
-                    }
+                    @{ if (Model != null && Model.ImagePaths != null)
+                                    {
+                        <input hidden name="ImagePaths" id="imagesToDelete" /> foreach (var image in Model.ImagePaths)
+                                        {
+                        <div class="p-3 imageDiv position-relative">
+                            <img src="~/Content/ProductImages/@image" image-name="@image" style="width:100px; height:100px" class="border border-dark rounded-2" />
+                            <button type="button" class="btn btn-danger position-absolute btn-sm rounded-circle translate-middle-x translate-middle-y end-0 edit-del-btn">&times;</button>
+                        </div> }
+                                    } }
                 </div>
             </div>
         </div>
@@ -101,7 +105,7 @@
                     <button type="submit" class="btn btn-success ">Save</button>
                 }
             }
-            @Html.ActionLink("Cancel", "GetMyProducts", "Product", null, new { @class = "btn btn-secondary" })
+        <button type="button" onclick="history.back()" class="btn btn-secondary ">Cancel</button>
         </div>
     </form>
 </div>

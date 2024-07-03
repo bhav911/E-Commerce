@@ -63,7 +63,8 @@ namespace OnlineStoreHelper.Helpers
                     ProductPrice = (decimal)product.ProductPrice,
                     RatingCount = (decimal)product.ProductRating.FirstOrDefault().avgRating,
                     Category = product.SubCategory.Category.name,
-                    SubCategory = product.SubCategory.name
+                    SubCategory = product.SubCategory.name,
+                    NumberOfRating = (int)product.ProductRating.FirstOrDefault().numOfRating
                 };
                 string imagePaths = product.ProductImages.FirstOrDefault().uniqueImageName;
                 if (imagePaths != null)

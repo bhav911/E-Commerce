@@ -17,7 +17,7 @@ namespace OnlineStore.Controllers
     public class OrderController : Controller
     {
 
-        [CustomUserAuthenticateHelper]
+        [CustomCustomerAuthenticateHelper]
         public async Task<ActionResult> GetOrdersPlaced()
         {
             string response = await WebApiHelper.WebApiHelper.HttpGetResponseRequest($"api/OrderApi/GetOrdersPlaced?customerID={UserSession.UserID}");
@@ -27,7 +27,7 @@ namespace OnlineStore.Controllers
 
 
         [HttpPost]
-        [CustomUserAuthenticateHelper]
+        [CustomCustomerAuthenticateHelper]
         public async Task<ActionResult> BuyProduct(OrderModel order)
         {
             order.CustomerID = UserSession.UserID;

@@ -22,7 +22,10 @@ namespace OnlineStoreModel.CustomModels
         public bool Availability { get; set; }
         public string[] ImagePaths { get; set; }
         public decimal RatingCount { get; set; }
+        public int NumberOfRating { get; set; }
         public string Category { get; set; }
         public string SubCategory { get; set; }
+        public bool? IsActive { get; set; }
+
     }
 }

@@ -43,8 +43,6 @@ public partial class Rating
 
     public virtual Customers Customers { get; set; }
 
-    public virtual Products Products { get; set; }
-
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
     public virtual ICollection<RatingDetails> RatingDetails { get; set; }
@@ -52,6 +50,8 @@ public partial class Rating
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
     public virtual ICollection<HelpfulReview> HelpfulReview { get; set; }
+
+    public virtual Products Products { get; set; }
 
 }
 

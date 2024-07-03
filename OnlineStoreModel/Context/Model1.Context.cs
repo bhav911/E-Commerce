@@ -44,8 +44,6 @@ public partial class OnlineStoreEntities : DbContext
 
     public virtual DbSet<ProductImages> ProductImages { get; set; }
 
-    public virtual DbSet<Products> Products { get; set; }
-
     public virtual DbSet<States> States { get; set; }
 
     public virtual DbSet<OrderDetails> OrderDetails { get; set; }
@@ -71,6 +69,8 @@ public partial class OnlineStoreEntities : DbContext
     public virtual DbSet<Cart> Cart { get; set; }
 
     public virtual DbSet<CartItems> CartItems { get; set; }
+
+    public virtual DbSet<Products> Products { get; set; }
 
 }
 

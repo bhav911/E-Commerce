@@ -31,7 +31,7 @@ namespace OnlineStore.Controllers
         }
 
         [HttpPost]
-        [CustomUserAuthenticateHelper]
+        [CustomCustomerAuthenticateHelper]
         public async Task<JsonResult> AddReview(NewReviewModel newReview)
         {
             if (newReview.RatingNumber == null)
@@ -43,7 +43,7 @@ namespace OnlineStore.Controllers
             return Json(ratingModel, JsonRequestBehavior.AllowGet);
         }
 
-        [CustomUserAuthenticateHelper]
+        [CustomCustomerAuthenticateHelper]
         public async Task<JsonResult> ToggleHelpful(int ratingID)
         {
             string response = await WebApiHelper.WebApiHelper.HttpGetResponseRequest($"api/RatingApi/ToggleHelpful?ratingID={ratingID}&customerID={UserSession.UserID}");

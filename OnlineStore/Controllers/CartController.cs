@@ -14,7 +14,7 @@ using System.Web.Mvc;
 namespace OnlineStore.Controllers
 {
     [CustomAuthorizeHelper]
-    [CustomUserAuthenticateHelper]
+    [CustomCustomerAuthenticateHelper]
     public class CartController : Controller
     {
         public async Task<JsonResult> AddProductToCart(int productID)

@@ -15,5 +15,9 @@ namespace OnlineStoreRepository.Interface
         Products GetProduct(int prodID);
         List<Products> GetAllProducts(int ShopID);
         bool DeleteProduct(int prodID);
+        List<Products> GetProductsOfSubCategory(int subCategoryID);
+        List<Products> GetProductsOfCategory(int categoryID);
+        bool ToggleProductActiveness(int productID);
+
     }
 }

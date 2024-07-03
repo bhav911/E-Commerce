@@ -3,15 +3,20 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<div class="position-absolute" style="left:20px; top:14px;">
+    <button class="btn" onclick="history.back()">
+        <i class="fa-solid fa-circle-arrow-left fa-xl" style="color: #4e73df"></i>
+    </button>
+</div>
 
 <form method="post" action="/Owner/EditAccount">
     <div class="d-flex flex-column gap-4">
         <div class="d-flex justify-content-end">
-            <button class="btn btn-danger" id="delete-profile">Delete Account</button>
-            @Html.ActionLink("Confirm Delete?", "DeleteProfile", "User", new { @userID = Model.OwnerID }, new { @class = "btn btn-dark border border-2 border-danger d-none", @id = "confirm-delete" })
+            <button type="button" class="btn btn-danger" id="delete-profile">Delete Account</button>
+            @Html.ActionLink("Confirm Delete?", "DeleteProfile", "User", new { @userID = Model.OwnerID }, new { @class = "btn btn-outline-danger d-none fw-bold", @id = "confirm-delete" })
         </div>
         <div class="border border-black p-5">
-            <h3 class="mb-4">Your Details:</h3>
+            <h3 class="mb-4 ">Your Details:</h3>
             <div class="form-floating mb-3">
                 @Html.TextBoxFor(q => q.Shopname, new { @class = "form-control" })
                 @Html.LabelFor(q => q.Shopname, "Shopname")
@@ -46,7 +51,7 @@
             </div>
             <div class="text-center mt-5">
                 <button class="btn btn-primary" type="submit">Save</button>
-                <button class="btn btn-secondary" type="button" onclick="history.back()">Back</button>
+                <button class="btn btn-secondary" type="button" onclick="history.back()">Cancel</button>
             </div>
         </div>
     </div>
@@ -108,4 +113,18 @@
             }
         })
     }
+
+    $('#delete-profile').on('click', function () {
+        $(this).addClass("d-none");
+        $('#confirm-delete').removeClass("d-none");
+    })
+
+    $('body').on('click', function (event) {
+        debugger
+        let tar = event.target;
+        if ($(tar).attr('id') == "delete-profile")
+            return;
+        $('#delete-profile').removeClass("d-none");
+        $('#confirm-delete').addClass("d-none");
+    })
 </script>

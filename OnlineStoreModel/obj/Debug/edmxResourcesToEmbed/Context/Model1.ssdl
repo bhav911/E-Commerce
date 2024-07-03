@@ -145,6 +145,8 @@
     <Property Name="Availability" Type="bit" />
     <Property Name="isDeleted" Type="bit" />
     <Property Name="subCategoryID" Type="int" Nullable="false" />
+    <Property Name="InStock" Type="int" Nullable="false" />
+    <Property Name="Interaction" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Rating">
     <Key>

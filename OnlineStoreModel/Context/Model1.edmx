@@ -150,6 +150,8 @@
           <Property Name="Availability" Type="bit" />
           <Property Name="isDeleted" Type="bit" />
           <Property Name="subCategoryID" Type="int" Nullable="false" />
+          <Property Name="InStock" Type="int" Nullable="false" />
+          <Property Name="Interaction" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Rating">
           <Key>
@@ -581,7 +583,6 @@
           <EntitySet Name="Owner" EntityType="OnlineStoreModel.Owner" />
           <EntitySet Name="OwnerKYC" EntityType="OnlineStoreModel.OwnerKYC" />
           <EntitySet Name="ProductImages" EntityType="OnlineStoreModel.ProductImages" />
-          <EntitySet Name="Products" EntityType="OnlineStoreModel.Products" />
           <EntitySet Name="States" EntityType="OnlineStoreModel.States" />
           <AssociationSet Name="fk_shop_city" Association="OnlineStoreModel.fk_shop_city">
             <End Role="Cities" EntitySet="Cities" />
@@ -599,17 +600,9 @@
             <End Role="Owner" EntitySet="Owner" />
             <End Role="OwnerKYC" EntitySet="OwnerKYC" />
           </AssociationSet>
-          <AssociationSet Name="fk_shop_product" Association="OnlineStoreModel.fk_shop_product">
-            <End Role="Owner" EntitySet="Owner" />
-            <End Role="Products" EntitySet="Products" />
-          </AssociationSet>
           <AssociationSet Name="fk_shop_state" Association="OnlineStoreModel.fk_shop_state">
             <End Role="States" EntitySet="States" />
             <End Role="Owner" EntitySet="Owner" />
-          </AssociationSet>
-          <AssociationSet Name="fk_productID" Association="OnlineStoreModel.fk_productID">
-            <End Role="Products" EntitySet="Products" />
-            <End Role="ProductImages" EntitySet="ProductImages" />
           </AssociationSet>
           <EntitySet Name="OrderDetails" EntityType="OnlineStoreModel.OrderDetails" />
           <EntitySet Name="Orders" EntityType="OnlineStoreModel.Orders" />
@@ -621,10 +614,6 @@
             <End Role="Orders" EntitySet="Orders" />
             <End Role="OrderDetails" EntitySet="OrderDetails" />
           </AssociationSet>
-          <AssociationSet Name="fk_orderDetail_productID" Association="OnlineStoreModel.fk_orderDetail_productID">
-            <End Role="Products" EntitySet="Products" />
-            <End Role="OrderDetails" EntitySet="OrderDetails" />
-          </AssociationSet>
           <EntitySet Name="ADMINS" EntityType="OnlineStoreModel.ADMINS" />
           <EntitySet Name="Rating" EntityType="OnlineStoreModel.Rating" />
           <EntitySet Name="RatingDetails" EntityType="OnlineStoreModel.RatingDetails" />
@@ -632,19 +621,11 @@
             <End Role="Customers" EntitySet="Customers" />
             <End Role="Rating" EntitySet="Rating" />
           </AssociationSet>
-          <AssociationSet Name="fk_rating_productID" Association="OnlineStoreModel.fk_rating_productID">
-            <End Role="Products" EntitySet="Products" />
-            <End Role="Rating" EntitySet="Rating" />
-          </AssociationSet>
           <AssociationSet Name="fk_ratingDetails_ratingID" Association="OnlineStoreModel.fk_ratingDetails_ratingID">
             <End Role="Rating" EntitySet="Rating" />
             <End Role="RatingDetails" EntitySet="RatingDetails" />
           </AssociationSet>
           <EntitySet Name="ProductRating" EntityType="OnlineStoreModel.ProductRating" />
-          <AssociationSet Name="fk_productRating_productID" Association="OnlineStoreModel.fk_productRating_productID">
-            <End Role="Products" EntitySet="Products" />
-            <End Role="ProductRating" EntitySet="ProductRating" />
-          </AssociationSet>
           <EntitySet Name="HelpfulReview" EntityType="OnlineStoreModel.HelpfulReview" />
           <AssociationSet Name="fk_helpfulReview_customerID" Association="OnlineStoreModel.fk_helpfulReview_customerID">
             <End Role="Customers" EntitySet="Customers" />
@@ -659,10 +640,6 @@
           <AssociationSet Name="fk_subCategory_category" Association="OnlineStoreModel.fk_subCategory_category">
             <End Role="Category" EntitySet="Category" />
             <End Role="SubCategory" EntitySet="SubCategory" />
-          </AssociationSet>
-          <AssociationSet Name="fk_products_subCategory" Association="OnlineStoreModel.fk_products_subCategory">
-            <End Role="SubCategory" EntitySet="SubCategory" />
-            <End Role="Products" EntitySet="Products" />
           </AssociationSet>
           <EntitySet Name="SubCategoryImage" EntityType="OnlineStoreModel.SubCategoryImage" />
           <AssociationSet Name="fk_subCategoryImage_subCategory" Association="OnlineStoreModel.fk_subCategoryImage_subCategory">
@@ -679,9 +656,34 @@
             <End Role="Cart" EntitySet="Cart" />
             <End Role="CartItems" EntitySet="CartItems" />
           </AssociationSet>
+          <EntitySet Name="Products" EntityType="OnlineStoreModel.Products" />
           <AssociationSet Name="fk_cartItem_product" Association="OnlineStoreModel.fk_cartItem_product">
             <End Role="Products" EntitySet="Products" />
             <End Role="CartItems" EntitySet="CartItems" />
+          </AssociationSet>
+          <AssociationSet Name="fk_orderDetail_productID" Association="OnlineStoreModel.fk_orderDetail_productID">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="OrderDetails" EntitySet="OrderDetails" />
+          </AssociationSet>
+          <AssociationSet Name="fk_shop_product" Association="OnlineStoreModel.fk_shop_product">
+            <End Role="Owner" EntitySet="Owner" />
+            <End Role="Products" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="fk_productID" Association="OnlineStoreModel.fk_productID">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="ProductImages" EntitySet="ProductImages" />
+          </AssociationSet>
+          <AssociationSet Name="fk_productRating_productID" Association="OnlineStoreModel.fk_productRating_productID">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="ProductRating" EntitySet="ProductRating" />
+          </AssociationSet>
+          <AssociationSet Name="fk_products_subCategory" Association="OnlineStoreModel.fk_products_subCategory">
+            <End Role="SubCategory" EntitySet="SubCategory" />
+            <End Role="Products" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="fk_rating_productID" Association="OnlineStoreModel.fk_rating_productID">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="Rating" EntitySet="Rating" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Cities">
@@ -736,8 +738,8 @@
           <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Cities" Relationship="OnlineStoreModel.fk_shop_city" FromRole="Owner" ToRole="Cities" />
           <NavigationProperty Name="OwnerKYC" Relationship="OnlineStoreModel.fk_ownerKYC_shopID" FromRole="Owner" ToRole="OwnerKYC" />
-          <NavigationProperty Name="Products" Relationship="OnlineStoreModel.fk_shop_product" FromRole="Owner" ToRole="Products" />
           <NavigationProperty Name="States" Relationship="OnlineStoreModel.fk_shop_state" FromRole="Owner" ToRole="States" />
+          <NavigationProperty Name="Products" Relationship="OnlineStoreModel.fk_shop_product" FromRole="Owner" ToRole="Products" />
         </EntityType>
         <EntityType Name="OwnerKYC">
           <Key>
@@ -759,26 +761,6 @@
           <Property Name="ProductID" Type="Int32" />
           <Property Name="uniqueImageName" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Products" Relationship="OnlineStoreModel.fk_productID" FromRole="ProductImages" ToRole="Products" />
-        </EntityType>
-        <EntityType Name="Products">
-          <Key>
-            <PropertyRef Name="ProductID" />
-          </Key>
-          <Property Name="ProductID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ProductName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ProductDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="ProductPrice" Type="Decimal" Precision="7" Scale="2" />
-          <Property Name="OwnerID" Type="Int32" />
-          <Property Name="Availability" Type="Boolean" />
-          <Property Name="isDeleted" Type="Boolean" />
-          <NavigationProperty Name="Owner" Relationship="OnlineStoreModel.fk_shop_product" FromRole="Products" ToRole="Owner" />
-          <NavigationProperty Name="ProductImages" Relationship="OnlineStoreModel.fk_productID" FromRole="Products" ToRole="ProductImages" />
-          <NavigationProperty Name="OrderDetails" Relationship="OnlineStoreModel.fk_orderDetail_productID" FromRole="Products" ToRole="OrderDetails" />
-          <NavigationProperty Name="Rating" Relationship="OnlineStoreModel.fk_rating_productID" FromRole="Products" ToRole="Rating" />
-          <NavigationProperty Name="ProductRating" Relationship="OnlineStoreModel.fk_productRating_productID" FromRole="Products" ToRole="ProductRating" />
-          <Property Name="subCategoryID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="SubCategory" Relationship="OnlineStoreModel.fk_products_subCategory" FromRole="Products" ToRole="SubCategory" />
-          <NavigationProperty Name="CartItems" Relationship="OnlineStoreModel.fk_cartItem_product" FromRole="Products" ToRole="CartItems" />
         </EntityType>
         <EntityType Name="States">
           <Key>
@@ -837,18 +819,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_shop_product">
-          <End Type="OnlineStoreModel.Owner" Role="Owner" Multiplicity="0..1" />
-          <End Type="OnlineStoreModel.Products" Role="Products" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Owner">
-              <PropertyRef Name="OwnerID" />
-            </Principal>
-            <Dependent Role="Products">
-              <PropertyRef Name="OwnerID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="fk_shop_state">
           <End Type="OnlineStoreModel.States" Role="States" Multiplicity="0..1" />
           <End Type="OnlineStoreModel.Owner" Role="Owner" Multiplicity="*" />
@@ -858,18 +828,6 @@
             </Principal>
             <Dependent Role="Owner">
               <PropertyRef Name="StateID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_productID">
-          <End Type="OnlineStoreModel.Products" Role="Products" Multiplicity="0..1" />
-          <End Type="OnlineStoreModel.ProductImages" Role="ProductImages" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Products">
-              <PropertyRef Name="ProductID" />
-            </Principal>
-            <Dependent Role="ProductImages">
-              <PropertyRef Name="ProductID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -922,18 +880,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_orderDetail_productID">
-          <End Type="OnlineStoreModel.Products" Role="Products" Multiplicity="0..1" />
-          <End Type="OnlineStoreModel.OrderDetails" Role="OrderDetails" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Products">
-              <PropertyRef Name="ProductID" />
-            </Principal>
-            <Dependent Role="OrderDetails">
-              <PropertyRef Name="ProductID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="ADMINS">
           <Key>
             <PropertyRef Name="adminID" />
@@ -951,10 +897,10 @@
           <Property Name="customerID" Type="Int32" Nullable="false" />
           <Property Name="havePurchased" Type="Boolean" />
           <NavigationProperty Name="Customers" Relationship="OnlineStoreModel.fk_rating_customerID" FromRole="Rating" ToRole="Customers" />
-          <NavigationProperty Name="Products" Relationship="OnlineStoreModel.fk_rating_productID" FromRole="Rating" ToRole="Products" />
           <NavigationProperty Name="RatingDetails" Relationship="OnlineStoreModel.fk_ratingDetails_ratingID" FromRole="Rating" ToRole="RatingDetails" />
           <NavigationProperty Name="HelpfulReview" Relationship="OnlineStoreModel.fk_helpfulReview_ratingID" FromRole="Rating" ToRole="HelpfulReview" />
           <Property Name="reviewDate" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Products" Relationship="OnlineStoreModel.fk_rating_productID" FromRole="Rating" ToRole="Products" />
         </EntityType>
         <EntityType Name="RatingDetails">
           <Key>
@@ -979,18 +925,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_rating_productID">
-          <End Type="OnlineStoreModel.Products" Role="Products" Multiplicity="1" />
-          <End Type="OnlineStoreModel.Rating" Role="Rating" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Products">
-              <PropertyRef Name="ProductID" />
-            </Principal>
-            <Dependent Role="Rating">
-              <PropertyRef Name="productID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="fk_ratingDetails_ratingID">
           <End Type="OnlineStoreModel.Rating" Role="Rating" Multiplicity="0..1" />
           <End Type="OnlineStoreModel.RatingDetails" Role="RatingDetails" Multiplicity="*" />
@@ -1010,21 +944,9 @@
           <Property Name="productRatingID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="productID" Type="Int32" />
           <Property Name="avgRating" Type="Decimal" Precision="3" Scale="2" />
-          <NavigationProperty Name="Products" Relationship="OnlineStoreModel.fk_productRating_productID" FromRole="ProductRating" ToRole="Products" />
           <Property Name="numOfRating" Type="Int32" />
+          <NavigationProperty Name="Products" Relationship="OnlineStoreModel.fk_productRating_productID" FromRole="ProductRating" ToRole="Products" />
         </EntityType>
-        <Association Name="fk_productRating_productID">
-          <End Type="OnlineStoreModel.Products" Role="Products" Multiplicity="0..1" />
-          <End Type="OnlineStoreModel.ProductRating" Role="ProductRating" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Products">
-              <PropertyRef Name="ProductID" />
-            </Principal>
-            <Dependent Role="ProductRating">
-              <PropertyRef Name="productID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="HelpfulReview">
           <Key>
             <PropertyRef Name="helpfulReviewID" />
@@ -1078,8 +1000,8 @@
           <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="productCount" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Category" Relationship="OnlineStoreModel.fk_subCategory_category" FromRole="SubCategory" ToRole="Category" />
-          <NavigationProperty Name="Products" Relationship="OnlineStoreModel.fk_products_subCategory" FromRole="SubCategory" ToRole="Products" />
           <NavigationProperty Name="SubCategoryImage" Relationship="OnlineStoreModel.fk_subCategoryImage_subCategory" FromRole="SubCategory" ToRole="SubCategoryImage" />
+          <NavigationProperty Name="Products" Relationship="OnlineStoreModel.fk_products_subCategory" FromRole="SubCategory" ToRole="Products" />
         </EntityType>
         <Association Name="fk_subCategory_category">
           <End Type="OnlineStoreModel.Category" Role="Category" Multiplicity="1" />
@@ -1090,18 +1012,6 @@
             </Principal>
             <Dependent Role="SubCategory">
               <PropertyRef Name="categoryID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_products_subCategory">
-          <End Type="OnlineStoreModel.SubCategory" Role="SubCategory" Multiplicity="1" />
-          <End Type="OnlineStoreModel.Products" Role="Products" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SubCategory">
-              <PropertyRef Name="subCategoryID" />
-            </Principal>
-            <Dependent Role="Products">
-              <PropertyRef Name="subCategoryID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1171,6 +1081,28 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Products">
+          <Key>
+            <PropertyRef Name="ProductID" />
+          </Key>
+          <Property Name="ProductID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ProductDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ProductPrice" Type="Decimal" Precision="7" Scale="2" />
+          <Property Name="OwnerID" Type="Int32" />
+          <Property Name="Availability" Type="Boolean" />
+          <Property Name="isDeleted" Type="Boolean" />
+          <Property Name="subCategoryID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="CartItems" Relationship="OnlineStoreModel.fk_cartItem_product" FromRole="Products" ToRole="CartItems" />
+          <NavigationProperty Name="OrderDetails" Relationship="OnlineStoreModel.fk_orderDetail_productID" FromRole="Products" ToRole="OrderDetails" />
+          <NavigationProperty Name="Owner" Relationship="OnlineStoreModel.fk_shop_product" FromRole="Products" ToRole="Owner" />
+          <NavigationProperty Name="ProductImages" Relationship="OnlineStoreModel.fk_productID" FromRole="Products" ToRole="ProductImages" />
+          <NavigationProperty Name="ProductRating" Relationship="OnlineStoreModel.fk_productRating_productID" FromRole="Products" ToRole="ProductRating" />
+          <NavigationProperty Name="SubCategory" Relationship="OnlineStoreModel.fk_products_subCategory" FromRole="Products" ToRole="SubCategory" />
+          <NavigationProperty Name="Rating" Relationship="OnlineStoreModel.fk_rating_productID" FromRole="Products" ToRole="Rating" />
+          <Property Name="InStock" Type="Int32" Nullable="false" />
+          <Property Name="Interaction" Type="Int32" Nullable="false" />
+        </EntityType>
         <Association Name="fk_cartItem_product">
           <End Type="OnlineStoreModel.Products" Role="Products" Multiplicity="1" />
           <End Type="OnlineStoreModel.CartItems" Role="CartItems" Multiplicity="*" />
@@ -1180,6 +1112,78 @@
             </Principal>
             <Dependent Role="CartItems">
               <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_orderDetail_productID">
+          <End Type="OnlineStoreModel.Products" Role="Products" Multiplicity="0..1" />
+          <End Type="OnlineStoreModel.OrderDetails" Role="OrderDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="ProductID" />
+            </Principal>
+            <Dependent Role="OrderDetails">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_shop_product">
+          <End Type="OnlineStoreModel.Owner" Role="Owner" Multiplicity="0..1" />
+          <End Type="OnlineStoreModel.Products" Role="Products" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Owner">
+              <PropertyRef Name="OwnerID" />
+            </Principal>
+            <Dependent Role="Products">
+              <PropertyRef Name="OwnerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_productID">
+          <End Type="OnlineStoreModel.Products" Role="Products" Multiplicity="0..1" />
+          <End Type="OnlineStoreModel.ProductImages" Role="ProductImages" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="ProductID" />
+            </Principal>
+            <Dependent Role="ProductImages">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_productRating_productID">
+          <End Type="OnlineStoreModel.Products" Role="Products" Multiplicity="0..1" />
+          <End Type="OnlineStoreModel.ProductRating" Role="ProductRating" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="ProductID" />
+            </Principal>
+            <Dependent Role="ProductRating">
+              <PropertyRef Name="productID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_products_subCategory">
+          <End Type="OnlineStoreModel.SubCategory" Role="SubCategory" Multiplicity="1" />
+          <End Type="OnlineStoreModel.Products" Role="Products" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubCategory">
+              <PropertyRef Name="subCategoryID" />
+            </Principal>
+            <Dependent Role="Products">
+              <PropertyRef Name="subCategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_rating_productID">
+          <End Type="OnlineStoreModel.Products" Role="Products" Multiplicity="1" />
+          <End Type="OnlineStoreModel.Rating" Role="Rating" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="ProductID" />
+            </Principal>
+            <Dependent Role="Rating">
+              <PropertyRef Name="productID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1254,20 +1258,6 @@
                 <ScalarProperty Name="uniqueImageName" ColumnName="uniqueImageName" />
                 <ScalarProperty Name="ProductID" ColumnName="ProductID" />
                 <ScalarProperty Name="ImageID" ColumnName="ImageID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Products">
-            <EntityTypeMapping TypeName="OnlineStoreModel.Products">
-              <MappingFragment StoreEntitySet="Products">
-                <ScalarProperty Name="subCategoryID" ColumnName="subCategoryID" />
-                <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
-                <ScalarProperty Name="Availability" ColumnName="Availability" />
-                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
-                <ScalarProperty Name="ProductPrice" ColumnName="ProductPrice" />
-                <ScalarProperty Name="ProductDescription" ColumnName="ProductDescription" />
-                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
-                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1397,6 +1387,22 @@
                 <ScalarProperty Name="ProductID" ColumnName="ProductID" />
                 <ScalarProperty Name="CartID" ColumnName="CartID" />
                 <ScalarProperty Name="CartItemID" ColumnName="CartItemID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="OnlineStoreModel.Products">
+              <MappingFragment StoreEntitySet="Products">
+                <ScalarProperty Name="Interaction" ColumnName="Interaction" />
+                <ScalarProperty Name="InStock" ColumnName="InStock" />
+                <ScalarProperty Name="subCategoryID" ColumnName="subCategoryID" />
+                <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
+                <ScalarProperty Name="Availability" ColumnName="Availability" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+                <ScalarProperty Name="ProductPrice" ColumnName="ProductPrice" />
+                <ScalarProperty Name="ProductDescription" ColumnName="ProductDescription" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

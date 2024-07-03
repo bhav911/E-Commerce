@@ -1,0 +1,386 @@
+﻿@model OnlineStoreModel.CustomModels.ProductDetailsModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .img-box {
+        width: 300px;
+        height: 300px;
+    }
+</style>
+
+<div class="position-absolute" style="left:18px; top:10px;">
+    <button class="btn" onclick="history.back()">
+        <i class="fa-solid fa-circle-arrow-left fa-xl" style="color: #4e73df"></i>
+    </button>
+</div>
+
+<div class="card border-black">
+    <h5 class="card-header bg-primary-subtle fw-bold text-primary">@Model.ProductName</h5>
+    <div class="card-body row  position-relative">
+        @*<div class="col-12 d-flex gap-5 flex-wrap align-items-center">
+            @{
+                if (Model.ImagePaths != null)
+                {
+                    foreach (var img in Model.ImagePaths)
+                    {
+                        <div class="img-box">
+                            <img src="~/Content/ProductImages/@img" class="d-block mx-auto">
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="mx-auto">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlomRxuD2hXxPAPem4LggnMmje2M5z_ZNvRg&s">
+                    </div>
+                }
+            }
+        </div>*@
+        <div class="col">
+            <div class="border-start border-primary-subtle border-3 d-flex justify-content-between gap-5">
+                <div class="ps-2">
+                    <h5 class="card-title pe-5">@Model.ProductDescription</h5>
+                    @{
+                        if (Model.RatingNumber != 0)
+                        {
+                            decimal rating = Convert.ToDecimal(Model.RatingNumber);
+                            for (int i = 1; i <= rating; i++)
+                            {
+                                <i class="fa-solid fa-star fa-lg" style="color: #FFD43B;"></i>
+                            }
+                            decimal precision = rating - Convert.ToInt32(rating);
+                            if (precision != 0)
+                            {
+                                <i class="fa-solid fa-star-half-stroke fa-lg" style="color: #FFD43B;"></i> rating++;
+                            }
+                            for (int i = 5; i > rating; i--)
+                            {
+                                <i class="fa-regular fa-star fa-lg" style="color: #FFD43B;"></i>
+                            }
+                            <span class="card-text text-secondary fw-bold mb-0">(@Model.RatingNumber)</span>
+                        }
+                        if (Model.Availability)
+                        {
+                            <p class="card-text text-success fw-bold">Available</p>
+                        }
+                        else
+                        {
+                            <p class="card-text text-danger mb-0">Not Available</p>
+                        }
+                    }
+                </div>
+                <div>
+                    <h1 class="text-primary fw-bold">@Model.ProductPrice<small>₹</small></h1>
+                </div>
+            </div>
+            <div class="text-center mb-5" prod="@Model.ProductID">
+                @Html.ActionLink("Edit", "EditProduct", new { @productID = Model.ProductID }, new { @class = "btn btn-primary" })
+                @if ((bool)Model.Availability)
+                {
+                    <button class="btn btn-success IsActive">On Market</button> 
+                }
+                else
+                {
+                    <button class="btn btn-secondary IsActive">Off Market</button>
+                }
+            </div>
+        </div>
+        <div class="d-flex justify-content-between align-items-center">
+            <h2 class="text-secondary">Public Reviews</h2>
+            <div class="text-end py-3" id="star-filter">
+                <button class="btn btn-sm btn-outline-warning border-warning" star="5">
+                    <span class=" fw-bold fs-5">5</span>
+                    <i class="fa-solid fa-star fa-lg"></i>
+                </button>
+                <button class="btn btn-sm btn-outline-warning border-warning" star="4">
+                    <span class=" fw-bold fs-5">4</span>
+                    <i class="fa-solid fa-star fa-lg"></i>
+                </button>
+                <button class="btn btn-sm btn-outline-warning border-warning" star="3">
+                    <span class=" fw-bold fs-5">3</span>
+                    <i class="fa-solid fa-star fa-lg"></i>
+                </button>
+                <button class="btn btn-sm btn-outline-warning border-warning" star="2">
+                    <span class=" fw-bold fs-5">2</span>
+                    <i class="fa-solid fa-star fa-lg"></i>
+                </button>
+                <button class="btn btn-sm btn-outline-warning border-warning" star="1">
+                    <span class=" fw-bold fs-5">1</span>
+                    <i class="fa-solid fa-star fa-lg"></i>
+                </button>
+                <button class="btn btn-sm btn-outline-warning border-warning" star="-1">
+                    <span class=" fw-bold fs-5">All</span>
+                </button>
+            </div>
+        </div>
+        <div id="review-holder">
+            @{
+                DateTime today = DateTime.Today;
+                foreach (var review in Model.PublicRatings)
+                {
+                        <div class="card mb-4 border-black px-4 pt-3 review-card">
+                            <div class="d-flex justify-content-between">
+                                <div class="d-flex gap-1">
+                                    <div>
+                                        <i class="fa-regular fa-user border rounded-circle p-1 border-dark"></i>
+                                    </div>
+                                    <div>
+                                        <span class="fw-bold text-primary d-block ms-1">@review.CustomerName</span>
+                                        @{
+                                            if ((bool)review.HavePurchased)
+                                            {
+                                                <small class="text-secondary"><i>Verfied Buyer</i></small>
+                                            }
+                                        }
+                                    </div>
+                                    <div>
+                                        @{
+                                            DateTime reviewDate = review.ReviewDate;
+                                            int days = today.Subtract(reviewDate).Days;
+                                            int months = days / 30;
+                                            int year = months / 12;
+                                            if (days < 30)
+                                            {
+                                                <small>Recently</small>
+                                            }
+                                            else if (months < 12)
+                                            {
+                                                <small>@months months ago</small>
+                                            }
+                                            else
+                                            {
+                                                <small>@year years ago</small>
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                                <div>
+                                    @{
+                                        int rating = Convert.ToInt32(review.RatingNumber);
+                                        for (int i = 1; i <= rating; i++)
+                                        {
+                                            <i class="fa-solid fa-star fa-lg" style="color: #FFD43B;"></i>
+                                        }
+                                        for (int i = 5; i > rating; i--)
+                                        {
+                                            <i class="fa-regular fa-star fa-lg" style="color: #FFD43B;"></i>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                            <div class="ms-4 mt-2">
+                                <p class="mb-0 text-secondary">@review.Review</p>
+                            </div>
+                            <div class="my-3 ms-4">
+                                <i class="fa-solid fa-thumbs-up me-2" rating="@review.RatingID" style="cursor:pointer;" liked=true></i><span>@review.HelpfulCount</span>
+                            </div>
+                        </div>
+                }
+            }
+
+        </div>
+            @{
+                if (Model.PublicRatings != null && Model.PublicRatings.Count() > 0)
+                {
+                    <div class="text-center mb-4">
+                        <button class="btn btn-secondary" id="LoadReviews">Show More</button>
+                    </div>
+                }
+            }
+
+    </div>
+</div>
+
+<script>
+    let product = @Model.ProductID;
+    let reachedLimit = false;
+    let filterApplied = -1;
+
+    $('.IsActive').on('click', function (event) {
+        let state = $(event.target).hasClass("btn-success");
+        let productID = $(event.target).closest('div').attr('prod')
+        $.ajax({
+            url: "/Product/ToggleProductActiveness?productID=" + productID,
+            method: "GET",
+            dataType: "text",
+            success: function (response) {
+                if (state) {
+                    $(event.target).removeClass("btn-success").addClass("btn-secondary").text("Off Market")
+                }
+                else {
+                    $(event.target).removeClass("btn-secondary").addClass("btn-success").text("On Market")
+                }
+            },
+            error: function (err) {
+
+            }
+        })
+    })
+
+    $('#star-filter').on('click', function (event) {
+        let target = event.target;
+        if (!$(target).closest('button').hasClass("border-warning"))
+            return;
+        let star = $(target).closest('button').attr('star');
+        filterApplied = star;
+        $.ajax({
+            url: `/Rating/GetFilteredReview?star=${star}&productID=${parseInt(product)}`,
+            method: "GET",
+            dataType: "json",
+            contentType: "json",
+            success: function (response) {
+                let LoadBtn = $('#LoadReviews');
+                if (response.length == 0) {
+                    let LoadBtn = $('#LoadReviews');
+                    $(LoadBtn).addClass('d-none');
+                }
+                else {
+                    $(LoadBtn).removeClass('d-none');
+                }
+                $(LoadBtn).text("Show More");
+                reachedLimit = false;
+
+                $('#review-holder').empty();
+                $.each(response, (ind, ele) => {
+                    AppendReview(ele);
+                })
+            },
+            error: function (err) {
+                debugger
+            }
+        });
+    });
+
+    $('#LoadReviews').on('click', function () {
+        if (reachedLimit) {
+            let allReview = $('.review-card');
+            if ($('#LoadReviews').text() == "Hide Reviews") {
+                $.each(allReview, (ind, ele) => {
+                    if (ind < 3) {
+                        return;
+                    }
+                    $(ele).hide();
+                })
+                $('#LoadReviews').text("Show More");
+            }
+            else {
+                $.each(allReview, (ind, ele) => {
+                    if (ind < 3) {
+                        return;
+                    }
+                    $(ele).show();
+                })
+                $('#LoadReviews').text("Hide Reviews");
+            }
+            return;
+        }
+        let cardBatch = Math.ceil($('.review-card').length / 3);
+        if (filterApplied != -1) {
+            $.ajax({
+                url: `/Rating/GetFilteredReview?star=${filterApplied}&productID=${parseInt(product)}&reviewNumber=${cardBatch + 1}`,
+                method: "GET",
+                dataType: "json",
+                success: function (response) {
+                    
+                    $(LoadBtn).removeClass('d-none')
+                    if (response.length < 3) {
+                        $(LoadBtn).text("Hide Reviews");
+                        reachedLimit = true;
+                    }
+                    $.each(response, (ind, ele) => {
+                        AppendReview(ele);
+                    })
+                },
+                error: function (error, a, b, c) {
+                }
+            })
+            return;
+        }
+        $.ajax({
+            url: `/Rating/LoadMoreReviews?productID=${product}&reviewNumber=${cardBatch + 1}`,
+            method: "GET",
+            dataType: "json",
+            success: function (response) {
+                if (response.length < 3) {
+                    let LoadBtn = $('#LoadReviews');
+                    $(LoadBtn).text("Hide Reviews");
+                    reachedLimit = true;
+                }
+                $.each(response, (ind, ele) => {
+                    AppendReview(ele);
+                })
+
+            },
+            error: function (error, a, b, c) {
+            }
+        })
+    })
+
+    function AppendReview(ele) {
+        let parent = $('#review-holder');
+        let div1 = $('<div>').addClass('card mb-4 border-black px-4 pt-3 review-card');
+        let div2a = $('<div>').addClass('d-flex justify-content-between');
+        let div3a = $('<div>').addClass('d-flex gap-1');
+        let div4a = $('<div>').append($('<i>').addClass("fa-regular fa-user border rounded-circle p-1 border-dark"));
+        let div4bspan = $('<span>').addClass("fw-bold text-primary d-block ms-1").text(`${ele.CustomerName}`)
+        let div4b = $('<div>').append(div4bspan);
+        if (ele.HavePurchased) {
+            $(div4b).append($('<small>').addClass("text-secondary").append($('<i>').text('Verfied Buyer')))
+        }
+        var milliseconds = parseInt(ele.ReviewDate.replace(/\/Date\((\d+)\)\//, '$1'), 10);
+        let message = messageCalculater(new Date(milliseconds))
+        let div4c = $('<div>').append($('<small>').text(message));
+        $(div3a).append(div4a)
+        $(div3a).append(div4b)
+        $(div3a).append(div4c)
+        let div3b = $('<div>');
+        let rating = parseInt(ele.RatingNumber)
+        for (let i = 1; i <= rating; i++) {
+            $(div3b).append('<i class= "fa-solid fa-star fa-lg" style = "color: #FFD43B;" ></i >');
+        }
+        for (let i = 5; i > rating; i--) {
+            $(div3b).append('<i class= "fa-regular fa-star fa-lg" style = "color: #FFD43B;" ></i >');
+        }
+        $(div2a).append(div3a);
+        $(div2a).append(div3b);
+
+        let div2b = $('<div>').addClass("ms-4 mt-2");
+        let div2bp = $('<p>').addClass("mb-0 text-secondary").text(ele.Review);
+        $(div2b).append(div2bp);
+
+        let div2c = $('<div>').addClass("my-3 ms-4");
+
+        let div2ci = $('<i>').addClass("fa-solid fa-thumbs-up me-2").attr({ "rating": ele.RatingID, "liked": true }).css("cursor", "pointer")
+        $(div2c).append(div2ci);
+        let div2cspan = $("<span>").text(ele.HelpfulCount)
+        $(div2c).append(div2cspan);
+        $(div1).append(div2a)
+        $(div1).append(div2b)
+        $(div1).append(div2c)
+        $(parent).append(div1);
+    }
+
+    function messageCalculater(reviewDate) {
+
+        const today = new Date();
+        const diffTime = Math.abs(today - reviewDate);
+        const days = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        const months = Math.floor(days / 30);
+        const years = Math.floor(months / 12);
+        let message;
+        if (days < 30) {
+            message = 'Recently';
+        } else if (months < 12) {
+            message = `${months} months ago`;
+        } else {
+            message = `${years} years ago`;
+        }
+        return message;
+    }
+
+
+
+</script>

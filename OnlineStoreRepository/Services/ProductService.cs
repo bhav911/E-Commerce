@@ -41,7 +41,6 @@ namespace OnlineStoreRepository.Services
             product.ProductName = newProductInfo.ProductName;
             product.ProductDescription = newProductInfo.ProductDescription;
             product.ProductPrice = newProductInfo.ProductPrice;
-            product.Availability = newProductInfo.Availability;
             product.subCategoryID = newProductInfo.subCategoryID;
 
             Dictionary<string, object> kvp = new Dictionary<string, object>();
@@ -116,6 +115,22 @@ namespace OnlineStoreRepository.Services
         {
             List<Products> productList = db.Products.Where(q => q.SubCategory.categoryID == categoryID && !(bool)q.isDeleted).ToList();
             return productList;
+        }
+
+        public bool ToggleProductActiveness(int productID)
+        {
+            try
+            {
+                Products products = db.Products.FirstOrDefault(q => q.ProductID == productID);
+                products.Availability = !products.Availability;
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+                throw;
+            }
         }
     }
 }

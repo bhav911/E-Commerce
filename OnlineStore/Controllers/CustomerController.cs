@@ -17,7 +17,7 @@ using Newtonsoft.Json;
 namespace OnlineStore.Controllers
 {
     [CustomAuthorizeHelper]
-    [CustomUserAuthenticateHelper]
+    [CustomCustomerAuthenticateHelper]
     public class CustomerController : Controller
     {
         public async Task<ActionResult> Home()
