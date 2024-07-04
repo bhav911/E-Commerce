@@ -86,7 +86,7 @@
                     </div>
                     <div class="text-end bottom-0 position-absolute end-0">
                         @{
-                            if (product.Availability)
+                            if (product.Availability && product.InStock > 0)
                             {
                                 @Html.ActionLink("Details", "GetProductDetails", "Product", new { @productID = product.ProductID }, new { @class = "btn btn-secondary" })
                                 <button class="btn btn-primary addToCart" prod-id="@product.ProductID" id="addToCart">Add to cart</button>
@@ -115,12 +115,12 @@
             type: "GET",
             dataType: "json",
             success: function (response) {
-                debugger
                 var toast = new bootstrap.Toast($('#liveToast'));
                 toast.show();
             },
             error: function (err) {
-                debugger
+                toastr.error("Can't add item")
+                
             }
         })
     })

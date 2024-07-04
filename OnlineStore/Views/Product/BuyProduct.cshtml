@@ -39,7 +39,7 @@
         <button id="quantityHolder" class="btn btn-secondary">1</button>
         <button type="button" class="btn btn-danger" id="decQuantity">-</button>
     </div>
-    <input type="number" hidden class="" id="quantity" name="quantity" value="1" min="0" />
+    <input type="number" hidden class="" id="quantity" name="quantity" value="1" min="0" max="@Model.InStock"/>
     <div class="text-center my-3">
         <button type="button" class="btn btn-success" id="reviewBtn" data-bs-toggle="modal" data-bs-target="#reviewModal">Review</button>
         <button type="button"  onclick="history.back();" class="btn btn-secondary">Cancel</button>
@@ -94,6 +94,10 @@
 
     $('#incQuantity').on('click', function () {
         let curQuantity = parseInt($(quantity).text());
+        if (curQuantity == @Model.InStock) {
+            toastr.error("Cant't Add More")
+            return;
+        }
         quantity.text(curQuantity + 1);
         $(inputQuantity).val(curQuantity + 1);
     })

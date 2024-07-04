@@ -33,5 +33,6 @@ namespace OnlineStoreModel.CustomModels
         public int SubCategoryID{ get; set; }
         public string Category { get; set; }
         public string SubCategory { get; set; }
+        public int InStock { get; set; }
     }
 }

@@ -42,7 +42,7 @@ namespace OnlineStore.Controllers
             if(startDate != null && endDate != null && startDate > endDate || startDate > DateTime.Today || endDate > DateTime.Today)
             {
                 TempData["error"] = "Please select appropriate date";
-                return RedirectToAction("GetRecievedOrders", "Owner");
+                return RedirectToAction("GetRecievedOrders");
             }
             string response = await WebApiHelper.WebApiHelper.HttpGetResponseRequest($"api/OwnerApi/GetRecievedOrders?ownerID={UserSession.UserID}&startDate={startDate}&endDate={endDate}&productID={productID}");
             List<OrdersReceivedModel> ordersReceivedModels = JsonConvert.DeserializeObject<List<OrdersReceivedModel>>(response);

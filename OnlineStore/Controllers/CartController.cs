@@ -25,6 +25,11 @@ namespace OnlineStore.Controllers
                 ProductID = productID
             };
             string response = await WebApiHelper.WebApiHelper.HttpPostResponseRequest("api/CartApi/AddProductToCart", JsonConvert.SerializeObject(order));
+            if(response == null)
+            {
+                TempData["error"] = "Can't add to cart";
+                return Json(null, JsonRequestBehavior.AllowGet);
+            }
             CartModel cartModel = JsonConvert.DeserializeObject<CartModel>(response);
             return Json(cartModel, JsonRequestBehavior.AllowGet);
         }
@@ -39,7 +44,7 @@ namespace OnlineStore.Controllers
         public async Task<JsonResult> IncrementQuantity(int cartID)
         {
             string response = await WebApiHelper.WebApiHelper.HttpGetResponseRequest($"api/CartApi/IncrementQuantity?cartItemID={cartID}");
-            CartItems cartList = JsonConvert.DeserializeObject<CartItems>(response);
+            CartItemModel cartList = JsonConvert.DeserializeObject<CartItemModel>(response);
             return Json(cartList, JsonRequestBehavior.AllowGet);
         }
 

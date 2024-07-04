@@ -136,6 +136,11 @@
             method: "GET",
             dataType: "JSON",
             success: function (res) {
+                debugger
+                if (res.OwnerID == 0) {
+                    toastr.error("please select appropriate date");
+                    return;
+                }
                 $('#sale-chart').empty()
                 $('#revenue-chart').empty()
                 $('#most-sold-chart').empty()

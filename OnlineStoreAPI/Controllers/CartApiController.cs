@@ -21,6 +21,8 @@ namespace OnlineStoreAPI.Controllers
         public CartModel AddProductToCart(OrderModel orderModel)
         {
             Cart cart = _cart.AddToCart(orderModel);
+            if (cart == null)
+                return null;
             CartModel cartModel = CartConverter.ConvertCartToCartModel(cart);
             return cartModel;
         }
@@ -38,9 +40,17 @@ namespace OnlineStoreAPI.Controllers
         [Route("api/CartApi/IncrementQuantity")]
         public CartItemModel IncrementQuantity(int cartItemID)
         {
-            CartItems cartItem = _cart.IncrementQuantity(cartItemID);
-            CartItemModel cartItemModel = CartConverter.ConvertCartItemToCartItemModel(cartItem);
-            return cartItemModel;
+            try
+            {
+                CartItems cartItem = _cart.IncrementQuantity(cartItemID);
+                CartItemModel cartItemModel = CartConverter.ConvertCartItemToCartItemModel(cartItem);
+                return cartItemModel;
+            }
+            catch (Exception)
+            {
+                return new CartItemModel();
+                throw;
+            }
         }
 
         [HttpGet]

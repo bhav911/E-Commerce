@@ -39,7 +39,8 @@ namespace OnlineStoreHelper.Helpers
                 SubCategory = product.SubCategory.name,
                 Category = product.SubCategory.Category.name,
                 SubCategoryID = product.subCategoryID,
-                CategoryID = product.SubCategory.categoryID
+                CategoryID = product.SubCategory.categoryID,
+               InStock = product.InStock
             };
             string paths = product.ProductImages.FirstOrDefault().uniqueImageName;
             if (paths != null && paths.Length > 0)
@@ -64,7 +65,8 @@ namespace OnlineStoreHelper.Helpers
                     RatingCount = (decimal)product.ProductRating.FirstOrDefault().avgRating,
                     Category = product.SubCategory.Category.name,
                     SubCategory = product.SubCategory.name,
-                    NumberOfRating = (int)product.ProductRating.FirstOrDefault().numOfRating
+                    NumberOfRating = (int)product.ProductRating.FirstOrDefault().numOfRating,
+                    InStock = product.InStock
                 };
                 string imagePaths = product.ProductImages.FirstOrDefault().uniqueImageName;
                 if (imagePaths != null)

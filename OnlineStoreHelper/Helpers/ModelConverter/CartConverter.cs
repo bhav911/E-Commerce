@@ -48,7 +48,8 @@ namespace OnlineStoreHelper.Helpers
                 CartItemID = cartItem.CartItemID,
                 ProductName = cartItem.Products.ProductName,
                 ProductPrice = (decimal)cartItem.Products.ProductPrice,
-                ProductQuantity = cartItem.Quantity
+                ProductQuantity = cartItem.Quantity,
+                InStock = cartItem.Products.InStock
             };
 
             return cartItemModel;

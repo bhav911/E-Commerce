@@ -11,10 +11,15 @@
             type: "GET",
             dataType: "json",
             success: function (res) {
+                if (res.InStock == 0) {
+                toastr.error("Can't add more");
+                    return;
+                }
                 let tar = $(ele).closest('tr').find('.quantity')[0];
                 $(tar).text(parseInt($(tar).text()) + 1);
             },
             error: function (err) {
+                debugger
 
             }
         })

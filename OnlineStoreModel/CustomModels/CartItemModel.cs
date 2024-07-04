@@ -12,5 +12,6 @@ namespace OnlineStoreModel.CustomModels
         public string ProductName { get; set; }
         public int ProductQuantity { get; set; }
         public decimal ProductPrice { get; set; }
+        public int InStock { get; set; }
     }
 }

@@ -14,6 +14,14 @@ namespace OnlineStoreRepository.Services
         private readonly OnlineStoreEntities db = new OnlineStoreEntities();
         public void AddOrder(OrderModel orderModel)
         {
+            Products product = db.Products.FirstOrDefault(q => q.ProductID == orderModel.ProductID);
+            if (orderModel.Quantity > product.InStock || !(bool)product.Availability)
+                throw new Exception();
+            if(product.InStock == orderModel.Quantity)
+            {
+                product.Availability = false;
+            }
+
             decimal productPrice = (decimal)db.Products.FirstOrDefault(q => q.ProductID == orderModel.ProductID).ProductPrice;
             Orders order = new Orders()
             {
@@ -33,6 +41,8 @@ namespace OnlineStoreRepository.Services
                 ProductID = orderModel.ProductID,
                 unitPrice = productPrice
             };
+
+            product.InStock -= orderModel.Quantity;
 
             db.OrderDetails.Add(orderDetails);
             db.SaveChanges();

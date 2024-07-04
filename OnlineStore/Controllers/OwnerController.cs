@@ -27,7 +27,6 @@ namespace OnlineStore.Controllers
         {
             if (startDate > endDate || startDate > DateTime.Today || endDate > DateTime.Today)
             {
-                TempData["error"] = "Please select appropriate date";
                 return Json(new DashboardModel(), JsonRequestBehavior.AllowGet);
             }
             string response = await WebApiHelper.WebApiHelper.HttpGetResponseRequest($"api/OwnerApi/GetDashboard?ownerID={UserSession.UserID}&startDate={startDate}&endDate={endDate}");

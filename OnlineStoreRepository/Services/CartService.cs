@@ -17,7 +17,10 @@ namespace OnlineStoreRepository.Services
             Cart cart = db.Cart.FirstOrDefault(c => c.CustomerID == cartOrder.CustomerID);
             cart.ItemCount++;
             CartItems cartItem = cart.CartItems.FirstOrDefault(q => q.ProductID == cartOrder.ProductID);
-            if(cartItem == null)
+            Products product = db.Products.FirstOrDefault(q => q.ProductID == cartOrder.ProductID);
+            if (product.InStock <= 0)
+                return null;
+            if (cartItem == null)
             {
                 CartItems newItem = new CartItems()
                 {
@@ -45,6 +48,10 @@ namespace OnlineStoreRepository.Services
         public CartItems IncrementQuantity(int CartItemID)
         {
             CartItems cartItem = db.CartItems.FirstOrDefault(c => c.CartItemID == CartItemID);
+            if(cartItem.Quantity == cartItem.Products.InStock)
+            {
+                throw new Exception();
+            }
             cartItem.Quantity++;
             db.SaveChanges();
             return cartItem;
@@ -87,6 +94,16 @@ namespace OnlineStoreRepository.Services
                     unitPrice = (decimal)(item.Products.ProductPrice)
                 };
                 orderDetailList.Add(orderDetails);
+
+
+                Products product = db.Products.FirstOrDefault(q => q.ProductID == item.ProductID);
+                if (item.Quantity > product.InStock)
+                    throw new Exception();
+                if(product.InStock == item.Quantity)
+                {
+                    product.Availability = false;
+                }
+                product.InStock -= item.Quantity;
             }
             Orders order = new Orders()
             {

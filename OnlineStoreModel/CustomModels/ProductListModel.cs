@@ -26,6 +26,7 @@ namespace OnlineStoreModel.CustomModels
         public string Category { get; set; }
         public string SubCategory { get; set; }
         public bool? IsActive { get; set; }
+        public int InStock { get; set; }
 
     }
 }

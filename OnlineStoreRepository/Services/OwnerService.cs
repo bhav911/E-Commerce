@@ -43,11 +43,11 @@ namespace OnlineStoreRepository.Services
         {
             if (startDate == null)
             {
-                startDate = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day).AddMonths(-1);
+                startDate = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day).AddMonths(-1).AddDays(-1);
             }
             if (endDate == null)
             {
-                endDate = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day);
+                endDate = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day).AddDays(1);
             }
 
             List<OrderDetails> orderList;
@@ -124,11 +124,11 @@ namespace OnlineStoreRepository.Services
 
             if(startDate == null)
             {
-                startDate = new DateTime( DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day).AddMonths(-1);
+                startDate = new DateTime( DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day).AddMonths(-1).AddDays(-1);
             }
             if (endDate == null)
             {
-                endDate = new DateTime(DateTime.Today.Year, DateTime.Today.Month,DateTime.Today.Day);
+                endDate = new DateTime(DateTime.Today.Year, DateTime.Today.Month,DateTime.Today.Day).AddDays(1);
             }
 
 
