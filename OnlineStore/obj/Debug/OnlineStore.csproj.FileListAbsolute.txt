@@ -549,3 +549,4 @@ C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce-ma
 C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce-main\OnlineStore\bin\BouncyCastle.Crypto.dll
 C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce-main\OnlineStore\bin\Razorpay.dll
 C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce-main\OnlineStore\bin\BouncyCastle.Crypto.xml
+C:\Bhavya_Modhiya\Training_tasks\dotnet training codes\OnlineStore\E-Commerce-main\OnlineStore\bin\Rotativa.dll

@@ -18,23 +18,21 @@ namespace OnlineStore.Controllers
     [CustomOwnerAuthentucateHelper]
     public class OwnerController : Controller
     {
-        DashboardModel dashboardModel;
         public ActionResult Dashboard()
         {
             return View();
         }
 
-        public async Task<JsonResult> GetDashboardData()
+        public async Task<JsonResult> GetDashboardData(DateTime? startDate, DateTime? endDate)
         {
-            string response = await WebApiHelper.WebApiHelper.HttpGetResponseRequest($"api/OwnerApi/GetDashboard?ownerID={UserSession.UserID}");
-            dashboardModel = JsonConvert.DeserializeObject<DashboardModel>(response);
+            if (startDate > endDate || startDate > DateTime.Today || endDate > DateTime.Today)
+            {
+                TempData["error"] = "Please select appropriate date";
+                return Json(new DashboardModel(), JsonRequestBehavior.AllowGet);
+            }
+            string response = await WebApiHelper.WebApiHelper.HttpGetResponseRequest($"api/OwnerApi/GetDashboard?ownerID={UserSession.UserID}&startDate={startDate}&endDate={endDate}");
+            DashboardModel dashboardModel = JsonConvert.DeserializeObject<DashboardModel>(response);
             return Json(dashboardModel, JsonRequestBehavior.AllowGet);
-        }
-
-        [HttpPost]
-        public ActionResult Dashboard(string parameters)
-        {
-            return View(dashboardModel);
         }
 
         public ActionResult Unauthorize(string role)
@@ -81,12 +79,6 @@ namespace OnlineStore.Controllers
                 return RedirectToAction("UploadDocuments");
             }
             return RedirectToAction("UploadDocuments");
-        }
-        public async Task<ActionResult> GetRecievedOrders()
-        {
-            string response = await WebApiHelper.WebApiHelper.HttpGetResponseRequest($"api/OwnerApi/GetRecievedOrders?ownerID={UserSession.UserID}");
-            List<OrdersReceivedModel> ordersReceivedModels = JsonConvert.DeserializeObject<List<OrdersReceivedModel>>(response);
-            return View(ordersReceivedModels);
         }
 
         public async Task<ActionResult> GetAccount()

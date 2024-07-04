@@ -80,16 +80,8 @@
                 }
             </div>
             <div class="text-center" prod="@item.ProductID">
-                @Html.ActionLink("Edit", "EditProduct", new {@productID=item.ProductID}, new { @class="btn btn-primary" })
                 @Html.ActionLink("Details", "GetMyProductDetails", new {@productID=item.ProductID}, new { @class="btn btn-secondary" })
-                @if ((bool)item.Availability)
-                {
-                    <button class="btn btn-success IsActive">On Market</button>
-                }
-                else
-                {
-                    <button class="btn btn-secondary IsActive">Off Market</button>
-                }
+                @Html.ActionLink("Delete", "DeleteProduct", new {@productID=item.ProductID}, new { @class="btn btn-danger" })
             </div>
         </div>
     }

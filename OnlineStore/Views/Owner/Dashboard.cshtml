@@ -2,72 +2,159 @@
 
 <script src="~/Scripts/d3/d3.js"></script>
 
+<style>
+    .tooltip {
+        position: absolute;
+        text-align: center;
+        padding: 6px;
+        font: 12px sans-serif;
+        background: grey;
+        color:white;
+        border-radius: 5px;
+        pointer-events: none;
+        opacity: 0.7;
+        margin-left: 10px;
+        margin-top: 10px;
+    }
+</style>
+
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div>
-    <div class="d-flex gap-3">
-        <div class="border border-success p-3 bg-success-subtle rounded-5 w-50">
-            <h3 class="text-black fs-5">Current Balance</h3>
-            @{
-                <h3 class="text-success fw-bold fs-3" id="profit-holder"></h3>
-            }
+    <div class="d-flex justify-content-around">
+        <div class="d-flex gap-3 justify-content-center">
+            <div class="border border-success px-4 py-3 bg-success-subtle rounded-5 d-inline">
+                <h3 class="text-black fs-5">Total Sales</h3>
+                @{
+                    <h3 class="text-success fw-bold fs-3" id="sales-holder"></h3>
+                }
+            </div>
+            <div class="border border-primary px-4 py-3 bg-primary-subtle rounded-5 d-inline">
+                <h3 class="text-black fs-5">Total Revenue</h3>
+                @{
+                    <h3 class="text-primary fw-bold fs-3" id="revenue-holder"></h3>
+                }
+            </div>
+            <div class="border border-warning px-4 py-3 bg-warning-subtle rounded-5 d-inline">
+                <h3 class="text-black fs-5">Profit</h3>
+                @{
+                    <h3 class="text-warning fw-bold fs-3" id="revenue-holder">$3642k</h3>
+                }
+            </div>
         </div>
-        <div class="border border-primary p-3 bg-primary-subtle rounded-5 w-50">
-            <h3 class="text-black fs-5">Today's Earning</h3>
-            @{
-                <h3 class="text-primary fw-bold fs-3" id="sales-holder"></h3>
-            }
-        </div>
-        <div class="border border-warning p-3 bg-warning-subtle rounded-5 w-50">
-            <h3 class="text-black fs-5">Chances Left</h3>
-            @{
-                <h3 class="text-warning fw-bold fs-3" id="revenue-holder"></h3>
-            }
-        </div>
+        <form method="get" action="/Owner/GetDashboardData">
+            <div class="d-flex justify-content-end gap-3 align-items-end">
+                <div>
+                    <p class="mb-0">Start Date</p>
+                    <input type="Date" name="startDate" id="startDate" required />
+                </div>
+                <div>
+                    <p class="mb-0">End Date</p>
+                    <input type="Date" name="endDate" id="endDate" required />
+                </div>
+                <div>
+                    <button id="apply-btn" type="button" class="btn btn-primary">Apply</button>
+                </div>
+            </div>
+        </form>
     </div>
-    <div class="row px-0 mx-0 justify-content-around graph_div my-5 gap-5 flex-wrap" id="graph_div">
-        <div class="col-5 rounded-5 p-4 position-relative" style="box-shadow: 0px 10px 34px -15px rgba(0, 0, 0, 0.24); background: #fff; border-radius: 5px; ">
+    <div class="row px-0 mx-0 justify-content-evenly graph_div my-5 gap-5 flex-wrap" id="graph_div">
+        <div class="rounded-5 p-4 position-relative" style="box-shadow: 0px 10px 34px -15px rgba(0, 0, 0, 0.24); width : 600px; background: #fff; border-radius: 5px; ">
             <div class="mb-3">
                 <i>Sales</i>
             </div>
             <svg id="sale-chart" class="w-100"></svg>
         </div>
-        <div class="col-5 rounded-5 p-4 position-relative" style="box-shadow: 0px 10px 34px -15px rgba(0, 0, 0, 0.24); background: #fff; border-radius: 5px; ">
+        <div class="rounded-5 p-4 position-relative" style="width:600px; box-shadow: 0px 10px 34px -15px rgba(0, 0, 0, 0.24); background: #fff; border-radius: 5px; ">
             <div class="mb-3">
                 <i>Revenue</i>
             </div>
             <svg id="revenue-chart" class="w-100"></svg>
         </div>
+        <div class="rounded-5 p-4 position-relative" style="width:600px; box-shadow: 0px 10px 34px -15px rgba(0, 0, 0, 0.24); background: #fff; border-radius: 5px; ">
+            <div class="mb-3">
+                <i>Most Sold Products</i>
+            </div>
+            <svg id="most-sold-chart" class="w-100"></svg>
+        </div>
+        <div class="rounded-5 p-4 position-relative" style="width:600px; box-shadow: 0px 10px 34px -15px rgba(0, 0, 0, 0.24); background: #fff; border-radius: 5px; ">
+            <div class="mb-3">
+                <i>Most Liked Products</i>
+            </div>
+            <svg id="most-liked-chart" class="w-100"></svg>
+        </div>
     </div>
-    <div class="tooltip" id="tooltip"></div>
+    <div class="tooltip" id="tooltip" style="display: none;"></div>
 
 </div>
 
 
 
 <script>
+
+    const spirit = (res) => {
+        $('#revenue-holder').text("$" + kFormatter(res.FilteredRevenue));
+        $('#sales-holder').text(kFormatter(res.FilteredSales));
+
+        let obj = {
+            "list": res.Sales,
+            "holder": "sale-chart",
+            "xtitle": "SaleCount",
+            "name": "Sales"
+        }
+        create_line_chart(obj)
+
+        obj["list"] = res.Revenue;
+        obj["holder"] = "revenue-chart";
+        obj["xtitle"] = "RevenueSum";
+        obj["name"] = "Revenue";
+        create_line_chart(obj)
+
+        obj = {
+            "holder": "most-sold-chart",
+            "list": res.MostSoldProduct,
+            "xtitle": "Quantity",
+            "acceser": "Sold"
+        }
+
+        create_bar_chart(obj)
+
+        obj = {
+            "holder": "most-liked-chart",
+            "list": res.MostLikedProduct,
+            "xtitle": "Rating",
+            "acceser": "Liked"
+        }
+        create_bar_chart(obj)
+    }
+
+    $('#apply-btn').on('click', function () {
+        $.ajax({
+            url: `/Owner/GetDashboardData?startDate=${$('#startDate').val()}&endDate=${$('#endDate').val()}`,
+            method: "GET",
+            dataType: "JSON",
+            success: function (res) {
+                $('#sale-chart').empty()
+                $('#revenue-chart').empty()
+                $('#most-sold-chart').empty()
+                $('#most-liked-chart').empty()
+                spirit(res);
+            },
+            error: function (err) {
+
+            }
+        })
+    })
+
     $(document).ready(function () {
         $.ajax({
             url: "/Owner/GetDashboardData",
             method: "GET",
             dataType: "JSON",
             success: function (res) {
-                debugger
-                let obj = {
-                    "list": res.Sales,
-                    "holder": "sale-chart",
-                    "xtitle": "SaleCount",
-                    "name":"Sales"
-                }
-                create_line_chart(obj)
-
-                obj["list"] = res.Revenue;
-                obj["holder"] = "revenue-chart";
-                obj["xtitle"] = "RevenueSum";
-                obj["name"] = "Revenue";
-                create_line_chart(obj)
+                spirit(res);                
             },
             error: function (err) {
                 
@@ -81,17 +168,24 @@
         return formattedDate;
     }
 
+    function numberWithCommas(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
+    function kFormatter(num) {
+        return Math.abs(num) > 999 ? Math.sign(num) * ((Math.abs(num) / 1000).toFixed(1)) + 'k' : Math.sign(num) * Math.abs(num)
+    }
+
 
     const create_line_chart = (obj) => {
         let records = obj["list"];
         let id = obj["holder"];
         let key = obj["xtitle"];
         let name = obj["name"];
-        debugger
         const data = [];
 
         if (records.length == 0) {
-            d3.select('#line-chart')
+            d3.select(`#${id}`)
                 .append('text')
                 .attr('x', 250)
                 .attr('y', 150)
@@ -135,6 +229,9 @@
             .x(d => x(d.date) + x.bandwidth() / 2)
             .y(d => y(d.value))
 
+        const yAxis = d3.axisLeft(y)
+            .tickFormat(kFormatter);
+
         const tooltip = d3.select('#tooltip')
 
         svg.append('path')
@@ -167,10 +264,10 @@
                     .on('mousemove', (event, d) => {
 
                         tooltip
-                            .style('left', `${event.pageX}px`)
-                            .style('top', `${event.pageY}px`)
+                            .style('left', `${event.pageX - 250}px`)
+                            .style('top', `${event.pageY -70}px`)
                             .style('display', 'block')
-                            .html(`${d.date}---${d.value} Hour(s)`)
+                            .html(`${numberWithCommas(d.value)} ${name} on ${d.date}`)
                         svg.selectAll('.dot')
                             .style('cursor', 'pointer')
                     })
@@ -197,6 +294,7 @@
             .attr('x', 0 - (height / 2))
             .attr('dy', '1em')
             .style('text-anchor', 'middle')
+            .style('font-size', '20px')
             .text(name);
 
         svg.append('g')
@@ -205,16 +303,15 @@
             .call(d3.axisBottom(x));
 
         svg.append('g')
-            .call(d3.axisLeft(y))
+            .call(yAxis)
 
         return data;
     }
 
-    const create_bar_chart = (records) => {
+    const create_bar_chart = (obj) => {
 
-        if (comp == 0 && not_comp == 0) {
-            // Append text element for insufficient data message
-            d3.select('#bar-chart')
+        if (obj["list"].length == 0) {
+            d3.select(`#${obj["holder"]}`)
                 .append('text')
                 .attr('x', 250)
                 .attr('y', 150)
@@ -225,12 +322,18 @@
         }
         const data = [];
 
-        $.each(records, function (ind, ele) {
-            let obj = {
-                category: ele.ProductName,
-                value: ele.Sold
+        let key = obj["acceser"];
+
+        $.each(obj.list, function (ind, ele) {
+            if (ele[key] == 0) {
+                delete obj.list[ind]
+                return;
             }
-            data.push(obj);
+            let temp = {
+                category: ele.ProductName,
+                value: ele[key]
+            }
+            data.push(temp);
         })
 
 
@@ -238,8 +341,9 @@
         const margin = { top: 20, right: 20, bottom: 30, left: 40 };
         const width = 472 - margin.left - margin.right;
         const height = 400 - margin.top - margin.bottom;
+        const color = d3.scaleOrdinal(d3.schemeCategory10);
 
-        const svg = d3.select('#bar-chart')
+        const svg = d3.select(`#${obj["holder"]}`)
             .attr('width', width + margin.left + margin.right)
             .attr('height', height + margin.top + margin.bottom)
             .append('g')
@@ -258,7 +362,7 @@
         svg.append('text')
             .attr('transform', `translate(${width / 2},${height + margin.top + 4})`)
             .style('text-anchor', 'middle')
-            .text('Status')
+            .text('Product')
 
         svg.append('text')
             .attr('transform', 'rotate(-90)')
@@ -266,12 +370,15 @@
             .attr('x', 0 - (height / 2))
             .attr('dy', '1em')
             .style('text-anchor', 'middle')
-            .text('Days');
+            .style('font-size', '20px')
+            .text(`${obj["xtitle"]}`);
 
         svg.append('g')
             .attr('class', 'x axis')
             .attr('transform', `translate(0,${height})`)
-            .call(d3.axisBottom(x));
+            .call(d3.axisBottom(x))        
+            .selectAll('text')
+            .remove();
 
         svg.append('g')
             .attr('class', 'y axis')
@@ -287,12 +394,13 @@
             .attr('y', height)
             .attr('width', x.bandwidth())
             .attr('height', 0)
+            .attr('fill', d => color(d.category))
             .on('mousemove', (event, d) => {
                 tooltip
-                    .style('left', `${event.pageX}px`)
-                    .style('top', `${event.pageY}px`)
+                    .style('left', `${event.pageX -250}px`)
+                    .style('top', `${event.pageY -70}px`)
                     .style('display', 'block')
-                    .html(`${d.category}: ${d.value} day(s)`);
+                    .html(`${d.category}: ${obj["xtitle"]} ${d.value}`);
                 svg.selectAll('.comp_bar')
                     .style('cursor', 'pointer')
             })
@@ -303,6 +411,26 @@
             .duration(800)
             .attr('y', d => y(d.value))
             .attr('height', d => height - y(d.value));
+
+        const legend = svg.selectAll('.legend')
+            .data(data)
+            .enter().append('g')
+            .attr('class', 'legend border')
+            .attr('transform', (d, i) => `translate(-50,${i * 20})`);
+
+        legend.append('rect')
+            .attr('x', width + 20)
+            .attr('width', 18)
+            .attr('height', 18)
+            .style('fill', d => color(d.category));
+
+        legend.append('text')
+            .attr('x', width + 44)
+            .attr('y', 9)
+            .attr('dy', '.35em')
+            .style('text-anchor', 'start')
+            .style('font-size', '10px')
+            .text(d => d.category);
 
     }
 

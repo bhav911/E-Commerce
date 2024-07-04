@@ -1,13 +1,53 @@
-﻿@model List<OnlineStoreModel.CustomModels.OrdersReceivedModel>
+﻿@model OnlineStoreModel.CustomModels.FilterOrderModel
 
-@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+@{ Layout = "~/Views/Shared/_Layout.cshtml"; }
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+
+<script>
+    function resetDate() {
+        $('#date-form')[0].reset()
+    }
+</script>
+
+<form method="get" action="/Order/GetRecievedOrders" id="date-form">
+    <div class="d-flex justify-content-end gap-3 align-items-end mb-5">
+        <div>
+            <p class="mb-0">Look specific to product</p>
+            <select name="productID">
+                <option>Select a product</option>
+                @{ 
+                    foreach(var product in Model.ProductList) { 
+                        <option value="@product.ProductID">@product.ProductName</option>
+                    }
+                }
+            </select>
+        </div>
+        <div>
+            <p class="mb-0">Start Date</p>
+            <input type="Date" name="startDate" id="startDate" />
+        </div>
+        <div>
+            <p class="mb-0">End Date</p>
+            <input type="Date" name="endDate" id="endDate" />
+        </div>
+        <div class="d-flex gap-2">
+            <button id="apply-btn" type="submit" class="btn btn-primary">Apply</button>
+            <button class="btn btn-primary" onclick="resetDate()" type="button">
+                <i class="fa-solid fa-rotate-left"></i>
+            </button>
+            @Html.ActionLink("Get pdf", "GeneratePDF", new { @startDate = TempData["startDate"], @endDate = TempData["endDate"], @productID = TempData["productID"] },  new { @class="btn btn-info"})
+        </div>
+    </div>
+</form>
 
 <div>
     <h3 class="mb-5 fw-bold text-center">Order Details</h3>
     <table class="table table-borderless">
-        <thead>
+        <thead class="table-primary">
             <tr>
                 <th>Product</th>
                 <th>Quantity</th>
@@ -17,17 +57,24 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>@item.ProductName</td>
-                    <td>@item.ProductQuantity</td>
-                    <td>@item.UserEmail</td>
-                    <td>@item.OrderDate</td>
-                    <td>
-                        <button class="btn btn-primary">Delivered</button>
-                    </td>
-                </tr>
+            @{ 
+                if (Model != null && Model.OrderList.Count() != 0) {
+                    foreach (var item in Model.OrderList)
+                    {
+                        <tr>
+                            <td>@item.ProductName</td>
+                            <td>@item.ProductQuantity</td>
+                            <td>@item.UserEmail</td>
+                            <td>@item.OrderDate</td>
+                            <td>
+                                <button class="btn btn-primary">Delivered</button>
+                            </td>
+                        </tr>
+                    }
+                }
+                else {
+                    <tr><td colspan="5" class="text-center fw-bold">No Data Available!</td></tr>
+                }
             }
         </tbody>
     </table>

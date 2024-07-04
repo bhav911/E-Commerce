@@ -17,9 +17,9 @@ namespace OnlineStoreAPI.Controllers
 
         [HttpGet]
         [Route("api/OwnerApi/GetDashboard")]
-        public DashboardModel GetDashboard(int ownerID)
+        public DashboardModel GetDashboard(int ownerID, DateTime? startDate, DateTime? endDate)
         {
-            DashboardModel dashboardModel = _owner.BuildDashboard(ownerID);
+            DashboardModel dashboardModel = _owner.BuildDashboard(ownerID, startDate, endDate);
             return dashboardModel;
         }
 
@@ -87,9 +87,9 @@ namespace OnlineStoreAPI.Controllers
 
         [HttpGet]
         [Route("api/OwnerApi/GetRecievedOrders")]
-        public List<OrdersReceivedModel> GetRecievedOrders(int ownerID)
+        public List<OrdersReceivedModel> GetRecievedOrders(int ownerID, DateTime? startDate, DateTime? endDate, int? productID)
         {
-            List<OrderDetails> ordersRecieved = _owner.GetReceivedOrders(ownerID);
+            List<OrderDetails> ordersRecieved = _owner.GetReceivedOrders(ownerID, startDate, endDate, productID);
             List<OrdersReceivedModel> ordersReceivedModels = OrderConverter.ConvertOrdersReceivedToOrdersrecievedModel(ordersRecieved);
             return ordersReceivedModels;
         }

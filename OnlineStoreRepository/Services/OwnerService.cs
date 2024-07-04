@@ -39,9 +39,27 @@ namespace OnlineStoreRepository.Services
             return owner;
         }
 
-        public List<OrderDetails> GetReceivedOrders(int ownerID)
+        public List<OrderDetails> GetReceivedOrders(int ownerID, DateTime? startDate, DateTime? endDate, int? productID)
         {
-            List<OrderDetails> orderList = db.OrderDetails.Where(q => q.Products.OwnerID == ownerID).ToList();
+            if (startDate == null)
+            {
+                startDate = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day).AddMonths(-1);
+            }
+            if (endDate == null)
+            {
+                endDate = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day);
+            }
+
+            List<OrderDetails> orderList;
+            if (productID == null)
+            {
+                orderList = db.OrderDetails.Where(q => q.Products.OwnerID == ownerID & q.Orders.OrderDate >= startDate && q.Orders.OrderDate <= endDate).ToList();
+            }
+            else
+            {
+                orderList = db.OrderDetails.Where(q => q.Products.OwnerID == ownerID & q.Orders.OrderDate >= startDate && q.Orders.OrderDate <= endDate && q.ProductID == productID).ToList();
+            }
+
             return orderList;
         }
         public void SaveDocuments(string[] docs, int userID)
@@ -97,22 +115,28 @@ namespace OnlineStoreRepository.Services
 
         }
 
-        public DashboardModel BuildDashboard(int ownerID, string startDate = "20.06.2024", string endDate= "3.07.2024")
+        public DashboardModel BuildDashboard(int ownerID, DateTime? startDate, DateTime? endDate)
         {
             DashboardModel dashboardModel = new DashboardModel()
             {
                 OwnerID = ownerID
             };
-            string[] startDArray = startDate.Split('.');
-            string[] endDArray = endDate.Split('.');
 
-            DateTime startD = new DateTime(Convert.ToInt32(startDArray[2]), Convert.ToInt32(startDArray[1]), Convert.ToInt32(startDArray[0]));
-            DateTime endD = new DateTime(Convert.ToInt32(endDArray[2]), Convert.ToInt32(endDArray[1]), Convert.ToInt32(endDArray[0]));
+            if(startDate == null)
+            {
+                startDate = new DateTime( DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day).AddMonths(-1);
+            }
+            if (endDate == null)
+            {
+                endDate = new DateTime(DateTime.Today.Year, DateTime.Today.Month,DateTime.Today.Day);
+            }
+
+
             List<OrderDetails> orderDetailList = db.OrderDetails.Where(q => q.Products.OwnerID == ownerID).ToList();
-            GetSales(startD, endD, orderDetailList, dashboardModel);
-            GetRevenue(startD, endD, orderDetailList, dashboardModel);
-            dashboardModel.MostSoldProduct = GetMostSold(ownerID, startD, endD);
-            dashboardModel.MostLikedProduct = GetMostLiked(ownerID, startD, endD);
+            GetSales((DateTime)startDate, (DateTime)endDate, orderDetailList, dashboardModel);
+            GetRevenue((DateTime)startDate, (DateTime)endDate, orderDetailList, dashboardModel);
+            dashboardModel.MostSoldProduct = GetMostSold(ownerID, (DateTime)startDate, (DateTime)endDate);
+            dashboardModel.MostLikedProduct = GetMostLiked(ownerID);
             return dashboardModel;
         }
 
@@ -180,7 +204,7 @@ namespace OnlineStoreRepository.Services
             
             return mostSoldList;
         }
-        private List<MostLiked> GetMostLiked(int ownerID, DateTime startD, DateTime endD)
+        private List<MostLiked> GetMostLiked(int ownerID)
         {
             var query = from od in db.OrderDetails
                         join p in db.Products on od.ProductID equals p.ProductID into productJoin
@@ -188,7 +212,7 @@ namespace OnlineStoreRepository.Services
                         join pr in db.ProductRating on p.ProductID equals pr.productID into ratingJoin
                         from pr in ratingJoin.DefaultIfEmpty()
                         join o in db.Orders on od.OrderID equals o.OrderID
-                        where p.OwnerID == 1
+                        where p.OwnerID == ownerID
                         group new { p, pr } by new { p.ProductID, p.ProductName, pr.avgRating } into g
                         orderby g.Key.avgRating descending
                         select new

@@ -25,7 +25,6 @@ namespace OnlineStore.Controllers
             return View(orderHistoryList);
         }
 
-
         [HttpPost]
         [CustomCustomerAuthenticateHelper]
         public async Task<ActionResult> BuyProduct(OrderModel order)
@@ -35,6 +34,35 @@ namespace OnlineStore.Controllers
             bool status = JsonConvert.DeserializeObject<bool>(response);
             TempData["success"] = "Order Placed Successfully";
             return RedirectToAction("GetOrdersPlaced");
+        }
+
+        [CustomOwnerAuthentucateHelper]
+        public async Task<ActionResult> GetRecievedOrders(DateTime? startDate, DateTime? endDate, int? productID)
+        {
+            if(startDate != null && endDate != null && startDate > endDate || startDate > DateTime.Today || endDate > DateTime.Today)
+            {
+                TempData["error"] = "Please select appropriate date";
+                return RedirectToAction("GetRecievedOrders", "Owner");
+            }
+            string response = await WebApiHelper.WebApiHelper.HttpGetResponseRequest($"api/OwnerApi/GetRecievedOrders?ownerID={UserSession.UserID}&startDate={startDate}&endDate={endDate}&productID={productID}");
+            List<OrdersReceivedModel> ordersReceivedModels = JsonConvert.DeserializeObject<List<OrdersReceivedModel>>(response);
+            response = await WebApiHelper.WebApiHelper.HttpGetResponseRequest($"api/ProductApi/GetMyProducts?ownerID={UserSession.UserID}");
+            List<ProductModel> productList = JsonConvert.DeserializeObject<List<ProductModel>>(response);
+            FilterOrderModel filterOrderModel = new FilterOrderModel()
+            {
+                OrderList = ordersReceivedModels,
+                ProductList = productList
+            };
+            TempData["startDate"] = startDate;
+            TempData["endDate"] = endDate;
+            TempData["productID"] = productID;
+            return View("../Owner/GetRecievedOrders", filterOrderModel);
+        }
+
+        public ActionResult GeneratePDF(DateTime? startDate, DateTime? endDate, int? productID)
+        {
+            var orderReport = new Rotativa.ActionAsPdf("GetRecievedOrders", new { startDate, endDate, productID});
+            return orderReport;
         }
     }
 }

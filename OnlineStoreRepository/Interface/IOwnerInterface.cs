@@ -14,7 +14,7 @@ namespace OnlineStoreRepository.Interface
         Owner AuthenticateOwner(LoginModel credentials);
         List<Owner> GetAllShops();
         Owner DoesOwnerExist(string email);
-        List<OrderDetails> GetReceivedOrders(int ownerID);
+        List<OrderDetails> GetReceivedOrders(int ownerID, DateTime? startDate, DateTime? endDate, int? productID);
         void SaveDocuments(string[] docs, int userID);
         DocumentModel GetDocumentPath(int userID);
         Owner GetOwner(int ownerID);

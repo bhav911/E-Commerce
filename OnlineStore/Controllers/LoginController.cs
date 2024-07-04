@@ -38,7 +38,7 @@ namespace OnlineStore.Controllers
                         UserSession.Username = owner.shopname;
                         UserSession.UserRole = credential.Role;
                         TempData["success"] = "Logged In Successfully";
-                        return RedirectToAction("GetMyProducts", "Product");
+                        return RedirectToAction("Dashboard", "Owner");
                     }
                 }
                 else if(credential.Role == "Customer")
