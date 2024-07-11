@@ -17,10 +17,10 @@ namespace OnlineStoreRepository.Services
             Products product = db.Products.FirstOrDefault(q => q.ProductID == orderModel.ProductID);
             if (orderModel.Quantity > product.InStock || !(bool)product.Availability)
                 throw new Exception();
-            if(product.InStock == orderModel.Quantity)
-            {
-                product.Availability = false;
-            }
+            //if(product.InStock == orderModel.Quantity)
+            //{
+            //    product.Availability = false;
+            //}
 
             decimal productPrice = (decimal)db.Products.FirstOrDefault(q => q.ProductID == orderModel.ProductID).ProductPrice;
             Orders order = new Orders()

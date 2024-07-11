@@ -65,15 +65,24 @@
                     @Html.ValidationMessageFor(p => p.ProductDescription, null, new { @class = "text-danger" })
                 </div>
             </div>
-            @if (Model == null)
-            {
-                <div class="col">
-                    <div class="form-floating mb-3 border p-3 rounded-3">
-                        <span>Available ? &nbsp;</span>
-                        @Html.CheckBoxFor(p => p.Availability, new { @class = "form-check-input ms-auto" })
+            <div class="d-flex flex-column gap-2 col">
+                @if (Model == null)
+                {
+                    <div class="">
+                        <div class="form-floating border p-3 rounded-3">
+                            <span>Available ? &nbsp;</span>
+                            @Html.CheckBoxFor(p => p.Availability, new { @class = "form-check-input ms-auto" })
+                        </div>
+                    </div>                
+                }
+                <div class="">
+                    <div class="form-floating mb-3">
+                        @Html.TextBoxFor(p => p.InStock, new { @class = "form-control", @placeholder = "", @type = "number", @min=0 })
+                        @Html.LabelFor(p => p.InStock, "Product in Stock")
+                        @Html.ValidationMessageFor(p => p.InStock, null, new { @class = "text-danger" })
                     </div>
-                </div>
-            }
+                </div>   
+            </div>
             <div id="fileHolder">
 
             </div>

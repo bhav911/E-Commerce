@@ -42,6 +42,7 @@ namespace OnlineStoreRepository.Services
             product.ProductDescription = newProductInfo.ProductDescription;
             product.ProductPrice = newProductInfo.ProductPrice;
             product.subCategoryID = newProductInfo.subCategoryID;
+            product.InStock = newProductInfo.InStock;
 
             Dictionary<string, object> kvp = new Dictionary<string, object>();
             if(editProductModel.ImageFileToDelete != null)

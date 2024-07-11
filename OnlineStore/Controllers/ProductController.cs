@@ -129,9 +129,9 @@ namespace OnlineStore.Controllers
         }
 
         [CustomCustomerAuthenticateHelper]
-        public async Task<ActionResult> GetAllProducts()
+        public async Task<ActionResult> GetAllProducts(int shopID)
         {
-            string response = await WebApiHelper.WebApiHelper.HttpGetResponseRequest($"api/ProductApi/GetMyProducts?ownerID={UserSession.UserID}");
+            string response = await WebApiHelper.WebApiHelper.HttpGetResponseRequest($"api/ProductApi/GetMyProducts?ownerID={shopID}");
             List<ProductListModel> productModelList = JsonConvert.DeserializeObject<List<ProductListModel>>(response);
             return View(productModelList);
         }
@@ -141,6 +141,11 @@ namespace OnlineStore.Controllers
         {
             string response = await WebApiHelper.WebApiHelper.HttpGetResponseRequest($"api/ProductApi/GetProduct?productID={productID}");
             ProductModel productModel = JsonConvert.DeserializeObject<ProductModel>(response);
+            if(productModel == null)
+            {
+                TempData["error"] = "Something went wrong";
+                return RedirectToAction("Home", "Customer");
+            }
             return View(productModel);
         }
 
@@ -148,6 +153,11 @@ namespace OnlineStore.Controllers
         {
             string response = await WebApiHelper.WebApiHelper.HttpGetResponseRequest($"api/ProductApi/GetProductDetails?productID={productID}&customerID={UserSession.UserID}");
             ProductDetailsModel productDetailsModel = JsonConvert.DeserializeObject<ProductDetailsModel>(response);
+            if (productDetailsModel == null)
+            {
+                TempData["error"] = "Something went wrong";
+                return RedirectToAction("Home", "Customer");
+            }
             return View(productDetailsModel);
         }
 

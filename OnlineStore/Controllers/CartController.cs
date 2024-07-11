@@ -54,11 +54,23 @@ namespace OnlineStore.Controllers
             bool status = JsonConvert.DeserializeObject<bool>(response);
             return Json(status, JsonRequestBehavior.AllowGet);
         }
+        public async Task<JsonResult> RemoveCart(int cartID)
+        {
+            string response = await WebApiHelper.WebApiHelper.HttpGetResponseRequest($"api/CartApi/RemoveCart?cartItemID={cartID}");
+            bool status = JsonConvert.DeserializeObject<bool>(response);
+            return Json(status, JsonRequestBehavior.AllowGet);
+        }
+
 
         public async Task<ActionResult> Checkout(int couponApplied = -1)
         {
             string response = await WebApiHelper.WebApiHelper.HttpGetResponseRequest($"api/CartApi/Checkout?customerID={UserSession.UserID}&couponApplied={couponApplied}");
             bool status = JsonConvert.DeserializeObject<bool>(response);
+            if (!status)
+            {
+                TempData["error"] = "Something Went Wrong";
+                return RedirectToAction("Home", "Customer");
+            }
             TempData["success"] = "Order Placed Successfully";
             return RedirectToAction("GetOrdersPlaced", "Order");
         }
@@ -67,6 +79,11 @@ namespace OnlineStore.Controllers
         {
             string response = await WebApiHelper.WebApiHelper.HttpGetResponseRequest($"api/CartApi/GetOrderDetails?customerID={UserSession.UserID}");
             CartCouponModel cartCouponModel = JsonConvert.DeserializeObject<CartCouponModel>(response);
+            if(cartCouponModel == null)
+            {
+                TempData["error"] = "Something Went Wrong";
+                return RedirectToAction("ViewCart");
+            }
             return View(cartCouponModel);
         }
     }

@@ -50,7 +50,15 @@
             foreach (var category in Model.CategoryList)
             {
                 <div class="mb-5 border rounded-5 " style="box-shadow: 0px 10px 34px -15px rgba(0, 0, 0, 0.24);">
-                    <p class="fs-3 text-black mb-3 bg-primary-subtle rounded-top-5 px-5 py-2">@category.Name</p>
+                    <div class="mb-3 bg-primary-subtle rounded-top-5 px-5 py-2 d-flex justify-content-between align-items-center">
+                        <p class="fs-3 text-primary mb-0">@category.Name</p>
+                        <div>
+                            <a href="/Product/GetProductsOfCategory?categoryID=@category.CategoryID">
+                                <i class="fa-solid fa-circle-arrow-right fa-xl" style="color: #4e73df"></i>
+                            </a>
+                        </div>
+                    </div>
+
                     <div class="d-flex gap-5 flex-wrap px-5 pb-5 pt-3">
                         @foreach (var subCategory in category.SubCategoryList)
                         {

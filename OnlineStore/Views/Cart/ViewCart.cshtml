@@ -46,6 +46,32 @@
             }
         })
     }
+
+    function RemoveItem(ele, cartID) {
+        let element = $(ele).closest('tr');
+        $.ajax({
+            url: "/Cart/RemoveCart?cartID=" + cartID,
+            type: "GET",
+            dataType: "json",
+            success: function (res) {
+                $(element).remove();
+                let rows = $('.item-row');
+                if (rows.length == 0) {
+                    let ele = $('<a>').attr('href', '/Cart/ViewCart');
+                    $('body').prepend(ele);
+                    ele[0].click();
+                    return;
+                }
+                let unavailable_items = $('.item-unavailable');
+                if (unavailable_items.length == 0) {
+                    $('#sub-btn').prop('disabled', false);
+                }
+            },
+            error: function (err) {
+
+            }
+        })
+    }
 </script>
 
 
@@ -73,9 +99,12 @@
 
                     @foreach (var item in Model)
                     {
-                        <tr>
+                        <tr class="item-row">
                             <td>
                                 @Html.DisplayFor(modelItem => item.ProductName)
+                                @if (!item.Availabilty) { 
+                                    <small class="text-danger">(Unavailable)</small>
+                                }
                             </td>                                  
                             <td class="quantity">                  
                                 @Html.DisplayFor(modelItem => item.ProductQuantity)
@@ -83,16 +112,37 @@
                             <td>                                   
                                 @Html.DisplayFor(modelItem => item.ProductPrice)
                             </td>
-                            <td>
-                                <button type="button" class="btn btn-success btn-sm" onclick="IncrementQuantity(this, @item.CartItemID)">+</button>
-                                <button type="button" class="btn btn-danger btn-sm" onclick="DecrementQuantity(this, @item.CartItemID)">-</button>
-                            </td>
+                            @{ 
+                                if (item.Availabilty)
+                                {
+                                    <td>
+                                        <button type="button" class="btn btn-success btn-sm" onclick="IncrementQuantity(this, @item.CartItemID)">+</button>
+                                        <button type="button" class="btn btn-danger btn-sm" onclick="DecrementQuantity(this, @item.CartItemID)">-</button>
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td class="d-flex gap-2 align-items-center item-unavailable">
+                                        <button type="button" class="btn btn-outline-danger btn-sm" onclick="RemoveItem(this, @item.CartItemID)">Remove</button>
+                                    </td>
+                                }
+                            }
                         </tr>
                     }
                 </table>
                 <div class="text-center mt-5">
                     <form method="GET" action="/Cart/GetOrderDetails">
-                        <button class="btn btn-primary" type="submit">Proceed To Checkout</button>
+                        @{ 
+                            var temp = Model.FirstOrDefault(q => q.Availabilty == false);
+                            if (temp != null)
+                            {
+                                <button id="sub-btn" class="btn btn-primary" type="submit" disabled>Proceed To Checkout</button>
+                            }
+                            else
+                            {
+                                <button id="sub-btn" class="btn btn-primary" type="submit" >Proceed To Checkout</button>
+                            }
+                        }
                     </form>
                 </div>
             }

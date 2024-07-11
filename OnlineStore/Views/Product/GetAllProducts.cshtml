@@ -6,12 +6,26 @@
 }
 
 
-
+<div class="position-absolute" style="left:18px; top:10px;">
+    <button class="btn" onclick="history.back()">
+        <i class="fa-solid fa-circle-arrow-left fa-xl" style="color: #4e73df"></i>
+    </button>
+</div>
 
 <div>
+    @{ 
+        if(Model.Count == 0 || Model.Where(q => q.Availability == false).Count() == Model.Count) { 
+            <h3 class="text-center text-secondary">No Products Available</h3>
+        }
+    }
+
     @foreach (var product in Model)
     {
         string firstImage = "";
+        if (!(bool)product.Availability)
+        {
+            continue;
+        }
         if (product.ImagePaths != null)
         {
             firstImage = product.ImagePaths[0];
@@ -73,30 +87,24 @@
                                     <span class="card-text text-secondary fw-bold mb-0">(@product.RatingCount)</span>
                                 } 
                             }
-                            @{ if (product.Availability)
+                            @{ if (product.InStock > 0)
                                                 {
-                                <p class="card-text text-success fw-bold">Available</p> }
+                                <p class="card-text text-success fw-bold">In Stock</p> }
                                                 else
                                                 {
-                                <p class="card-text text-danger mb-0">Not Available</p> } }
+                                <p class="card-text fw-bold text-danger mb-0">Out Of Stock</p> } }
                         </div>
                         <div>
                             <h1 class="text-primary fw-bold">@product.ProductPrice<small>₹</small></h1>
                         </div>
                     </div>
                     <div class="text-end bottom-0 position-absolute end-0">
+                        @Html.ActionLink("Details", "GetProductDetails", "Product", new { @productID = product.ProductID }, new { @class = "btn btn-secondary" })
                         @{
                             if (product.Availability && product.InStock > 0)
                             {
-                                @Html.ActionLink("Details", "GetProductDetails", "Product", new { @productID = product.ProductID }, new { @class = "btn btn-secondary" })
                                 <button class="btn btn-primary addToCart" prod-id="@product.ProductID" id="addToCart">Add to cart</button>
                                 @Html.ActionLink("Buy", "BuyProduct", "Product", new { @productID = product.ProductID }, new { @class = "btn btn-success" })
-                            }
-                            else
-                            {
-                                <button class="btn btn-secondary" disabled>Details</button>
-                                <button class="btn btn-primary" disabled>Add to cart</button>
-                                <button class="btn btn-success" disabled>Buy</button>
                             }
                         }
                     </div>

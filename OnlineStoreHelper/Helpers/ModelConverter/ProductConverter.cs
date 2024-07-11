@@ -20,7 +20,8 @@ namespace OnlineStoreHelper.Helpers
                 OwnerID = shopID,
                 Availability = productModel.Availability,
                 isDeleted = false,
-                subCategoryID = productModel.SubCategoryID
+                subCategoryID = productModel.SubCategoryID,
+                InStock = productModel.InStock
             };
             return product;
         }
@@ -40,7 +41,7 @@ namespace OnlineStoreHelper.Helpers
                 Category = product.SubCategory.Category.name,
                 SubCategoryID = product.subCategoryID,
                 CategoryID = product.SubCategory.categoryID,
-               InStock = product.InStock
+                InStock = product.InStock
             };
             string paths = product.ProductImages.FirstOrDefault().uniqueImageName;
             if (paths != null && paths.Length > 0)
@@ -87,7 +88,8 @@ namespace OnlineStoreHelper.Helpers
                 ProductDescription = product.ProductDescription,
                 ProductName = product.ProductName,
                 ProductPrice = (decimal)product.ProductPrice,
-                RatingNumber = (decimal)product.ProductRating.FirstOrDefault().avgRating
+                RatingNumber = (decimal)product.ProductRating.FirstOrDefault().avgRating,
+                InStock = product.InStock
             };
             string imagePaths = product.ProductImages.FirstOrDefault().uniqueImageName;
             if (imagePaths != null)

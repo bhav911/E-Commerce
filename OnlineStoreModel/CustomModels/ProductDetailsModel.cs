@@ -17,6 +17,7 @@ namespace OnlineStoreModel.CustomModels
         public bool Availability { get; set; }
         public decimal RatingNumber { get; set; }
         public List<RatingModel> PublicRatings { get; set; }
+        public int InStock { get; set; }
 
     }
 }

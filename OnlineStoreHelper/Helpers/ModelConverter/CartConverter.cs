@@ -21,7 +21,8 @@ namespace OnlineStoreHelper.Helpers
                     ProductName = cartItem.Products.ProductName,
                     ProductPrice = (decimal)cartItem.Products.ProductPrice,
                     ProductQuantity = cartItem.Quantity,
-                    CartItemID = cartItem.CartItemID
+                    CartItemID = cartItem.CartItemID,
+                    Availabilty = (bool)cartItem.Products.Availability
                 };
 
                 cartItemModelList.Add(cartModel);
@@ -49,7 +50,8 @@ namespace OnlineStoreHelper.Helpers
                 ProductName = cartItem.Products.ProductName,
                 ProductPrice = (decimal)cartItem.Products.ProductPrice,
                 ProductQuantity = cartItem.Quantity,
-                InStock = cartItem.Products.InStock
+                InStock = cartItem.Products.InStock,
+                Availabilty = (bool)cartItem.Products.Availability
             };
 
             return cartItemModel;

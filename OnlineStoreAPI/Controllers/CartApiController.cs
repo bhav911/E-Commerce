@@ -62,6 +62,14 @@ namespace OnlineStoreAPI.Controllers
         }
 
         [HttpGet]
+        [Route("api/CartApi/RemoveCart")]
+        public bool RemoveCart(int cartItemID)
+        {
+            bool status = _cart.RemoveCart(cartItemID);
+            return status;
+        }
+
+        [HttpGet]
         [Route("api/CartApi/Checkout")]
         public bool Checkout(int couponApplied, int customerID)
         {
@@ -82,6 +90,10 @@ namespace OnlineStoreAPI.Controllers
         public CartCouponModel GetOrderDetails(int customerID)
         {
             List<CartItems> orderDetailList = _cart.GetOrderDetail(customerID);
+            if(orderDetailList == null)
+            {
+                return null;
+            }
             List<CartItemModel> orderDetailModelList = CartConverter.ConvertCartListToCartListModel(orderDetailList);
             List<Coupons> couponList = _coupon.GetCoupons();
             List<CouponModel> couponModelList = CouponConverter.ConvertCouponListToCouponModelList(couponList);

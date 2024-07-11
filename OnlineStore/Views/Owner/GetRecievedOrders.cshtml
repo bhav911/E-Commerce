@@ -39,7 +39,7 @@
             <button class="btn btn-primary" onclick="resetDate()" type="button">
                 <i class="fa-solid fa-rotate-left"></i>
             </button>
-            @Html.ActionLink("Get pdf", "GeneratePDF", new { @startDate = TempData["startDate"], @endDate = TempData["endDate"], @productID = TempData["productID"] },  new { @class="btn btn-info"})
+            @Html.ActionLink("Get pdf", "GeneratePDF", "Order", null,  new { @class="btn btn-info"})
         </div>
     </div>
 </form>

@@ -1,6 +1,11 @@
 ﻿@model OnlineStoreModel.CustomModels.ProductDetailsModel
 @{ Layout = "~/Views/Shared/_Layout.cshtml"; }
 
+<div class="position-absolute" style="left:18px; top:10px;">
+    <button class="btn" onclick="history.back()">
+        <i class="fa-solid fa-circle-arrow-left fa-xl" style="color: #4e73df"></i>
+    </button>
+</div>
 <div>
     @{
         DateTime today = DateTime.Today;
@@ -65,13 +70,13 @@
                                     }
                                     <span class="card-text text-secondary fw-bold mb-0">(@Model.RatingNumber)</span>
                                 }
-                                if (Model.Availability)
+                                if (Model.InStock > 0)
                                 {
-                                    <p class="card-text text-success fw-bold">Available</p>
+                                    <p class="card-text text-success fw-bold">In Stock</p>
                                 }
                                 else
                                 {
-                                    <p class="card-text text-danger mb-0">Not Available</p>
+                                    <p class="card-text text-danger mb-0 fw-bold">Out Of Stock</p>
                                 }
                             }
                         </div>
@@ -81,15 +86,10 @@
                     </div>
                     <div class="text-end bottom-0 position-absolute end-0">
                         @{
-                            if (Model.Availability)
+                            if (Model.InStock > 0)
                             {
                                 <button class="btn btn-primary addToCart" prod-id="@Model.ProductID" id="addToCart">Add to cart</button>
                                 @Html.ActionLink("Buy", "BuyProduct", "Product", new { @productID = Model.ProductID }, new { @class = "btn btn-success" })
-                            }
-                            else
-                            {
-                                <button class="btn btn-primary" disabled>Add to cart</button>
-                                <button class="btn btn-success" disabled>Buy</button>
                             }
                         }
                     </div>

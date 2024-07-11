@@ -90,6 +90,8 @@ namespace OnlineStoreAPI.Controllers
         public ProductModel GetProduct(int productID)
         {
             Products product = _product.GetProduct(productID);
+            if (product.Availability == false || product.InStock == 0)
+                return null;
             ProductModel productModel = ProductConverter.ConvertProductToProductModel(product);
             return productModel;
         }
@@ -99,6 +101,8 @@ namespace OnlineStoreAPI.Controllers
         public ProductDetailsModel GetProductDetails(int productID, int customerID)
         {
             Products product = _product.GetProduct(productID);
+            if (product.Availability == false)
+                return null;
             ProductDetailsModel productDetailsModel = ProductConverter.ConvertProductToProductDetailsModel(product);
             productDetailsModel.CustomerID = customerID;
             List<Rating> rating = GetUserReviews(productID, 1);

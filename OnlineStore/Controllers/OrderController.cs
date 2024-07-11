@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using iTextSharp.text;
+using iTextSharp.text.pdf;
+using Newtonsoft.Json;
 using OnlineStore.Sessions;
 using OnlineStoreHelper.Helpers;
 using OnlineStoreModel.Context;
@@ -6,6 +8,7 @@ using OnlineStoreModel.CustomModels;
 using OnlineStoreRepository.Services;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -59,10 +62,58 @@ namespace OnlineStore.Controllers
             return View("../Owner/GetRecievedOrders", filterOrderModel);
         }
 
-        public ActionResult GeneratePDF(DateTime? startDate, DateTime? endDate, int? productID)
+        public async Task<ActionResult> GeneratePDF()
         {
-            var orderReport = new Rotativa.ActionAsPdf("GetRecievedOrders", new { startDate, endDate, productID});
-            return orderReport;
+            // Create a new PDF document
+            Document pdfDoc = new Document(PageSize.A4, 25, 25, 30, 30);
+            try
+            {
+                using (MemoryStream memoryStream = new MemoryStream())
+                {
+                    PdfWriter writer = PdfWriter.GetInstance(pdfDoc, memoryStream);
+                    pdfDoc.Open();
+
+                    Font boldFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12);
+                    PdfPCell cell;
+
+                    PdfPTable table = new PdfPTable(4);
+                    table.WidthPercentage = 100;
+                    table.SetWidths(new float[] { 3f, 1f, 3f, 1f });
+                    cell = new PdfPCell(new Phrase("Product", boldFont));
+                    table.AddCell(cell);
+                    cell = new PdfPCell(new Phrase("Quantity", boldFont));
+                    table.AddCell(cell);
+                    cell = new PdfPCell(new Phrase("Order Placer", boldFont));
+                    table.AddCell(cell);
+                    cell = new PdfPCell(new Phrase("Order Date", boldFont));
+                    table.AddCell(cell);
+
+                    string response = await WebApiHelper.WebApiHelper.HttpGetResponseRequest($"api/OwnerApi/GetRecievedOrders?ownerID={UserSession.UserID}&startDate={TempData["startDate"]}&endDate={TempData["endDate"]}&productID={TempData["productID"]}");
+                    List<OrdersReceivedModel> ordersReceivedModels = JsonConvert.DeserializeObject<List<OrdersReceivedModel>>(response);
+
+
+                    foreach (OrdersReceivedModel order in ordersReceivedModels)
+                    {
+                        table.AddCell(order.ProductName.ToString());
+                        table.AddCell(order.ProductQuantity.ToString());
+                        table.AddCell(order.UserEmail.ToString());
+                        table.AddCell(order.OrderDate.ToString().Split(' ')[0]);
+                    }
+
+                    pdfDoc.Add(table);
+                    pdfDoc.Close();
+
+                    byte[] bytes = memoryStream.ToArray();
+                    memoryStream.Close();
+                    return File(bytes, "application/pdf", "Order_Report.pdf");
+                }
+            }
+            catch (Exception ex)
+            {
+                Response.Write(ex.Message);
+                return null;
+                // Handle exception
+            }
         }
     }
 }

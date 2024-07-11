@@ -18,7 +18,7 @@ namespace OnlineStoreRepository.Services
             cart.ItemCount++;
             CartItems cartItem = cart.CartItems.FirstOrDefault(q => q.ProductID == cartOrder.ProductID);
             Products product = db.Products.FirstOrDefault(q => q.ProductID == cartOrder.ProductID);
-            if (product.InStock <= 0)
+            if (product.InStock <= 0 || !(bool)product.Availability)
                 return null;
             if (cartItem == null)
             {
@@ -52,13 +52,39 @@ namespace OnlineStoreRepository.Services
             {
                 throw new Exception();
             }
+            if(cartItem.Products.InStock < cartItem.Quantity + 1 || !(bool)cartItem.Products.Availability)
+            {
+                return null;
+            }
             cartItem.Quantity++;
             db.SaveChanges();
             return cartItem;
         }
+
+        public bool RemoveCart(int cartItemID)
+        {
+            try
+            {
+                CartItems cartItem = db.CartItems.FirstOrDefault(c => c.CartItemID == cartItemID);
+                cartItem.Cart.ItemCount--;
+                db.CartItems.Remove(cartItem);
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+                throw ex;
+            }
+        }
+
         public CartItems DecrementQuantity(int CartItemID)
         {
-            CartItems cartItem = db.CartItems.FirstOrDefault(c => c.CartItemID == CartItemID); 
+            CartItems cartItem = db.CartItems.FirstOrDefault(c => c.CartItemID == CartItemID);
+            if (!(bool)cartItem.Products.Availability)
+            {
+                return null;
+            }
             if (cartItem.Quantity > 0)
             {
                 cartItem.Quantity--;
@@ -75,6 +101,10 @@ namespace OnlineStoreRepository.Services
         {
             Cart cart = db.Cart.FirstOrDefault(q => q.CustomerID == CustomerID);
             List<CartItems> cartItemList = cart.CartItems.ToList();
+            if(cartItemList.FirstOrDefault(q => (bool)q.Products.Availability == false) != null)
+            {
+                return null;
+            }
             return cartItemList;
         }
         public Orders ShiftFromCartToOrders(int CustomerID, int couponApplied)
@@ -97,12 +127,12 @@ namespace OnlineStoreRepository.Services
 
 
                 Products product = db.Products.FirstOrDefault(q => q.ProductID == item.ProductID);
-                if (item.Quantity > product.InStock)
+                if (item.Quantity > product.InStock || !(bool)product.Availability)
                     throw new Exception();
-                if(product.InStock == item.Quantity)
-                {
-                    product.Availability = false;
-                }
+                //if(product.InStock == item.Quantity)
+                //{
+                //    product.Availability = false;
+                //}
                 product.InStock -= item.Quantity;
             }
             Orders order = new Orders()

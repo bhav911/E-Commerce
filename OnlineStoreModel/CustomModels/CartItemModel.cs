@@ -13,5 +13,6 @@ namespace OnlineStoreModel.CustomModels
         public int ProductQuantity { get; set; }
         public decimal ProductPrice { get; set; }
         public int InStock { get; set; }
+        public bool Availabilty { get; set; }
     }
 }
