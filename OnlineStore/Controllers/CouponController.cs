@@ -43,7 +43,7 @@ namespace OnlineStore.Controllers
         public async Task<ActionResult> GetCoupons()
         {
             List<CouponModel> couponModelList = await FetchCoupons();
-            couponModelList = couponModelList.Where(q => q.CouponExpiry >= DateTime.Today && q.Active).ToList();
+            couponModelList = couponModelList.Where(q => q.CouponExpiry >= DateTime.Today).ToList();
             return View(couponModelList);
         }
 
@@ -65,9 +65,8 @@ namespace OnlineStore.Controllers
         [CustomAdminAuthentucateHelper]
         public async Task<JsonResult> ModifyCouponAvailability(int couponID)
         {
-            string response = await WebApiHelper.WebApiHelper.HttpGetResponseRequest($"api/CouponApi/FetchCoupons?couponID={couponID}");
+            string response = await WebApiHelper.WebApiHelper.HttpGetResponseRequest($"api/CouponApi/ModifyCouponAvailability?couponID={couponID}");
             bool couponModelList = JsonConvert.DeserializeObject<bool>(response);
-            TempData["success"] = "Coupon Availibality Modified Successfully";
             return Json(couponModelList, JsonRequestBehavior.AllowGet);
         }
     }

@@ -447,6 +447,8 @@
     <Content Include="Views\Owner\GetAccount.cshtml" />
     <Content Include="Views\Product\GetMyProductDetails.cshtml" />
     <Content Include="Views\Owner\Dashboard.cshtml" />
+    <Content Include="Views\Shared\_ProductListLayout.cshtml" />
+    <Content Include="Views\Shared\Filter.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

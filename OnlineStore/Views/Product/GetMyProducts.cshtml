@@ -52,7 +52,14 @@
                 </button>
                 <div class="text-center">
                     <h4>@item.ProductName</h4>
-                    <p class="text-secondary">@item.ProductDescription</p>
+                    
+                    @{ 
+                        if (!item.Availability)
+                        {
+                            <p class="text-danger fw-bold">Unavailable</p>
+                        }
+                    }
+                    <p class="text-secondary mb-0">@item.ProductDescription</p>
                 </div>
                 @if(item.NumberOfRating > 0)
                 {

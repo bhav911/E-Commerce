@@ -38,6 +38,8 @@ namespace OnlineStoreAPI.Controllers
         public ProductModel EditProduct(int productID)
         {
             Products product = _product.GetProduct(productID);
+            if (product == null)
+                return null;
             ProductModel productModel = ProductConverter.ConvertProductToProductModel(product);
             return productModel;
         }
@@ -51,7 +53,7 @@ namespace OnlineStoreAPI.Controllers
                 _product.EditProduct(editProductModel);
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
                 return false;
@@ -98,10 +100,10 @@ namespace OnlineStoreAPI.Controllers
 
         [HttpGet]
         [Route("api/ProductApi/GetProductDetails")]
-        public ProductDetailsModel GetProductDetails(int productID, int customerID)
+        public ProductDetailsModel GetProductDetails(int productID, int customerID, string role)
         {
             Products product = _product.GetProduct(productID);
-            if (product.Availability == false)
+            if (product == null || (role == "Customer" && product.Availability == false))
                 return null;
             ProductDetailsModel productDetailsModel = ProductConverter.ConvertProductToProductDetailsModel(product);
             productDetailsModel.CustomerID = customerID;
@@ -141,6 +143,15 @@ namespace OnlineStoreAPI.Controllers
         {
             bool status = _product.ToggleProductActiveness(productID);
             return status;
+        }
+
+        [HttpPost]
+        [Route("api/ProductApi/GetFilteredProducts")]
+        public List<ProductListModel> GetFilteredProducts(FilterProductModel filterProductModel)
+        {
+            List<Products> productList = _product.GetFilteredProducts(filterProductModel);
+            List<ProductListModel> productModelList = ProductConverter.ConvertProductListToProductModelList(productList);
+            return productModelList;
         }
     }
 }

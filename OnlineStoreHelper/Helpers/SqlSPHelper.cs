@@ -14,7 +14,7 @@ namespace QuizComputation_490.Common
             try
             {
                 DataTable resultTable = new DataTable();
-                SqlConnection con = new SqlConnection("Data Source=182.70.118.201,1580;Initial Catalog=OnlineStore;user id=sa;password=sit@123;");
+                SqlConnection con = new SqlConnection("Data Source=192.168.1.117,1580;Initial Catalog=OnlineStore;user id=sa;password=sit@123;");
                 con.Open();                
                     using (SqlCommand cmd = new SqlCommand(storedProcedure, con))
                     {

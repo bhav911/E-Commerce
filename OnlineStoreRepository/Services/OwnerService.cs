@@ -43,21 +43,23 @@ namespace OnlineStoreRepository.Services
         {
             if (startDate == null)
             {
-                startDate = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day).AddMonths(-1).AddDays(-1);
+                startDate = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day).AddMonths(-1);
             }
             if (endDate == null)
             {
-                endDate = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day).AddDays(1);
+                endDate = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day);
             }
+
+            endDate = endDate.Value.AddDays(1);
 
             List<OrderDetails> orderList;
             if (productID == null)
             {
-                orderList = db.OrderDetails.Where(q => q.Products.OwnerID == ownerID & q.Orders.OrderDate >= startDate && q.Orders.OrderDate <= endDate).ToList();
+                orderList = db.OrderDetails.Where(q => q.Products.OwnerID == ownerID & q.Orders.OrderDate > startDate && q.Orders.OrderDate < endDate).ToList();
             }
             else
             {
-                orderList = db.OrderDetails.Where(q => q.Products.OwnerID == ownerID & q.Orders.OrderDate >= startDate && q.Orders.OrderDate <= endDate && q.ProductID == productID).ToList();
+                orderList = db.OrderDetails.Where(q => q.Products.OwnerID == ownerID & q.Orders.OrderDate > startDate && q.Orders.OrderDate < endDate && q.ProductID == productID).ToList();
             }
 
             return orderList;
@@ -124,12 +126,14 @@ namespace OnlineStoreRepository.Services
 
             if(startDate == null)
             {
-                startDate = new DateTime( DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day).AddMonths(-1).AddDays(-1);
+                startDate = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day).AddMonths(-1);
             }
             if (endDate == null)
             {
-                endDate = new DateTime(DateTime.Today.Year, DateTime.Today.Month,DateTime.Today.Day).AddDays(1);
+                endDate = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day);
             }
+
+            endDate = endDate.Value.AddDays(1);
 
 
             List<OrderDetails> orderDetailList = db.OrderDetails.Where(q => q.Products.OwnerID == ownerID).ToList();

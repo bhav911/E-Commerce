@@ -1,0 +1,297 @@
+﻿<style>
+    hr {
+        opacity: 1;
+    }
+
+     .price-field {
+        display: flex;
+        align-items:center;
+        margin-bottom:10px;
+    }
+
+    .price-input{
+        display: flex;
+        justify-content:space-between;
+        margin-bottom: 10px;
+    }
+
+    .price-field span {
+        margin-right: 10px;
+    }
+
+    .price-field input {
+        height: 35px;
+        font-size: 15px;
+        border-radius: 9px;
+        text-align: center;
+        background: #e4e4e4;
+        width:60px;
+    }
+
+    /* Remove Arrows/Spinners */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    .slider-container {
+        width: 100%;
+    }
+
+    .slider-container {
+        height: 6px;
+        position: relative;
+        background: #e4e4e4;
+        border-radius: 5px;
+    }
+
+        .slider-container .price-slider {
+            height: 100%;
+            left: 25%;
+            right: 25%;
+            position: absolute;
+            border-radius: 5px;
+            background-color:steelblue;
+        }
+
+    .range-input {
+        position: relative;
+    }
+
+        .range-input input {
+            position: absolute;
+            width: 100%;
+            height: 5px;
+            background: none;
+            top: -5px;
+            pointer-events: none;
+            cursor: pointer;
+            -webkit-appearance: none;
+        }
+
+    /* Styles for the range thumb in WebKit browsers */
+    input[type="range"]::-webkit-slider-thumb {
+        height: 18px;
+        width: 18px;
+        border-radius: 70%;
+        background: #555;
+        pointer-events: auto;
+        -webkit-appearance: none;
+    } 
+</style>
+
+
+<div>
+    <form action="/Product/GetFilteredProducts" method="POST" id="filter-form">
+        <input hidden name="subcategoryID" value="@TempData.Peek("subcategoryID")"/>
+        <div class="modal fade text-start" id="filterModel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered ">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Apply Filters</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <p class="text-primary-emphasis col-6">Rating</p>
+                            <div class="col-6">
+                                @{
+                                    for (int i = 1; i <= 5; i++)
+                                    {
+                                        <div>
+                                            <input type="radio" name="Rating" value="@i" id="r-@i" />
+                                            <label for="r-@i" class="mb-0">
+                                                @for (int j = 1; j <= i; j++)
+                                                {
+                                                    <i class="fa-solid fa-star fa-sm" style="color: #FFD43B;"></i>
+                                                }
+                                            </label>
+                                        </div>
+
+                                    }
+                                    <input type="radio" checked name="Rating" value="-1" />
+                                    <span>All</span>
+                                }
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <p class="text-primary-emphasis col-6 mb-0">Show only Availabile</p>
+                            <div class="col-6">
+                                <div>
+                                    <div><input type="radio" name="Availability" value=true id="a-yes" /><label class="ms-2" for="a-yes">Yes</label></div>
+                                    <div><input type="radio" name="Availability" value=false id="a-all" checked /><label class="ms-2" for="a-all">All</label></div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <p class="text-primary-emphasis col-4 mb-0">Sort By Price</p>
+                            <div class="col-4">
+                                <div>
+                                    <div><input type="radio" name="sortType" value="ProductPrice" id="sort-price" checked /><label class="ms-2" for="sort-price">Price</label></div>
+                                    <div><input type="radio" name="sortType" value="RatingCount" id="sort-rating" /><label class="ms-2" for="sort-rating">Rating</label></div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div>
+                                    <div><input type="radio" name="sort" value=true id="sort-asc" /><label class="ms-2" for="sort-asc">Ascending <i class="fa-solid fa-arrow-up fa-sm"></i></label></div>
+                                    <div><input type="radio" name="sort" value=false id="sort-des" /><label class="ms-2" for="sort-des">Descenging <i class="fa-solid fa-arrow-down fa-sm"></i></label></div>
+                                    <div><input type="radio" name="sort" value=null id="no-sort" checked /><label class="ms-2" for="no-sort">No Sort</label></div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <p class="text-primary-emphasis col-6 mb-0">Price Range</p>
+                            <div class="col-6">
+                                <div>
+                                    <div class="price-input-container">
+                                        <div class="price-input">
+                                            <div class="price-field">
+                                                <span>Low</span>
+                                                <input readonly class="min-input btn p-0 text-primary-emphasis" name="LowPrice" value="50000">
+                                            </div>
+                                            <div class="price-field">
+                                                <span>High</span>
+                                                <input readonly class="max-input btn p-0 text-primary-emphasis" name="HighPrice" value="150000">
+                                            </div>
+                                        </div>
+                                        <div class="slider-container">
+                                            <div class="price-slider">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Slider -->
+                                    <div class="range-input">
+                                        <input type="range" class="min-range" min="0" max="200000" value="50000" step="1">
+                                        <input type="range" class="max-range" min="0" max="200000" value="150000" step="1">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" onclick="resetDate()" type="button">
+                            Reset to default
+                        </button>
+                        <button type="submit" class="btn btn-success">Apply</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+
+    function resetDate() {
+        let slider = $('.price-slider')[0];
+        $('#a-all').prop('checked', true);
+        $('#r-3').prop('checked', true);
+        $('#no-sort').prop('checked', true);
+        $($('.min-range')[0]).val(50000)
+        $($('.min-input')[0]).val(50000)
+        $($('.max-range')[0]).val(150000)
+        $($('.max-input')[0]).val(150000)
+        $(slider).css({ "left": "25%", "right": "25%" });
+    }
+
+    // Script.js 
+    const rangevalue =
+        document.querySelector(".slider-container .price-slider");
+    const rangeInputvalue =
+        document.querySelectorAll(".range-input input");
+
+    // Set the price gap 
+    let priceGap = 2000;
+
+    // Adding event listners to price input elements 
+    const priceInputvalue =
+        document.querySelectorAll(".price-input input");
+    for (let i = 0; i < priceInputvalue.length; i++) {
+        priceInputvalue[i].addEventListener("input", e => {
+
+            // Parse min and max values of the range input 
+            let minp = parseInt(priceInputvalue[0].value);
+            let maxp = parseInt(priceInputvalue[1].value);
+            let diff = maxp - minp
+
+            if (minp < 0) {
+                alert("minimum price cannot be less than 0");
+                priceInputvalue[0].value = 0;
+                minp = 0;
+            }
+
+            // Validate the input values 
+            if (maxp > 200000) {
+                alert("maximum price cannot be greater than 200000");
+                priceInputvalue[1].value = 200000;
+                maxp = 200000;
+            }
+
+            if (minp > maxp - priceGap) {
+                priceInputvalue[0].value = maxp - priceGap;
+                minp = maxp - priceGap;
+
+                if (minp < 0) {
+                    priceInputvalue[0].value = 0;
+                    minp = 0;
+                }
+            }
+
+            // Check if the price gap is met 
+            // and max price is within the range 
+            if (diff >= priceGap && maxp <= rangeInputvalue[1].max) {
+                if (e.target.className === "min-input") {
+                    rangeInputvalue[0].value = minp;
+                    let value1 = rangeInputvalue[0].max;
+                    rangevalue.style.left = `${(minp / value1) * 100}%`;
+                }
+                else {
+                    rangeInputvalue[1].value = maxp;
+                    let value2 = rangeInputvalue[1].max;
+                    rangevalue.style.right =
+                        `${100 - (maxp / value2) * 100}%`;
+                }
+            }
+        });
+
+        // Add event listeners to range input elements 
+        for (let i = 0; i < rangeInputvalue.length; i++) {
+            rangeInputvalue[i].addEventListener("input", e => {
+                let minVal =
+                    parseInt(rangeInputvalue[0].value);
+                let maxVal =
+                    parseInt(rangeInputvalue[1].value);
+
+                let diff = maxVal - minVal
+
+                // Check if the price gap is exceeded 
+                if (diff < priceGap) {
+
+                    // Check if the input is the min range input 
+                    if (e.target.className === "min-range") {
+                        rangeInputvalue[0].value = maxVal - priceGap;
+                    }
+                    else {
+                        rangeInputvalue[1].value = minVal + priceGap;
+                    }
+                }
+                else {
+
+                    // Update price inputs and range progress 
+                    priceInputvalue[0].value = minVal;
+                    priceInputvalue[1].value = maxVal;
+                    rangevalue.style.left =
+                        `${(minVal / rangeInputvalue[0].max) * 100}%`;
+                    rangevalue.style.right =
+                        `${100 - (maxVal / rangeInputvalue[1].max) * 100}%`;
+                }
+            });
+        }
+    }
+
+</script>

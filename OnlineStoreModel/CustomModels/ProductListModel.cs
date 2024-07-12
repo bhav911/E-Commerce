@@ -25,6 +25,7 @@ namespace OnlineStoreModel.CustomModels
         public int NumberOfRating { get; set; }
         public string Category { get; set; }
         public string SubCategory { get; set; }
+        public int SubCategoryID { get; set; }
         public bool? IsActive { get; set; }
         public int InStock { get; set; }
 

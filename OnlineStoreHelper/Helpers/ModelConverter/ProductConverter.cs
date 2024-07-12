@@ -67,7 +67,8 @@ namespace OnlineStoreHelper.Helpers
                     Category = product.SubCategory.Category.name,
                     SubCategory = product.SubCategory.name,
                     NumberOfRating = (int)product.ProductRating.FirstOrDefault().numOfRating,
-                    InStock = product.InStock
+                    InStock = product.InStock,
+                    SubCategoryID = product.subCategoryID
                 };
                 string imagePaths = product.ProductImages.FirstOrDefault().uniqueImageName;
                 if (imagePaths != null)

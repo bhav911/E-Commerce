@@ -72,6 +72,11 @@ namespace OnlineStore.Controllers
         {
             string response = await WebApiHelper.WebApiHelper.HttpGetResponseRequest($"api/ProductApi/EditProduct?productID={productID}");
             ProductModel productModel = JsonConvert.DeserializeObject<ProductModel>(response);
+            if (productModel == null)
+            {
+                TempData["error"] = "Something went wrong";
+                return RedirectToAction("Dashboard", "Owner");
+            }
             return View("AddProduct", productModel);
         }
 
@@ -133,7 +138,7 @@ namespace OnlineStore.Controllers
         {
             string response = await WebApiHelper.WebApiHelper.HttpGetResponseRequest($"api/ProductApi/GetMyProducts?ownerID={shopID}");
             List<ProductListModel> productModelList = JsonConvert.DeserializeObject<List<ProductListModel>>(response);
-            return View(productModelList);
+            return View(productModelList.Where(q => q.Availability).ToList());
         }
 
         [CustomCustomerAuthenticateHelper]
@@ -149,9 +154,10 @@ namespace OnlineStore.Controllers
             return View(productModel);
         }
 
+        [CustomCustomerAuthenticateHelper]
         public async Task<ActionResult> GetProductDetails(int productID)
         {
-            string response = await WebApiHelper.WebApiHelper.HttpGetResponseRequest($"api/ProductApi/GetProductDetails?productID={productID}&customerID={UserSession.UserID}");
+            string response = await WebApiHelper.WebApiHelper.HttpGetResponseRequest($"api/ProductApi/GetProductDetails?productID={productID}&customerID={UserSession.UserID}&role=Customer");
             ProductDetailsModel productDetailsModel = JsonConvert.DeserializeObject<ProductDetailsModel>(response);
             if (productDetailsModel == null)
             {
@@ -164,14 +170,20 @@ namespace OnlineStore.Controllers
         [CustomOwnerAuthentucateHelper]
         public async Task<ActionResult> GetMyProductDetails(int productID)
         {
-            string response = await WebApiHelper.WebApiHelper.HttpGetResponseRequest($"api/ProductApi/GetProductDetails?productID={productID}&customerID={UserSession.UserID}");
+            string response = await WebApiHelper.WebApiHelper.HttpGetResponseRequest($"api/ProductApi/GetProductDetails?productID={productID}&customerID={UserSession.UserID}&role=Owner");
             ProductDetailsModel productDetailsModel = JsonConvert.DeserializeObject<ProductDetailsModel>(response);
+            if (productDetailsModel == null)
+            {
+                TempData["error"] = "Something went wrong";
+                return RedirectToAction("Dashboard", "Owner");
+            }
             return View(productDetailsModel);
         }
 
         [CustomCustomerAuthenticateHelper]
         public async Task<ActionResult> GetProductsOfSubCategory(int subCategoryID)
         {
+            TempData["subcategoryID"] = subCategoryID;
             string response = await WebApiHelper.WebApiHelper.HttpGetResponseRequest($"api/ProductApi/GetProductsOfSubCategory?subCategoryID={subCategoryID}");
             List<ProductListModel> productModelList = JsonConvert.DeserializeObject<List<ProductListModel>>(response);
             return View("GetAllProducts", productModelList);
@@ -180,6 +192,7 @@ namespace OnlineStore.Controllers
         [CustomCustomerAuthenticateHelper]
         public async Task<ActionResult> GetProductsOfCategory(int categoryID)
         {
+            TempData["subcategoryID"] = -1;
             string response = await WebApiHelper.WebApiHelper.HttpGetResponseRequest($"api/ProductApi/GetProductsOfCategory?categoryID={categoryID}");
             List<ProductListModel> productModelList = JsonConvert.DeserializeObject<List<ProductListModel>>(response);
             return View("GetAllProducts", productModelList);
@@ -191,6 +204,17 @@ namespace OnlineStore.Controllers
             string response = await WebApiHelper.WebApiHelper.HttpGetResponseRequest($"api/ProductApi/ToggleProductActiveness?productID={productID}");
             bool status = JsonConvert.DeserializeObject<bool>(response);
             return Json(status, JsonRequestBehavior.AllowGet);
+        }
+
+        [CustomCustomerAuthenticateHelper]
+        public async Task<ActionResult> GetFilteredProducts(FilterProductModel filterProductModel, bool? sort, string sortType)
+        {
+            string response = await WebApiHelper.WebApiHelper.HttpPostResponseRequest($"api/ProductApi/GetFilteredProducts", JsonConvert.SerializeObject(filterProductModel));
+            List<ProductListModel> productModelList = JsonConvert.DeserializeObject<List<ProductListModel>>(response);
+            if(sort == null)
+                return View("GetAllProducts", productModelList);
+            var propertyInfo = typeof(ProductListModel).GetProperty(sortType);
+            return (bool)sort ? View("GetAllProducts", productModelList.OrderBy(q => propertyInfo.GetValue(q, null)).ToList()) : View("GetAllProducts", productModelList.OrderByDescending(q => propertyInfo.GetValue(q, null)).ToList());
         }
     }
 }

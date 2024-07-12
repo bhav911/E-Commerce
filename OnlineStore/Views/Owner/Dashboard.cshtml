@@ -44,7 +44,7 @@
                 }
             </div>
         </div>
-        <form method="get" action="/Owner/GetDashboardData">
+        <form method="get" action="/Owner/GetDashboardData" id="date-form">
             <div class="d-flex justify-content-end gap-3 align-items-end">
                 <div>
                     <p class="mb-0">Start Date</p>
@@ -56,6 +56,9 @@
                 </div>
                 <div>
                     <button id="apply-btn" type="button" class="btn btn-primary">Apply</button>
+                    <button class="btn btn-primary" onclick="resetDate()" type="button">
+                        <i class="fa-solid fa-rotate-left"></i>
+                    </button>              
                 </div>
             </div>
         </form>
@@ -93,6 +96,10 @@
 
 
 <script>
+
+    function resetDate() {
+        $('#date-form')[0].reset()
+    }
 
     const spirit = (res) => {
         $('#revenue-holder').text("$" + kFormatter(res.FilteredRevenue));
@@ -146,6 +153,7 @@
                 $('#most-sold-chart').empty()
                 $('#most-liked-chart').empty()
                 spirit(res);
+                $('#date-form')[0].reset();
             },
             error: function (err) {
 

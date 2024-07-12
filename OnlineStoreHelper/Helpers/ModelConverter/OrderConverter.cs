@@ -33,6 +33,7 @@ namespace OnlineStoreHelper.Helpers
                         ProductPrice = orderDetails.unitPrice,
                         ProductQuantity = (int)orderDetails.Quantity,
                         TotalPrice = (decimal)(orderDetails.unitPrice * orderDetails.Quantity),
+                        ProductID = (int)orderDetails.ProductID
                     };
                     current.OrderDetails.Add(orderModel);
                 }

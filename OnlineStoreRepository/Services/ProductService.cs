@@ -69,7 +69,7 @@ namespace OnlineStoreRepository.Services
 
         public Products GetProduct(int prodID)
         {
-            Products product = db.Products.Where(p => p.ProductID == prodID).FirstOrDefault();
+            Products product = db.Products.Where(p => p.ProductID == prodID && p.isDeleted == false).FirstOrDefault();
             return product;
         }
 
@@ -108,13 +108,13 @@ namespace OnlineStoreRepository.Services
 
         public List<Products> GetProductsOfSubCategory(int subCategoryID)
         {
-            List<Products> productList = db.Products.Where(q => q.subCategoryID == subCategoryID && !(bool)q.isDeleted).ToList();
+            List<Products> productList = db.Products.Where(q => q.subCategoryID == subCategoryID && !(bool)q.isDeleted && (bool)q.Availability).ToList();
             return productList;
         }
 
         public List<Products> GetProductsOfCategory(int categoryID)
         {
-            List<Products> productList = db.Products.Where(q => q.SubCategory.categoryID == categoryID && !(bool)q.isDeleted).ToList();
+            List<Products> productList = db.Products.Where(q => q.SubCategory.categoryID == categoryID && !(bool)q.isDeleted && (bool)q.Availability).ToList();
             return productList;
         }
 
@@ -132,6 +132,13 @@ namespace OnlineStoreRepository.Services
                 return false;
                 throw;
             }
+        }
+
+        public List<Products> GetFilteredProducts(FilterProductModel filterProductModel)
+        {
+            List<Products> productList = db.Products.Where(q => !(bool)q.isDeleted && q.ProductRating.FirstOrDefault().avgRating >= filterProductModel.Rating && q.ProductPrice >= filterProductModel.LowPrice && q.ProductPrice <= filterProductModel.HighPrice && (bool)q.Availability && q.InStock != (filterProductModel.Availability ? 0 : -1) && q.subCategoryID == filterProductModel.subcategoryID).ToList();
+            return productList;
+
         }
     }
 }
