@@ -20,6 +20,14 @@ namespace OnlineStore.Controllers
     [CustomCustomerAuthenticateHelper]
     public class CustomerController : Controller
     {
+
+        public async Task<ActionResult> Showcase()
+        {
+            string response = await WebApiHelper.WebApiHelper.HttpGetResponseRequest($"api/CustomerApi/Home");
+            HomePageModel homePageModel = JsonConvert.DeserializeObject<HomePageModel>(response);
+            return View(homePageModel);
+        }
+
         public async Task<ActionResult> Home()
         {
             string response = await WebApiHelper.WebApiHelper.HttpGetResponseRequest($"api/CustomerApi/Home");

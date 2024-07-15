@@ -287,6 +287,21 @@
     <Content Include="Content\Electronics\laptop.jpg" />
     <Content Include="Content\Electronics\Mobile.png" />
     <Content Include="Content\Electronics\smartwatch.jpg" />
+    <Content Include="Content\Premium\318-135988730_medium.mp4" />
+    <Content Include="Content\Premium\advance-star-trek-spaceship-aqc5boa2vfuekw3i.jpg" />
+    <Content Include="Content\Premium\andro.mp4" />
+    <Content Include="Content\Premium\comet.png" />
+    <Content Include="Content\Premium\galaxy-night-landscape.jpg" />
+    <Content Include="Content\Premium\gslv_mark_iii-launcher.png.png" />
+    <Content Include="Content\Premium\GSLV_MkIII.png" />
+    <Content Include="Content\Premium\icons8-galaxy-66.png" />
+    <Content Include="Content\Premium\LVM3.png" />
+    <Content Include="Content\Premium\milky.mp4" />
+    <Content Include="Content\Premium\one-person-hiking-mountain-peak-admiring-milky-way-galaxy-generated-by-ai.jpg" />
+    <Content Include="Content\Premium\pexels-francesco-ungaro-998641.jpg" />
+    <Content Include="Content\Premium\PSLV.png" />
+    <Content Include="Content\Premium\pytha.png" />
+    <Content Include="Content\Premium\starry.mp4" />
     <Content Include="Content\Theme\sb-admin-2.css" />
     <Content Include="Content\Theme\sb-admin-2.js" />
     <Content Include="Content\toastr.css" />
@@ -449,6 +464,8 @@
     <Content Include="Views\Owner\Dashboard.cshtml" />
     <Content Include="Views\Shared\_ProductListLayout.cshtml" />
     <Content Include="Views\Shared\Filter.cshtml" />
+    <Content Include="Views\Customer\Showcase.cshtml" />
+    <Content Include="Views\Shared\_ShowCaseLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

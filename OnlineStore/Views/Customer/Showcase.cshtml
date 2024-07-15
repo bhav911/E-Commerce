@@ -1,0 +1,251 @@
+﻿@model OnlineStoreModel.CustomModels.HomePageModel
+
+@{
+    Layout = "~/Views/Shared/_ShowCaseLayout.cshtml";
+}
+
+<style>
+    .typewriter p {
+        overflow: hidden; /* Ensures the content is not revealed until the animation */
+        border-right: .15em solid black; /* The typwriter cursor */
+        white-space: nowrap; /* Keeps the content on a single line */
+        margin: 0 auto; /* Gives that scrolling effect as the typing happens */
+        letter-spacing: .15em; /* Adjust as needed */
+        animation: typing 1.5s steps(40, end), blink-caret .75s step-end infinite;
+    }
+
+
+    .nav-text {
+        color: orange;
+    }
+
+    body {
+        background-color: black;
+    }
+
+        body::-webkit-scrollbar {
+            display: none;
+        }
+
+    .special-elite-regular {
+        font-family: "Orbitron", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: 500;
+        font-style: normal;
+    }
+    /* The typing effect */
+    @@keyframes typing {
+        from {
+            width: 0
+        }
+
+        to {
+            width: 100%
+        }
+    }
+
+    #nav {
+        overflow: hidden;
+        position: relative;
+        top: -20px; /* Hide navbar initially */
+        width: 100%;
+        transition: top 0.75s ease-in-out; /* Smooth slide down effect */
+        visibility: hidden; /* Make the navbar initially invisible */
+    }
+
+        #nav.show {
+            visibility: visible; /* Make the navbar visible when adding the class */
+        }
+
+    .nav-item-holder p:hover {
+        color: white;
+        cursor: pointer;
+    }
+
+    .shooting-star {
+        position: absolute;
+        width: 4px;
+        height: 110px;
+        background: linear-gradient(white, transparent);
+        top: -100px; /* Start off-screen */
+        left: 0;
+        transform: rotate(110deg);
+        animation: shooting-star 5s linear infinite;
+    }
+
+    @@keyframes shooting-star {
+        0% {
+            top: -100px;
+            left: 0;
+            opacity: 1;
+        }
+
+        100% {
+            top: 500px;
+            left: 90%;
+            opacity: 0;
+        }
+    }
+
+    a {
+        text-decoration: none !important;
+    }
+
+
+    #comet {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 150px;
+        height: 150px;
+        opacity: 0;
+        transition: opacity 0.5s ease-out;
+        z-index:1000
+    }
+
+        #comet.visible {
+            opacity: 1;
+        }
+
+</style>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Showcase</title>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+</head>
+@*<body style="background-image:url(/Content/Premium/pexels-francesco-ungaro-998641.jpg); background-repeat:repeat; background-size:contain; height:300vh; overflow-x:hidden;">*@
+<body>
+    <div>
+        <video style="width: 100vw; height: 100vh; z-index: -1;" autoplay muted loop class="position-fixed" id="bh-video">
+            <source src="~/Content/Premium/318-135988730_medium.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+    <section style="z-index:1; padding-top:15vh">
+        <div class="container">
+            <div class="typewriter mx-auto" style=" width: fit-content; ">
+                <p class="text-center special-elite-regular" style="letter-spacing: 30px; color: white; font-size: 30px; text-shadow: 2px 2px black;">RAHASYA</p>
+            </div>
+        </div>
+        <div class="position-relative">
+            <nav class="container" id="nav">
+                <div class="d-flex justify-content-center gap-5 special-elite-regular fw-bold text-secondary mt-4 nav-item-holder" style="font-size:14px">
+                    <p>Explore</p>
+                    <p>Subscribe</p>
+                    <p>Donate</p>
+                    <p>Career</p>
+                    <p>About us</p>
+                </div>
+            </nav>
+        </div>
+    </section>
+    <div style="margin-top:55vh; font-size:12px;">
+        <a href="#uncover" class="text-center text-white">
+            <p class="special-elite-regular mb-0">SCROLL DOWN</p>
+            <p><i class="fa-solid fa-angle-down"></i></p>
+        </a>
+    </div>
+    <div class="shooting-star" style=" overflow-x: hidden"></div>
+    <div id="uncover"></div>
+    <div data-aos="zoom-in" class="mx-auto" style=" width: fit-content; margin-top:15em; margin-bottom:50em">
+        <p class="text-center special-elite-regular" style="letter-spacing: 30px; color: white; font-size: 30px; text-shadow: 2px 2px black;">UNCOVER  THE  MYSTERIES</p>
+        <div class="d-flex justify-content-evenly mt-5">
+            <a href="" class="rounded-5 border px-4 py-5 border-secondary text-white text-center special-elite-regular" style="width:180px;"><i class="fa-solid fa-user-astronaut text-white fs-2"></i><p class="mb-0 mt-2">SPACESUIT</p></a>
+            <a href="" class="rounded-5 border px-4 py-5 border-secondary text-white text-center special-elite-regular" style="width:180px;"><img src="~/Content/Premium/icons8-galaxy-66.png" width="40" height="40" /><p class="mb-0 mt-2">GALAXIES</p></a>
+            <a href="#lauchVehicles" class="rounded-5 border px-4 py-5 border-secondary text-white text-center special-elite-regular" style="width:180px;"><i class="fa-solid fa-shuttle-space text-white fs-2"></i><p class="mb-0 mt-2">SPACESHUTTLE</p></a>
+            <a class="rounded-5 border px-4 py-5 border-secondary text-white text-center special-elite-regular" href="" style="width:180px;"><i class="fa-solid fa-earth-americas text-white fs-2"></i><p class="mb-0 mt-2">PLANETS</p></a>
+        </div>
+    </div>
+
+    <div id="lauchVehicles" class="text-black">a</div>
+    <div style="margin-top:10em;">
+        <div class="container">
+            <div data-aos="zoom-in" class="mx-auto" style=" width: fit-content;">
+                <p class="text-center special-elite-regular" style="letter-spacing: 30px; color: white; font-size: 30px; text-shadow: 2px 2px black;">LAUNCH VEHICLES</p>
+            </div>
+            <div data-aos="fade-up-right" class="p-5 text-center mt-5" style="width:500px;">
+                <img src="~/Content/Premium/PSLV.png" style="height:30vh" />
+                <p class="special-elite-regular fs-4 text-white ">Polar Satellite Launch Vehicle</p>
+                <p class="special-elite-regular fs-6 text-white-50">(PSLV) is the third generation launch vehicle of India. It is the first Indian launch vehicle to be equipped with liquid stages. After its first successful launch in October 1994, PSLV emerged as a reliable and versatile workhorse launch vehicle of India. The vehicle has launched numerous Indian and foreign customer satellites. Besides, the vehicle successfully launched two spacecraft "Chandrayaan-1 in 2008 and Mars Orbiter Spacecraft in 2013"that later travelled to Moon and Mars respectively. Chandrayaan-1 and MOM were feathers in the hat of PSLV. The launch of PSLV-C48 marks the 50th Launch of PSLV. Besides, the vehicle successfully launched two spacecraft " Chandrayaan-1 in 2008 and Mars Orbiter Spacecraft in 2013"that later traveled to Moon and Mars respectively</p>
+            </div>
+            <div data-aos="fade-up-left" class="p-5 ms-auto text-center mt-5" style="width:500px;">
+                <img src="~/Content/Premium/GSLV_MkIII.png" style="height:30vh" />
+                <p class="special-elite-regular fs-4 text-white ">Geosynchronous Satellite Launch Vehicle Mark II</p>
+                <p class="special-elite-regular fs-6  text-white-50">Geosynchronous Satellite Launch Vehicle Mark II (GSLV Mk II) is the launch vehicle developed by India, to launch communication satellites in geo transfer orbit using cryogenic third stage. Initially Russian GK supplied cryogenic stages were used. Later cryogenic stage was indigenously developed and inducted in Jan 2014 from GSLV D5 onwards. This operational fourth generation launch vehicle is a three stage vehicle with four liquid strap-ons. The flight proven indigenously developed Cryogenic Upper Stage (CUS), forms the third stage of GSLV Mk II. From January 2014, the vehicle has achieved six consecutive successes</p>
+            </div>
+            <div data-aos="fade-up-right" class="p-5 text-center mt-5" style="width:500px;">
+                <img src="~/Content/Premium/gslv_mark_iii-launcher.png.png" style="height:30vh" />
+                <p class="special-elite-regular fs-4 text-white ">LVM3(Geosynchronous Satellite Launch Vehicle Mk III)</p>
+                <p class="special-elite-regular fs-6  text-white-50">LVM3 is configured as a three stage vehicle with two solid strap-on motors (S200), one liquid core stage (L110) and a high thrust cryogenic upper stage (C25). The S200 solid motor is among the largest solid boosters in the world with 204 tonnes of solid propellant. The liquid L110 stage uses a twin liquid engine configuration with 115 tonnes of liquid propellant, while the C25 Cryogenic upper stage is configured with the fully indigenous high thrust cryogenic engine (CE20) with a propellant loading of 28 tons. The overall length of the vehicle is 43.5 m with a gross lift-off weight of 640 tonnes and a 5m-diameter payload fairing</p>
+            </div>
+        </div>
+    </div>
+    <div>
+        <img src="~/Content/Premium/comet.png" id="comet"/>
+    </div>
+    <div class="position-relative">
+        <img src="~/Content/Premium/pytha.png" id="pytha-tri" style="width:100vw; transform:rotate(90deg); z-index:-1;" class="position-absolute top-0" />
+        <p class=" special-elite-regular" style="letter-spacing: 30px; color: white; font-size: 30px; text-shadow: 2px 2px black; padding-top:110vh; z-index:10; padding-left:7vw;">LET'S ENTER THE VERSE</p>
+    </div>
+        <div>
+            <video style="width: 100vw; height: 100vh; z-index: 0;" autoplay muted loop class="" id="st-video">
+                <source src="~/Content/Premium/starry.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+</body>
+</html>
+
+<script>
+    $(document).ready(function () {
+        setTimeout(function () {
+            const navbar = document.getElementById('nav');
+            navbar.style.top = '0';
+            navbar.classList.add('show'); // Add the class to make the navbar visible
+        }, 1500); // 2 seconds delay
+
+        const shootingStar = document.querySelector('.shooting-star');
+        shootingStar.style.animation = 'none'; // Disable initial animation
+        setInterval(function () {
+            shootingStar.style.animation = 'none'; // Reset animation
+            void shootingStar.offsetWidth; // Trigger reflow to restart the animation
+            shootingStar.style.animation = 'shooting-star 1s linear'; // Restart animation
+        }, 5000); // 3 seconds interval
+    });
+    AOS.init();
+
+    window.addEventListener('scroll', function () {
+        var animatedElement = document.querySelector('#comet');
+        var scrollY = window.scrollY;
+        if (scrollY >= 5900) {
+            $('#bh-video').addClass('d-none');
+            $('#st-video').removeClass('d-none');
+
+        }
+        else {
+            $('#bh-video').removeClass('d-none');
+            $('#st-video').addClass('d-none');
+
+        }
+
+        if (scrollY >= 5100) {
+            animatedElement.classList.add('visible');
+            var maxScroll = 5900;
+            var scrollProgress = (scrollY - 5100) / (maxScroll - 5100);
+            var translateX = scrollProgress * (window.innerWidth - animatedElement.clientWidth);
+            var translateY = scrollProgress * (window.innerHeight - animatedElement.clientHeight);
+
+            animatedElement.style.transform = `translate(${translateX}px, ${translateY}px) rotate(265deg)`;
+        } else {
+            animatedElement.classList.remove('visible');
+            animatedElement.style.transform = 'translate(0, 0) rotate(265deg)';
+        }
+    });
+</script>
