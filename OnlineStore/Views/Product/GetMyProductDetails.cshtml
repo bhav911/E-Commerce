@@ -6,19 +6,27 @@
 
 <style>
     .img-box {
-        width: 300px;
-        height: 300px;
+        width: min(100%,380px);
+        height: 100%;
+        /*max-width: 300px;*/
+        /*height: 300px;*/
+    }
+
+    .product-box {
+        width: min(100%,500px);
+        height: 100%;
+        max-width: 500px;
     }
 </style>
 
-<div class="position-absolute" style="left:18px; top:10px;">
+<div class="position-absolute d-none d-sm-block" style="left:18px; top:10px;">
     <button class="btn" onclick="history.back()">
         <i class="fa-solid fa-circle-arrow-left fa-xl" style="color: #4e73df"></i>
     </button>
 </div>
 
-<div class="card border-black">
-    <h5 class="card-header bg-primary-subtle fw-bold text-primary">@Model.ProductName</h5>
+<div class="card border-black rounded-4">
+    <h5 class="card-header bg-primary-subtle fw-bold text-primary rounded-top-4">@Model.ProductName</h5>
     <div class="card-body row  position-relative">
         @*<div class="col-12 d-flex gap-5 flex-wrap align-items-center">
             @{
@@ -39,10 +47,13 @@
                 }
             }
         </div>*@
-        <div class="col">
-            <div class="border-start border-primary-subtle border-3 d-flex justify-content-between gap-5">
-                <div class="ps-2">
-                    <h5 class="card-title pe-5">@Model.ProductDescription</h5>
+        <div class="col px-0 mx-0">
+            <div class="">
+                <div class="ps-sm-2">
+                    <h5 class="card-title">@Model.ProductDescription</h5>
+                    <div>
+                        <h1 class="text-primary fw-bold">@Model.ProductPrice<small>₹</small></h1>
+                    </div>
                     @{
                         if (Model.RatingNumber != 0)
                         {
@@ -71,10 +82,7 @@
                             <p class="card-text text-danger mb-0">Not Available</p>
                         }
                     }
-                </div>
-                <div>
-                    <h1 class="text-primary fw-bold">@Model.ProductPrice<small>₹</small></h1>
-                </div>
+                </div>                
             </div>
             <div class="text-center mb-5" prod="@Model.ProductID">
                 @Html.ActionLink("Edit", "EditProduct", new { @productID = Model.ProductID }, new { @class = "btn btn-primary" })
@@ -88,9 +96,9 @@
                 }
             </div>
         </div>
-        <div class="d-flex justify-content-between align-items-center">
+        <div class="d-flex justify-content-md-between align-items-md-center accordion flex-column flex-md-row">
             <h2 class="text-secondary">Public Reviews</h2>
-            <div class="text-end py-3" id="star-filter">
+            <div class="text-md-end text-start py-3" id="star-filter">
                 <button class="btn btn-sm btn-outline-warning border-warning" star="5">
                     <span class=" fw-bold fs-5">5</span>
                     <i class="fa-solid fa-star fa-lg"></i>
@@ -121,22 +129,14 @@
                 DateTime today = DateTime.Today;
                 foreach (var review in Model.PublicRatings)
                 {
-                        <div class="card mb-4 border-black px-4 pt-3 review-card">
-                            <div class="d-flex justify-content-between">
+                        <div class="card mb-4 border-black px-md-4 px-2 pt-3 review-card">
+                            <div class="d-flex justify-content-between flex-column flex-md-row gap-2 ">
                                 <div class="d-flex gap-1">
                                     <div>
                                         <i class="fa-regular fa-user border rounded-circle p-1 border-dark"></i>
                                     </div>
                                     <div>
                                         <span class="fw-bold text-primary d-block ms-1">@review.CustomerName</span>
-                                        @{
-                                            if ((bool)review.HavePurchased)
-                                            {
-                                                <small class="text-secondary"><i>Verfied Buyer</i></small>
-                                            }
-                                        }
-                                    </div>
-                                    <div>
                                         @{
                                             DateTime reviewDate = review.ReviewDate;
                                             int days = today.Subtract(reviewDate).Days;
@@ -155,9 +155,15 @@
                                                 <small>@year years ago</small>
                                             }
                                         }
+                                        @{
+                                            if ((bool)review.HavePurchased)
+                                            {
+                                                <small class="text-secondary d-block"><i>Verfied Buyer</i></small>
+                                            }
+                                        }
                                     </div>
                                 </div>
-                                <div>
+                                <div class="ms-md-0 ms-4">
                                     @{
                                         int rating = Convert.ToInt32(review.RatingNumber);
                                         for (int i = 1; i <= rating; i++)
@@ -321,22 +327,21 @@
 
     function AppendReview(ele) {
         let parent = $('#review-holder');
-        let div1 = $('<div>').addClass('card mb-4 border-black px-4 pt-3 review-card');
-        let div2a = $('<div>').addClass('d-flex justify-content-between');
+        let div1 = $('<div>').addClass('card mb-4 border-black px-md-4 px-2 pt-3 review-card');
+        let div2a = $('<div>').addClass('d-flex justify-content-between flex-column flex-md-row gap-2 ');
         let div3a = $('<div>').addClass('d-flex gap-1');
         let div4a = $('<div>').append($('<i>').addClass("fa-regular fa-user border rounded-circle p-1 border-dark"));
         let div4bspan = $('<span>').addClass("fw-bold text-primary d-block ms-1").text(`${ele.CustomerName}`)
         let div4b = $('<div>').append(div4bspan);
-        if (ele.HavePurchased) {
-            $(div4b).append($('<small>').addClass("text-secondary").append($('<i>').text('Verfied Buyer')))
-        }
         var milliseconds = parseInt(ele.ReviewDate.replace(/\/Date\((\d+)\)\//, '$1'), 10);
         let message = messageCalculater(new Date(milliseconds))
-        let div4c = $('<div>').append($('<small>').text(message));
+        $(div4b).append($('<small>').text(message));
+        if (ele.HavePurchased) {
+            $(div4b).append($('<small>').addClass("text-secondary d-block").append($('<i>').text('Verfied Buyer')))
+        }
         $(div3a).append(div4a)
         $(div3a).append(div4b)
-        $(div3a).append(div4c)
-        let div3b = $('<div>');
+        let div3b = $('<div>').addClass('ms-md-0 ms-4');
         let rating = parseInt(ele.RatingNumber)
         for (let i = 1; i <= rating; i++) {
             $(div3b).append('<i class= "fa-solid fa-star fa-lg" style = "color: #FFD43B;" ></i >');

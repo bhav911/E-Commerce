@@ -1,4 +1,10 @@
-﻿<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar" style="position:fixed; left:0">
+﻿<style>
+    li{
+        list-style:none
+    }
+</style>
+
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar" style="position:fixed; left:0">
 
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
@@ -47,23 +53,45 @@
                             <span>Category</span>
                         </a>
                     </li>
-                    <li class="nav-item active">
+                    @*<li class="nav-item active">
                         <a class="nav-link" href="/Customer/ShopList">
                             <i class="fa-solid fa-shop"></i>
                             <span>All Shops</span>
                         </a>
+                    </li>*@
+                    <li class="nav-item active" id="showSubMenu">
+                        <p style="cursor:pointer;" class="nav-link mb-0">
+                            <i class="fa-solid fa-sm fa-user"></i>
+                            <span>Account</span>
+                        </p>
                     </li>
-                    <li class="nav-item active">
-                        <a class="nav-link" href="/Cart/ViewCart">
-                            <i class="fa-solid fa-cart-shopping"></i>
-                            <span>Your Cart</span>
-                        </a>
-                    </li>
-                    <li class="nav-item active">
-                        <a class="nav-link" href="/Order/GetOrdersPlaced">
-                            <i class="fas fa-fw fa-book"></i>
-                            <span>Your Orders</span>
-                        </a>
+                    <li class="d-none" id="subMenu">
+                        <ul>
+                            <li class="nav-item active">
+                                <a class="nav-link" href="/Customer/GetAccount">
+                                    <i class="fa-regular fa-sharp fa-user"></i>
+                                    <span>Your Account</span>
+                                </a>
+                            </li>
+                            <li class="nav-item active">
+                                <a class="nav-link" href="/Cart/ViewCart">
+                                    <i class="fa-solid fa-cart-shopping"></i>
+                                    <span>Your Cart</span>
+                                </a>
+                            </li>
+                            <li class="nav-item active mb-0">
+                                <a class="nav-link" href="/Order/GetOrdersPlaced">
+                                    <i class="fas fa-fw fa-book"></i>
+                                    <span>Your Orders</span>
+                                </a>
+                            </li>
+                            <li class="nav-item active">
+                                <a class="nav-link" href="/Login/SignOut">
+                                    <i class="fa-solid fa-right-from-bracket"></i>
+                                    <span>Logout</span>
+                                </a>
+                            </li>
+                        </ul>
                     </li>                
                 }
                 else if (TempData.ContainsKey("Role") && TempData.Peek("Role").Equals("Owner"))
@@ -86,36 +114,43 @@
                             <span>Add Product</span>
                         </a>
                     </li>
-
                     <li class="nav-item active">
-                        <a class="nav-link" href="/Order/GetRecievedOrders">
-                            <i class="fas fa-fw fa-book"></i>
-                            <span>Orders Recieved</span>
+                        <a class="nav-link" onclick="ShowSubMenu()" href="/Owner/GetAccount">
+                            <i class="fa-solid fa-sm fa-user"></i>
+                            <span>Account</span>
                         </a>
                     </li>
-                    <li class="nav-item active">
-                        <a class="nav-link" href="/Owner/UploadDocuments">
-                            <i class="fas fa-fw fa-person"></i>
-                            <span>KYC</span>
-                        </a>
-                    </li>     
+                     <li class="d-none" id="subMenu">
+                        <ul>
+                            <li class="nav-item active">
+                                <a class="nav-link" href="/Order/GetRecievedOrders">
+                                    <i class="fas fa-fw fa-book"></i>
+                                    <span>Orders Recieved</span>
+                                </a>
+                            </li>
+                            <li class="nav-item active">
+                                <a class="nav-link" href="/Owner/UploadDocuments">
+                                    <i class="fas fa-fw fa-person"></i>
+                                    <span>KYC</span>
+                                </a>
+                            </li>   
+                        </ul>
+                    </li>
                 }
-                <li class="nav-item active">
-                    <a class="nav-link" href="/@(TempData.Peek("Role").Equals("Owner") ? "Owner" : "Customer")/GetAccount">
-                        <i class="fa-solid fa-sm fa-user"></i>
-                        <span>Account</span>
-                    </a>
-                </li>
+                
             }
             if (TempData.ContainsKey("Role"))
             {
-                <li class="nav-item active">
-                    <a class="nav-link" href="/Login/SignOut">
-                        <i class="fa-solid fa-right-from-bracket"></i>
-                        <span>Logout</span>
-                    </a>
-                </li>
+
             }
         }
     }
 </ul>
+
+<script>
+    $('#showSubMenu').on('click', function () {
+        let ele = $('#subMenu')
+        $(ele).slideToggle("slow");
+        $(ele).toggleClass('d-none')
+    });
+</script>

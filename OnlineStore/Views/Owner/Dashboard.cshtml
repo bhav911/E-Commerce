@@ -16,6 +16,13 @@
         margin-left: 10px;
         margin-top: 10px;
     }
+
+    .chart-box {
+        box-shadow: 0px 10px 34px -15px rgba(0, 0, 0, 0.24);
+        width: 600px;
+        background: #fff;
+        border-radius: 5px;
+    }
 </style>
 
 @{
@@ -23,38 +30,34 @@
 }
 
 <div>
-    <div class="d-flex justify-content-around">
-        <div class="d-flex gap-3 justify-content-center">
-            <div class="border border-success px-4 py-3 bg-success-subtle rounded-5 d-inline">
+    <div class="d-flex justify-content-around flex-column flex-xl-row gap-5">
+        <div class="d-flex gap-3 justify-content-center flex-column flex-md-row flex-nowrap text-nowrap">
+            <div class="border border-success px-4 py-3 bg-success-subtle rounded-5 d-md-inline d-flex justify-content-between">
                 <h3 class="text-black fs-5">Total Sales</h3>
-                @{
-                    <h3 class="text-success fw-bold fs-3" id="sales-holder"></h3>
-                }
+                <h3 class="text-success fw-bold fs-3" id="sales-holder"></h3>
             </div>
-            <div class="border border-primary px-4 py-3 bg-primary-subtle rounded-5 d-inline">
+            <div class="border border-primary px-4 py-3 bg-primary-subtle rounded-5 d-md-inline d-flex justify-content-between">
                 <h3 class="text-black fs-5">Total Revenue</h3>
-                @{
-                    <h3 class="text-primary fw-bold fs-3" id="revenue-holder"></h3>
-                }
-            </div>
-            <div class="border border-warning px-4 py-3 bg-warning-subtle rounded-5 d-inline">
+                <h3 class="text-primary fw-bold fs-3" id="revenue-holder"></h3>
+            </div> 
+            <div class="border border-warning px-4 py-3 bg-warning-subtle rounded-5 d-md-inline d-flex justify-content-between">
                 <h3 class="text-black fs-5">Profit</h3>
-                @{
-                    <h3 class="text-warning fw-bold fs-3" id="revenue-holder">$3642k</h3>
-                }
+                <h3 class="text-warning fw-bold fs-3" id="revenue-holder">$3642k</h3>
             </div>
         </div>
         <form method="get" action="/Owner/GetDashboardData" id="date-form">
-            <div class="d-flex justify-content-end gap-3 align-items-end">
-                <div>
-                    <p class="mb-0">Start Date</p>
-                    <input type="Date" name="startDate" id="startDate" required />
+            <div class="d-flex justify-content-xl-end justify-content-center flex-column flex-xl-row gap-3 align-items-xl-end align-items-center">
+                <div class="d-flex gap-3">
+                    <div class="input-group">
+                        <p class="mb-0">Start Date</p>
+                        <input type="Date" name="startDate" id="startDate" class="form-control w-100" required />
+                    </div>
+                    <div class="input-group">
+                        <p class="mb-0">End Date</p>
+                        <input type="Date" name="endDate" id="endDate" class="form-control w-100" required />
+                    </div>
                 </div>
-                <div>
-                    <p class="mb-0">End Date</p>
-                    <input type="Date" name="endDate" id="endDate" required />
-                </div>
-                <div>
+                <div class="d-flex gap-2    ">
                     <button id="apply-btn" type="button" class="btn btn-primary">Apply</button>
                     <button class="btn btn-primary" onclick="resetDate()" type="button">
                         <i class="fa-solid fa-rotate-left"></i>
@@ -64,25 +67,25 @@
         </form>
     </div>
     <div class="row px-0 mx-0 justify-content-evenly graph_div my-5 gap-5 flex-wrap" id="graph_div">
-        <div class="rounded-5 p-4 position-relative" style="box-shadow: 0px 10px 34px -15px rgba(0, 0, 0, 0.24); width : 600px; background: #fff; border-radius: 5px; ">
+        <div class="rounded-5 p-4 position-relative chart-box">
             <div class="mb-3">
                 <i>Sales</i>
             </div>
             <svg id="sale-chart" class="w-100"></svg>
         </div>
-        <div class="rounded-5 p-4 position-relative" style="width:600px; box-shadow: 0px 10px 34px -15px rgba(0, 0, 0, 0.24); background: #fff; border-radius: 5px; ">
+        <div class="rounded-5 p-4 position-relative chart-box">
             <div class="mb-3">
                 <i>Revenue</i>
             </div>
             <svg id="revenue-chart" class="w-100"></svg>
         </div>
-        <div class="rounded-5 p-4 position-relative" style="width:600px; box-shadow: 0px 10px 34px -15px rgba(0, 0, 0, 0.24); background: #fff; border-radius: 5px; ">
+        <div class="rounded-5 p-4 position-relative chart-box">
             <div class="mb-3">
                 <i>Most Sold Products</i>
             </div>
             <svg id="most-sold-chart" class="w-100"></svg>
         </div>
-        <div class="rounded-5 p-4 position-relative" style="width:600px; box-shadow: 0px 10px 34px -15px rgba(0, 0, 0, 0.24); background: #fff; border-radius: 5px; ">
+        <div class="rounded-5 p-4 position-relative chart-box">
             <div class="mb-3">
                 <i>Most Liked Products</i>
             </div>

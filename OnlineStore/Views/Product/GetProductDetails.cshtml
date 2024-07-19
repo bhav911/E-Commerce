@@ -1,6 +1,15 @@
 ﻿@model OnlineStoreModel.CustomModels.ProductDetailsModel
 @{ Layout = "~/Views/Shared/_Layout.cshtml"; }
 
+<style>
+    .img-box {
+        width: min(100%,300px);
+        height: 100%;
+        /*max-width: 300px;*/
+        /*height: 300px;*/
+    }
+</style>
+
 <div class="position-absolute" style="left:18px; top:10px;">
     <button class="btn" onclick="history.back()">
         <i class="fa-solid fa-circle-arrow-left fa-xl" style="color: #4e73df"></i>
@@ -16,8 +25,8 @@
         }
         <div class="card mb-4 border-black">
             <h5 class="card-header bg-primary-subtle fw-bold text-primary">@Model.ProductName</h5>
-            <div class="card-body row  position-relative">
-                <div class="col-5 text-center ">
+            <div class="card-body row position-relative flex-column flex-lg-row align-items-center align-items-lg-start">
+                <div class="col-lg-5 col-12 text-center ">
                     <div id="carousel-@Model.ProductID" class="carousel slide carousel-dark" data-bs-ride="carousel">
                         <div class="carousel-inner d-flex align-items-center " style="width:100%; height:400px">
                             @{ if (Model.ImagePaths != null)
@@ -25,7 +34,7 @@
                                     foreach (var img in Model.ImagePaths)
                                     {
                                         <div class="carousel-item @(img.Equals(firstImage) ? "active" : "") text-center">
-                                            <img src="~/Content/ProductImages/@img" class="d-block mx-auto p-5 w-75">
+                                            <img src="~/Content/ProductImages/@img" class="d-block mx-auto img-box">
                                         </div>
                                     }
                                 }
@@ -47,10 +56,13 @@
                         </button>
                     </div>
                 </div>
-                <div class="col-7">
+                <div class="col-lg-7 col-12 d-flex flex-column justify-content-between gap-lg-0 gap-3">
                     <div class="border-start border-primary-subtle border-3 d-flex justify-content-between gap-5">
                         <div class="ps-2">
-                            <h5 class="card-title pe-5">@Model.ProductDescription</h5>
+                            <h5 class="card-title">@Model.ProductDescription</h5>                            
+                            <div>
+                                <h1 class="text-primary fw-bold">@Model.ProductPrice<small>₹</small></h1>
+                            </div>
                             @{
                                 if (Model.RatingNumber != 0)
                                 {
@@ -80,11 +92,8 @@
                                 }
                             }
                         </div>
-                        <div>
-                            <h1 class="text-primary fw-bold">@Model.ProductPrice<small>₹</small></h1>
-                        </div>
                     </div>
-                    <div class="text-end bottom-0 position-absolute end-0">
+                    <div class="text-lg-end">
                         @{
                             if (Model.InStock > 0)
                             {
@@ -114,7 +123,7 @@
                         <button id="SubmitBtn" class="btn btn-primary">Submit</button>
                     </div>
                 </div>
-                <div class="text-end py-3" id="star-filter">
+                <div class="text-md-end text-start py-3" id="star-filter">
                     <button class="btn btn-sm btn-outline-warning border-warning" star="5">
                         <span class=" fw-bold fs-5">5</span>
                         <i class="fa-solid fa-star fa-lg"></i>
@@ -143,22 +152,14 @@
                     @{
                         foreach (var review in Model.PublicRatings)
                         {
-                            <div class="card mb-4 border-black px-4 pt-3 review-card">
-                                <div class="d-flex justify-content-between">
+                            <div class="card mb-4 border-black px-md-4 px-2 pt-3 review-card">
+                                <div class="d-flex justify-content-between flex-column flex-md-row gap-2">
                                     <div class="d-flex gap-1">
                                         <div>
                                             <i class="fa-regular fa-user border rounded-circle p-1 border-dark"></i>
                                         </div>
                                         <div>
                                             <span class="fw-bold text-primary d-block ms-1">@review.CustomerName</span>
-                                            @{
-                                                if ((bool)review.HavePurchased)
-                                                {
-                                                    <small class="text-secondary"><i>Verfied Buyer</i></small>
-                                                }
-                                            }
-                                        </div>
-                                        <div>
                                             @{
                                                 DateTime reviewDate = review.ReviewDate;
                                                 int days = today.Subtract(reviewDate).Days;
@@ -177,9 +178,15 @@
                                                     <small>@year years ago</small>
                                                 }
                                             }
+                                            @{
+                                                if ((bool)review.HavePurchased)
+                                                {
+                                                    <small class="text-secondary"><i>Verfied Buyer</i></small>
+                                                }
+                                            }
                                         </div>
                                     </div>
-                                    <div>
+                                    <div class="ms-md-0 ms-4">
                                         @{
                                             int rating = Convert.ToInt32(review.RatingNumber);
                                             for (int i = 1; i <= rating; i++)
@@ -278,20 +285,19 @@
                                 $(ele).addClass("fa-regular").removeClass("fa-solid")
                             })
                             let parent = $('#review-holder');
-                            let div1 = $('<div>').addClass('card mb-4 border-black px-4 pt-3 review-card');
-                            let div2a = $('<div>').addClass('d-flex justify-content-between');
+                            let div1 = $('<div>').addClass('card mb-4 border-black px-md-4 px-2 pt-3 review-card');
+                            let div2a = $('<div>').addClass('d-flex justify-content-between flex-column flex-md-row gap-2 ');
                             let div3a = $('<div>').addClass('d-flex gap-1');
                             let div4a = $('<div>').append($('<i>').addClass("fa-regular fa-user border rounded-circle p-1 border-dark"));
                             let div4bspan = $('<span>').addClass("fw-bold text-primary d-block ms-1").text(`${ele.CustomerName}`)
                             let div4b = $('<div>').append(div4bspan);
+                            $(div4b).append($('<small>').text("Recently"));
                             if (ele.HavePurchased) {
-                                $(div4b).append($('<small>').addClass("text-secondary").append($('<i>').text('Verfied Buyer')))
+                                $(div4b).append($('<small>').addClass("text-secondary d-block").append($('<i>').text('Verfied Buyer')))
                             }
-                            let div4c = $('<div>').append($('<small>').text("Recently"));
                             $(div3a).append(div4a)
                             $(div3a).append(div4b)
-                            $(div3a).append(div4c)
-                            let div3b = $('<div>');
+                            let div3b = $('<div>').addClass('ms-md-0 ms-4');
                             let rating = parseInt(ele.RatingNumber)
                             for (let i = 1; i <= rating; i++) {
                                 $(div3b).append('<i class= "fa-solid fa-star fa-lg" style = "color: #FFD43B;" ></i >');
@@ -393,22 +399,21 @@
 
                 function AppendReview(ele) {
                     let parent = $('#review-holder');
-                    let div1 = $('<div>').addClass('card mb-4 border-black px-4 pt-3 review-card');
-                    let div2a = $('<div>').addClass('d-flex justify-content-between');
+                    let div1 = $('<div>').addClass('card mb-4 border-black px-md-4 px-2 pt-3 review-card');
+                    let div2a = $('<div>').addClass('d-flex justify-content-between flex-column flex-md-row gap-2 ');
                     let div3a = $('<div>').addClass('d-flex gap-1');
                     let div4a = $('<div>').append($('<i>').addClass("fa-regular fa-user border rounded-circle p-1 border-dark"));
                     let div4bspan = $('<span>').addClass("fw-bold text-primary d-block ms-1").text(`${ele.CustomerName}`)
                     let div4b = $('<div>').append(div4bspan);
-                    if (ele.HavePurchased) {
-                        $(div4b).append($('<small>').addClass("text-secondary").append($('<i>').text('Verfied Buyer')))
-                    }
                     var milliseconds = parseInt(ele.ReviewDate.replace(/\/Date\((\d+)\)\//, '$1'), 10);
                     let message = messageCalculater(new Date(milliseconds))
-                    let div4c = $('<div>').append($('<small>').text(message));
+                    $(div4b).append($('<small>').text(message));
+                    if (ele.HavePurchased) {
+                        $(div4b).append($('<small>').addClass("text-secondary d-block").append($('<i>').text('Verfied Buyer')))
+                    }
                     $(div3a).append(div4a)
                     $(div3a).append(div4b)
-                    $(div3a).append(div4c)
-                    let div3b = $('<div>');
+                    let div3b = $('<div>').addClass('ms-md-0 ms-4');
                     let rating = parseInt(ele.RatingNumber)
                     for (let i = 1; i <= rating; i++) {
                         $(div3b).append('<i class= "fa-solid fa-star fa-lg" style = "color: #FFD43B;" ></i >');

@@ -28,7 +28,7 @@
                 @Html.ValidationMessageFor(q => q.Password, null, new { @class = "text-danger" })
             </div>
             <div class="row">
-                <div class="col-4">
+                <div class="col-md-4 col-12 mb-3">
                     <select class="form-select p-3" name="gender">
                         <option @(Model.Gender == "M" ? "selected" : "") value="Male">Male</option>
                         <option @(Model.Gender == "F" ? "selected" : "") value="Female">Female</option>
@@ -36,12 +36,12 @@
                     </select>
                     @Html.ValidationMessageFor(m => m.StateID, null, new { @class = "text-danger" })
                 </div>
-                <div class="col-4">
+                <div class="col-md-4 col-12 mb-3">
                     <select id="state-holder" class="form-select p-3" name="StateID" onchange="changeCity()">
                     </select>
                     @Html.ValidationMessageFor(m => m.StateID, null, new { @class = "text-danger" })
                 </div>
-                <div class="col-4">
+                <div class="col-md-4 col-12">
                     <select class="form-select p-3" id="city-holder" name="CityID">
                     </select>
                     @Html.ValidationMessageFor(m => m.CityID, null, new { @class = "text-danger" })
@@ -64,7 +64,7 @@
             success: function (response) {
                 let options = $($('#state-holder').find('option')[0]).text()
                 $.each(response, (ind, ele) => {
-                    debugger
+                    
                     if (ele.StateName == options) {
                         $('#state-holder').append(`
                             <option selected value="${ele.StateID}">${ele.StateName}</option>
@@ -84,7 +84,7 @@
     });
 
     function changeCity() {
-        debugger
+        
         let stateID = $('#state-holder').val();
         $.ajax({
             url: "/Login/GetCities?stateID=" + stateID,
@@ -94,7 +94,7 @@
                 let options = $($('#city-holder').find('option')[0]).text()
                 $('#city-holder').empty();
                 $.each(response, (ind, ele) => {
-                    debugger
+                    
                     if (ele.CityName == options) {
                         $('#city-holder').append(`
                             <option selected value="${ele.CityID}">${ele.CityName}</option>

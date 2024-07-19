@@ -14,27 +14,27 @@
 </script>
 
 <form method="get" action="/Order/GetRecievedOrders" id="date-form">
-    <div class="d-flex justify-content-end gap-3 align-items-end mb-5">
-        <div>
-            <p class="mb-0">Look specific to product</p>
-            <select name="productID">
-                <option>Select a product</option>
-                @{ 
-                    foreach(var product in Model.ProductList) { 
-                        <option value="@product.ProductID">@product.ProductName</option>
-                    }
-                }
-            </select>
+    <div class="d-flex flex-column flex-xl-row justify-content-xl-end gap-3 align-items-center align-items-xl-end mb-5 p-4">
+        <div class="row mx-0 px-0">
+            <div class="col-lg-6 col-12">
+                <p class="mb-0">Look specific to product</p>
+                <select name="productID" class="form-control" >
+                    <option>Select a product</option>
+                    @{ foreach (var product in Model.ProductList)
+                                    {
+                        <option value="@product.ProductID">@product.ProductName</option> } }
+                </select>
+            </div>
+            <div class="col-lg-3 col-sm-6 col-12">
+                <p class="mb-0">Start Date</p>
+                <input type="Date" name="startDate" id="startDate" class="form-control" />
+            </div>
+            <div class="col-lg-3 col-sm-6 col-12">
+                <p class="mb-0">End Date</p>
+                <input type="Date" name="endDate" id="endDate" class="form-control" />
+            </div>
         </div>
-        <div>
-            <p class="mb-0">Start Date</p>
-            <input type="Date" name="startDate" id="startDate" />
-        </div>
-        <div>
-            <p class="mb-0">End Date</p>
-            <input type="Date" name="endDate" id="endDate" />
-        </div>
-        <div class="d-flex gap-2">
+        <div class="d-flex gap-2 flex-wrap">
             <button id="apply-btn" type="submit" class="btn btn-primary">Apply</button>
             <button class="btn btn-primary" onclick="resetDate()" type="button">
                 <i class="fa-solid fa-rotate-left"></i>
@@ -44,9 +44,9 @@
     </div>
 </form>
 
-<div>
+<div class="px-4 table-responsive">
     <h3 class="mb-5 fw-bold text-center">Order Details</h3>
-    <table class="table table-borderless">
+    <table class="table table-borderless text-nowrap">
         <thead class="table-primary">
             <tr>
                 <th>Product</th>

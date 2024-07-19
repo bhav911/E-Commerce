@@ -17,6 +17,7 @@
 
     .nav-text {
         color: orange;
+        
     }
 
     body {
@@ -32,6 +33,7 @@
         font-optical-sizing: auto;
         font-weight: 500;
         font-style: normal;
+        margin-right: -1.2em;
     }
     /* The typing effect */
     @@keyframes typing {
@@ -42,6 +44,11 @@
         to {
             width: 100%
         }
+    }
+
+    label *  :focus{
+        background-color:transparent !important;
+        color:white !important;
     }
 
     #nav {
@@ -187,19 +194,39 @@
             </div>
         </div>
     </div>
-    <div>
+    @*<div>
         <img src="~/Content/Premium/comet.png" id="comet"/>
+    </div>*@
+    <div class="position-relative text-center" style="padding-top: 90vh; margin-bottom:50vh;">
+        @*<img src="~/Content/Premium/pytha.png" id="pytha-tri" style="width:100vw; transform:rotate(90deg); z-index:-3;" class="position-absolute top-0" />*@
+        <p class=" special-elite-regular" style="letter-spacing: 30px; color: white; font-size: 30px; text-shadow: 2px 2px black; margin-bottom:5vh; z-index:-2;">LET'S ENTER THE VERSE</p>
+        <a href="#display-hidden" class=" btn btn-outline-light rounded-5  border border-secondary text-center special-elite-regular" onclick="MakeItVisible()" style="width:180px;">ENTER</a>
     </div>
-    <div class="position-relative">
-        <img src="~/Content/Premium/pytha.png" id="pytha-tri" style="width:100vw; transform:rotate(90deg); z-index:-1;" class="position-absolute top-0" />
-        <p class=" special-elite-regular" style="letter-spacing: 30px; color: white; font-size: 30px; text-shadow: 2px 2px black; padding-top:110vh; z-index:10; padding-left:7vw;">LET'S ENTER THE VERSE</p>
+    <div class="hidden-block d-none" id="hid-block">
+        <p id="display-hidden" class="invisible mb-5">a</p>
+        <p class="special-elite-regular text-center" style="letter-spacing: 30px; color: white; font-size: 30px; text-shadow: 2px 2px black;">VERSE</p>
+        <div class="container">
+            <div class="p-5 border rounded-5">
+                <h2 class="text-center special-elite-regular text-white">GET IN TOUCH</h2>
+                <div class="w-50 mt-3 mx-auto">
+                    <label for="email" class="text-white special-elite-regular text-start">EMAIL</label>
+                    <input id="email" type="email" placeholder="xyz@gmail.com" class="form-control text-white" style="background-color:transparent"/>
+                </div>
+                <div class="mt-5 text-center">
+                    <button class="btn btn-outline-light special-elite-regular">SUBSCRIBE</button>
+                </div>
+            </div>
+        </div>
+        <div style="margin-bottom:58vh;">
+        </div>
     </div>
         <div>
-            <video style="width: 100vw; height: 100vh; z-index: 0;" autoplay muted loop class="" id="st-video">
+            <video style="width: 100vw; height: 100vh; z-index: -3;" autoplay muted loop class="position-fixed top-0" id="st-video">
                 <source src="~/Content/Premium/starry.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
         </div>
+    
 </body>
 </html>
 
@@ -222,12 +249,13 @@
     AOS.init();
 
     window.addEventListener('scroll', function () {
-        var animatedElement = document.querySelector('#comet');
+        //var animatedElement = document.querySelector('#comet');
+        var bhvideo = document.querySelector('#bh-video');
+        var stvideo = document.querySelector('#st-video');
         var scrollY = window.scrollY;
-        if (scrollY >= 5900) {
-            $('#bh-video').addClass('d-none');
+        if (scrollY >= 5600) {
+            $('#bh-video').addClass('d-none position-absolute');
             $('#st-video').removeClass('d-none');
-
         }
         else {
             $('#bh-video').removeClass('d-none');
@@ -235,17 +263,32 @@
 
         }
 
-        if (scrollY >= 5100) {
-            animatedElement.classList.add('visible');
-            var maxScroll = 5900;
-            var scrollProgress = (scrollY - 5100) / (maxScroll - 5100);
-            var translateX = scrollProgress * (window.innerWidth - animatedElement.clientWidth);
-            var translateY = scrollProgress * (window.innerHeight - animatedElement.clientHeight);
+        if (scrollY > 5900) {
+            return;
+        }
 
-            animatedElement.style.transform = `translate(${translateX}px, ${translateY}px) rotate(265deg)`;
+        if (scrollY >= 4800) {
+            //animatedElement.classList.add('visible');
+            var maxScroll = 5600;
+            //var scrollProgress = (scrollY - 5100) / (maxScroll - 5100);
+            //var translateX = scrollProgress * (window.innerWidth - animatedElement.clientWidth);
+            //var translateY = scrollProgress * (window.innerHeight - animatedElement.clientHeight);
+
+            //animatedElement.style.transform = `translate(${translateX}px, ${translateY}px) rotate(265deg)`;
+            if (scrollY < 5700) {
+                $(bhvideo).css('opacity', 1 - (scrollY - 4800) / (maxScroll - 4800));
+                $(bhvideo).css('transform', `scale(${1 - (scrollY - 4800) / (maxScroll - 4800)})`);
+            }
+            console.log(scrollY);
+            $(stvideo).css('opacity', (scrollY - 5600) / 200);
         } else {
-            animatedElement.classList.remove('visible');
-            animatedElement.style.transform = 'translate(0, 0) rotate(265deg)';
+            //animatedElement.classList.remove('visible');
+            //animatedElement.style.transform = 'translate(0, 0) rotate(265deg)';
         }
     });
+
+    function MakeItVisible(){
+        $('#hid-block').removeClass('d-none') 
+    }
 </script>
+

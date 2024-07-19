@@ -5,7 +5,7 @@
 }
 
 
-<div>
+<div class="p-md-0 px-4 pt-4">
     <h4>@Model.ProductName</h4>
     <hr />
     <div class="d-flex justify-content-between">
@@ -18,42 +18,42 @@
                 <dd>
                     @Html.DisplayFor(model => model.ProductDescription)
                 </dd>
+                <div class="fs-2 text-primary fw-bold">
+                    @Html.DisplayFor(model => model.ProductPrice)₹
+                </div>
 
                 <dd>
                     <p class="text-success fw-bold">Available</p>
                 </dd>
             </dl>
         </div>
-        <div class="fs-2 text-primary fw-bold">
-            @Html.DisplayFor(model => model.ProductPrice)₹
-        </div>
     </div>
 </div>
-<form method="post" class="text-end" action="/Order/BuyProduct">
+<form method="post" class="text-end px-4" action="/Order/BuyProduct">
     <input type="text" name="productID" hidden value="@Model.ProductID" />
     <input type="text" name="shopID" hidden value="@Model.OwnerID" />
     <input type="text" name="ProductPrice" hidden value="@Model.ProductPrice" />
-    <div class="d-flex gap-2 align-items-center justify-content-end my-3">
+    <div class="d-flex gap-2 align-items-center justify-content-md-end justify-content-start ">
         <label class="fw-bold fs-4">Quantity:</label>
         <button type="button" class="btn btn-success" id="incQuantity">+</button>
-        <button id="quantityHolder" class="btn btn-secondary">1</button>
+        <button id="quantityHolder" type="button" class="btn btn-secondary">1</button>
         <button type="button" class="btn btn-danger" id="decQuantity">-</button>
     </div>
     <input type="number" hidden class="" id="quantity" name="quantity" value="1" min="0" max="@Model.InStock"/>
-    <div class="text-center my-3">
+    <div class="text-sm-center text-start my-4">
         <button type="button" class="btn btn-success" id="reviewBtn" data-bs-toggle="modal" data-bs-target="#reviewModal">Review</button>
         <button type="button"  onclick="history.back();" class="btn btn-secondary">Cancel</button>
         </div>
     <div class="modal fade text-start" id="reviewModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
+            <div class="modal-content mx-3">
                 <div class="modal-header">
                     <h5 class="modal-title" id="staticBackdropLabel">Review Order</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h3>
+                    <div class="">
+                        <h3 class="mb-0">
                             @Model.ProductName
                         </h3>
                         <p class="fs-2 text-primary fw-bold">

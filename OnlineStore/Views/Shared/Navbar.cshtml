@@ -1,0 +1,181 @@
+﻿<style>
+
+    .nav-comps * {
+        text-decoration: none;
+        color: black;
+        font-size: 20px;
+    }
+
+    #subMenu {
+        list-style: none;
+    }
+
+    .sub-menu {
+        z-index: 3;
+        top: 55px;
+        right: -50px;
+    }
+
+    #subMenu {
+        padding: 20px;
+    }
+
+        #subMenu li {
+            border-bottom: 1px solid gray;
+            padding: 5px;
+            font-size: 18px;
+        }
+
+    .menu {
+        cursor: pointer;
+    }
+
+    .menu-holder :hover {
+        color: steelblue;
+    }
+
+    #subMenu li * {
+        color: black;
+    }
+
+        #subMenu li * :hover {
+            color: steelblue;
+        }
+
+    a {
+        text-decoration: none !important;
+    }
+</style>
+
+
+<div class="d-flex justify-content-md-between justify-content-center mx-sm-5 mx-2 flex-row align-items-center gap-md-0 text-nowrap flex-wrap @(TempData.Peek("Role").Equals("Customer") ? "gap-5" : "gap-3")">
+    <a class="d-flex align-items-center gap-2" href="@(TempData.Peek("Role").Equals("Customer") ? "/Customer/Home" : "/Owner/Dashboard")">
+        <img src="~/Content/Premium/icons8-shop-48.png" />
+        @*<span class="fw-bold fs-4" style="letter-spacing:4px">KARTAVYA</span>*@
+    </a>
+    <div class="d-flex gap-md-5 align-items-center nav-comps flex-row text-nowrap flex-wrap  @(TempData.Peek("Role").Equals("Customer") ? "gap-5" : "gap-3")">
+        @{
+            if (TempData.ContainsKey("Role") && TempData.Peek("Role").Equals("Customer"))
+            {
+                <a class="menu-holder" href="/Customer/Showcase">
+                    <span>Rahasya</span>
+                </a>
+                <div class="position-relative menu-holder">
+                    <p class="mb-0 position-relative menu"> Account </p>
+                    <div class="position-absolute rounded-5 border border-black bg-primary-subtle d-none sub-menu" style="box-shadow: 0px 10px 34px -15px rgba(0, 0, 0, 0.24); width: 175px;">
+                        <ul class="mb-0" id="subMenu">
+                            <li>
+                                <a class="text-white" href="/Customer/GetAccount">
+                                    <span>Your Account</span>
+                                </a>
+                            </li>
+                            <li class=" ">
+                                <a class="text-white" href="/Cart/ViewCart">
+                                    <span>Your Cart</span>
+                                </a>
+                            </li>
+                            <li class="text-white  mb-0">
+                                <a class="text-white" href="/Order/GetOrdersPlaced">
+                                    <span>Your Orders</span>
+                                </a>
+                            </li>
+                            <li class="text-white border-bottom-0">
+                                <a class="text-white " href="/Login/SignOut">
+                                    <span>Logout</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            }
+            else if (TempData.ContainsKey("Role") && TempData.Peek("Role").Equals("Owner"))
+            {
+                <div class="position-relative menu-holder">
+                    <p class="mb-0 position-relative menu">Products</p>
+                    <div class="position-absolute rounded-5 border border-black bg-primary-subtle d-none sub-menu" style="box-shadow: 0px 10px 34px -15px rgba(0, 0, 0, 0.24); width: 175px;">
+                        <ul class="mb-0" id="subMenu">
+                            <li>
+                                <a class="text-white" href="/Product/GetMyProducts">
+                                    <span>Your Products</span>
+                                </a>
+                            </li>
+                            <li class="border-bottom-0 ">
+                                <a class="text-white " href="/Product/AddProduct">
+                                    <span>Add Product</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+                <a class="menu-holder" href="/Order/GetRecievedOrders">
+                    <span>Orders Recieved</span>
+                </a>
+                <div class="position-relative menu-holder">
+                    <p class="mb-0 position-relative menu"> Account</p>
+                    <div class="position-absolute rounded-5 border border-black bg-primary-subtle d-none sub-menu" style="box-shadow: 0px 10px 34px -15px rgba(0, 0, 0, 0.24); width: 175px;">
+                        <ul class="mb-0" id="subMenu">
+                            <li class="text-whit">
+                                <a class="" onclick="ShowSubMenu()" href="/Owner/GetAccount">
+                                    <span>Account</span>
+                                </a>
+                            </li>
+                            <li class="text-white ">
+                                <a class="" href="/Owner/UploadDocuments">
+                                    <span>KYC</span>
+                                </a>
+                            </li>
+                            <li class="text-white border-bottom-0">
+                                <a class="text-white " href="/Login/SignOut">
+                                    <span>Logout</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            }
+
+        }
+    </div>
+</div>
+
+<script>
+    $('body').on('click', function (event) {
+        let temp = event.target;
+        if (!$(temp).hasClass('menu')) {
+            let menus = $('.sub-menu');
+            $.each(menus, (ind, ele) => {
+                $(ele).slideUp(400);
+                setTimeout(function () {
+                    $(ele).addClass('d-none')
+                }, 400);
+            })
+        }
+    })
+
+
+    $('.menu').on('click', function (event) {
+        let tele = event.target;
+        let menus = $('.sub-menu');
+        let ele = $(tele).next()[0];
+        $.each(menus, (ind, e) => {
+            if (e == ele)
+                return;
+            $(e).slideUp(400);
+            setTimeout(function () {
+                $(e).addClass('d-none')
+            }, 400);
+        })
+        if ($(ele).hasClass('d-none')) {
+            $(ele).removeClass('d-none')
+            $(ele).slideDown(400);
+        }
+        else {
+            $(ele).slideUp(400);
+            setTimeout(function () {
+                $(ele).addClass('d-none')
+            }, 400);
+        }
+    })
+</script>
